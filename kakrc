@@ -1,3 +1,32 @@
+# -------
+# Plugins
+# -------
+
+source "%val{config}/plugins/plug.kak/rc/plug.kak"
+plug "andreyorst/plug.kak" noload
+
+plug "dgmulf/local-kakrc" config %{ set-option global source_local_kakrc true }
+hook global BufCreate (.*/)?\.kakrc %{ set-option buffer filetype kak }
+
+plug "andreyorst/powerline.kak" \
+	defer 'powerline_gruvbox' %{ powerline-theme palenight } \
+	config %{ powerline-start }
+
+plug "andreyorst/smarttab.kak" \
+	defer 'smarttab' %{
+	   	set-option global softtabstop 4
+	    set-option global smarttab_expandtab_mode_name 'et'
+	    set-option global smarttab_noexpandtab_mode_name 'noet'
+	    set-option global smarttab_smarttab_mode_name 'smart'
+	} config %{
+	    hook global BufOpenFile .* smarttab
+	    hook global BufNewFile .* smarttab
+	}
+
+
+plug 'alexherbo2/auto-pairs.kak' \
+	config %{ enable-auto-pairs }
+
 # ---------------------
 # General configuration
 # ---------------------
@@ -56,31 +85,3 @@ map global object t '<a-;>lsp-object Class Interface Struct<ret>' -docstring 'LS
 map global object d '<a-;>lsp-diagnostic-object --include-warnings<ret>' -docstring 'LSP errors and warnings'
 map global object D '<a-;>lsp-diagnostic-object<ret>' -docstring 'LSP errors'
 
-# -------
-# Plugins
-# -------
-
-source "%val{config}/plugins/plug.kak/rc/plug.kak"
-plug "andreyorst/plug.kak" noload
-
-plug "dgmulf/local-kakrc" config %{ set-option global source_local_kakrc true }
-hook global BufCreate (.*/)?\.kakrc %{ set-option buffer filetype kak }
-
-plug "andreyorst/powerline.kak" \
-	defer 'powerline_gruvbox' %{ powerline-theme palenight } \
-	config %{ powerline-start }
-
-plug "andreyorst/smarttab.kak" \
-	defer 'smarttab' %{
-	   	set-option global softtabstop 4
-	    set-option global smarttab_expandtab_mode_name 'et'
-	    set-option global smarttab_noexpandtab_mode_name 'noet'
-	    set-option global smarttab_smarttab_mode_name 'smart'
-	} config %{
-	    hook global BufOpenFile .* smarttab
-	    hook global BufNewFile .* smarttab
-	}
-
-
-plug 'alexherbo2/auto-pairs.kak' \
-	config %{ enable-auto-pairs }
