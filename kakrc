@@ -14,18 +14,16 @@ plug "andreyorst/powerline.kak" \
 
 plug "andreyorst/smarttab.kak" \
 	defer 'smarttab' %{
-	   	set-option global softtabstop 4
-	    set-option global smarttab_expandtab_mode_name 'et'
-	    set-option global smarttab_noexpandtab_mode_name 'noet'
-	    set-option global smarttab_smarttab_mode_name 'smart'
+		set-option global softtabstop 4
+		set-option global smarttab_expandtab_mode_name 'et'
+		set-option global smarttab_noexpandtab_mode_name 'noet'
 	} config %{
-	    hook global BufOpenFile .* smarttab
-	    hook global BufNewFile .* smarttab
+		hook global BufOpenFile .* smarttab
+		hook global BufNewFile .* smarttab
 	}
 
 
-plug 'alexherbo2/auto-pairs.kak' \
-	config %{ enable-auto-pairs }
+plug 'alexherbo2/auto-pairs.kak' config %{ enable-auto-pairs }
 
 # ---------------------
 # General configuration
@@ -46,6 +44,7 @@ add-highlighter -override global/my-numlines number-lines -hlcursor -relative -s
 # add-highlighter -override global/my-trailspace regex \h+$ 0:Error
 add-highlighter -override global/my-wordwrap wrap -word -indent
 # add-highlighter -override global/my-matching show-matching
+add-highlighter global/search ref search
 
 map -docstring "yank the selection into the clipboard" global user y "<a-|> xsel -ib<ret>"
 map -docstring "paste the clipboard" global user p "<a-!> xsel<ret>"
@@ -55,27 +54,30 @@ alias global x write-all-quit
 # open tutor (needs curl)
 define-command -override trampoline -docstring "open a tutorial" %{
 	evaluate-commands %sh{
-        tramp_file=$(mktemp -t "kakoune-trampoline.XXXXXXXX")
-        echo "edit -fifo $tramp_file *TRAMPOLINE*"
-        curl -s https://raw.githubusercontent.com/mawww/kakoune/master/contrib/TRAMPOLINE -o "$tramp_file"
-    }
+		tramp_file=$(mktemp -t "kakoune-trampoline.XXXXXXXX")
+		echo "edit -fifo $tramp_file *TRAMPOLINE*"
+		curl -s https://raw.githubusercontent.com/mawww/kakoune/master/contrib/TRAMPOLINE -o "$tramp_file"
+	}
 }
 
-# ---------------
-# Language server
-# ---------------
+# ----------------
+# Language servers
+# ----------------
 
-eval %sh{kak-lsp}
+eval %sh{ kak-lsp }
+set-option global lsp_file_watch_support true
 lsp-enable
 
-hook global BufSetOption filetype=.* %{
-	hook buffer BufWritePre .* lsp-formatting-sync
-}
+hook global BufSetOption filetype=.* %{ hook buffer BufWritePre .* lsp-formatting-sync }
 
-map global user l %{:enter-user-mode lsp<ret>} -docstring "LSP mode"
+map global user l %{ :enter-user-mode lsp<ret> } -docstring "LSP mode"
 
 map global insert <tab> \
 	'<a-;>:try lsp-snippets-select-next-placeholders catch %{ execute-keys -with-hooks <lt>tab> }<ret>' \
+	-docstring 'Select next snippet placeholder'
+
+map global insert <c-L> \
+	'<a-;>:try lsp-snippets-select-next-placeholders<ret>' \
 	-docstring 'Select next snippet placeholder'
 
 map global object a '<a-;>lsp-object<ret>' -docstring 'LSP any symbol'
@@ -85,3 +87,23 @@ map global object t '<a-;>lsp-object Class Interface Struct<ret>' -docstring 'LS
 map global object d '<a-;>lsp-diagnostic-object --include-warnings<ret>' -docstring 'LSP errors and warnings'
 map global object D '<a-;>lsp-diagnostic-object<ret>' -docstring 'LSP errors'
 
+# -----------
+# Tree-sitter
+# -----------
+
+eval %sh{ kak-tree-sitter -dks --init $kak_session }
+
+# --------
+# Epilogue
+# --------
+
+# these lines, and autoload/splash.kak, were taken from https://github.com/alexherbo2/dotfiles
+
+hook -once global ClientCreate ".*" %{
+	try %{
+		evaluate-commands -buffer "*scratch*" ""
+		show_splash_screen
+	}
+}
+
+define-command open_kakrc %{ edit "%val{config}/kakrc" }
