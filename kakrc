@@ -9,7 +9,6 @@ plug "dgmulf/local-kakrc" config %{ set-option global source_local_kakrc true }
 hook global BufCreate (.*/)?\.kakrc %{ set-option buffer filetype kak }
 
 plug "andreyorst/powerline.kak" \
-	defer 'powerline_gruvbox' %{ powerline-theme palenight } \
 	config %{ powerline-start }
 
 plug "andreyorst/smarttab.kak" \

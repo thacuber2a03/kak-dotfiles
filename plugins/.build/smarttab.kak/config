@@ -1,7 +1,7 @@
 try %{ 
 
-	    hook global BufOpenFile .* smarttab
-	    hook global BufNewFile .* smarttab
+		hook global BufOpenFile .* smarttab
+		hook global BufNewFile .* smarttab
 	 } catch %{
     echo -debug "Error while evaluating 'smarttab.kak' configuration: %val{error}"
 
