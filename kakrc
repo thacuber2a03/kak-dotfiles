@@ -11,21 +11,24 @@ evaluate-commands %sh{
 }
 plug "andreyorst/plug.kak" noload
 
-plug "dgmulf/local-kakrc" config %{ set-option global source_local_kakrc true }
-hook global BufCreate (.*/)?\.kakrc %{ set-option buffer filetype kak }
+plug "dgmulf/local-kakrc" \
+	config %{
+		set-option global source_local_kakrc true
+		hook global BufCreate (.*/)?\.kakrc %{ set-option buffer filetype kak }
+	}
 
 plug "andreyorst/powerline.kak" \
 	config %{ powerline-start }
 
 plug "andreyorst/smarttab.kak" \
-	defer 'smarttab' %{
-		set-option global softtabstop 4
-	} config %{
+	defer 'smarttab' %{ set-option global softtabstop 4 } \
+	config %{
 		hook global BufOpenFile .* smarttab
 		hook global BufNewFile .* smarttab
 	}
 
-plug 'alexherbo2/auto-pairs.kak' config %{ enable-auto-pairs }
+plug 'alexherbo2/auto-pairs.kak' \
+	config %{ enable-auto-pairs }
 
 plug 'delapouite/kakoune-text-objects'
 
@@ -44,7 +47,10 @@ plug "eraserhd/parinfer-rust" \
 	    	%{ parinfer-enable-window -smart }
 	}
 
-plug 'gustavo-hms/luar' %{ require-module luar }
+plug 'gustavo-hms/luar' \
+	config %{ require-module luar }
+
+
 
 # ---------------------
 # General configuration
