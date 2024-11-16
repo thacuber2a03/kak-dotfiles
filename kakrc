@@ -50,8 +50,6 @@ plug "eraserhd/parinfer-rust" \
 plug 'gustavo-hms/luar' \
 	config %{ require-module luar }
 
-
-
 # ---------------------
 # General configuration
 # ---------------------
@@ -73,8 +71,15 @@ add-highlighter -override global/my-wordwrap wrap -word -indent
 # add-highlighter -override global/my-matching show-matching
 add-highlighter global/search ref search
 
+alias global x write-all-quit
+
 map -docstring "yank the selection into the clipboard" global user y "<a-|> xsel -ib<ret>"
 map -docstring "paste the clipboard" global user p "<a-!> xsel<ret>"
+
+# handy function
+# TODO: replace selections with result somehow
+map -docstring "for each selection, evaluate its expression and replace with result" global user = \
+	':eval -itersel -save-regs dquote %{ set-register dquote %sh{ printf %s $(($kak_selection)) }; exec R }<ret>'
 
 define-command -docstring "open a tutorial" -override trampoline %{
 	evaluate-commands %sh{
@@ -83,13 +88,6 @@ define-command -docstring "open a tutorial" -override trampoline %{
 		curl -s https://raw.githubusercontent.com/mawww/kakoune/master/contrib/TRAMPOLINE -o "$tramp_file"
 	}
 }
-
-# handy function
-define-command -docstring "calculate an expression" \
-	-params .. -override calc %{ echo %sh{ printf %s $(($@)) } }
-alias global = calc
-
-alias global x write-all-quit
 
 # ----------------
 # Language servers
