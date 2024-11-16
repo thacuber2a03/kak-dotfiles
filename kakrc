@@ -94,9 +94,3 @@ map global object f '<a-;>lsp-object Function Method<ret>' -docstring 'LSP funct
 map global object t '<a-;>lsp-object Class Interface Struct<ret>' -docstring 'LSP class interface or struct'
 map global object d '<a-;>lsp-diagnostic-object --include-warnings<ret>' -docstring 'LSP errors and warnings'
 map global object D '<a-;>lsp-diagnostic-object<ret>' -docstring 'LSP errors'
-
-# -----------
-# Tree-sitter
-# -----------
-
-eval %sh{ kak-tree-sitter -dks --init $kak_session }
