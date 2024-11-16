@@ -14,13 +14,10 @@ plug "andreyorst/powerline.kak" \
 plug "andreyorst/smarttab.kak" \
 	defer 'smarttab' %{
 		set-option global softtabstop 4
-		set-option global smarttab_expandtab_mode_name 'et'
-		set-option global smarttab_noexpandtab_mode_name 'noet'
 	} config %{
 		hook global BufOpenFile .* smarttab
 		hook global BufNewFile .* smarttab
 	}
-
 
 plug 'alexherbo2/auto-pairs.kak' config %{ enable-auto-pairs }
 
@@ -28,7 +25,7 @@ plug 'alexherbo2/auto-pairs.kak' config %{ enable-auto-pairs }
 # General configuration
 # ---------------------
 
-colorscheme ayu-mirage
+colorscheme berry
 
 set-option global tabstop 4
 set-option global indentwidth 4
@@ -69,14 +66,10 @@ lsp-enable
 
 hook global BufSetOption filetype=.* %{ hook buffer BufWritePre .* lsp-formatting-sync }
 
-map global user l %{ :enter-user-mode lsp<ret> } -docstring "LSP mode"
+map global user l "<a-;>:enter-user-mode lsp<ret>" -docstring "LSP mode"
 
 map global insert <tab> \
 	'<a-;>:try lsp-snippets-select-next-placeholders catch %{ execute-keys -with-hooks <lt>tab> }<ret>' \
-	-docstring 'Select next snippet placeholder'
-
-map global insert <c-L> \
-	'<a-;>:try lsp-snippets-select-next-placeholders<ret>' \
 	-docstring 'Select next snippet placeholder'
 
 map global object a '<a-;>lsp-object<ret>' -docstring 'LSP any symbol'
@@ -91,18 +84,3 @@ map global object D '<a-;>lsp-diagnostic-object<ret>' -docstring 'LSP errors'
 # -----------
 
 eval %sh{ kak-tree-sitter -dks --init $kak_session }
-
-# --------
-# Epilogue
-# --------
-
-# these lines, and autoload/splash.kak, were taken from https://github.com/alexherbo2/dotfiles
-
-hook -once global ClientCreate ".*" %{
-	try %{
-		evaluate-commands -buffer "*scratch*" ""
-		show_splash_screen
-	}
-}
-
-define-command open_kakrc %{ edit "%val{config}/kakrc" }

@@ -1,3 +1,6 @@
+# borroed and slightly modified from
+# https://github.com/alexherbo2/dotfiles/blob/master/.local/share/kak/autoload/core/splash_screen.kak
+
 define-command show_splash_screen -docstring 'show splash screen' %{
   set-face window Information Default
   info -markup -style modal %exp{
@@ -25,7 +28,6 @@ Open config {mono}:open_kakrc{}
 Change theme {mono}:colorscheme <theme_name>{}
 
 Read help {mono}:doc <subject>{}
-Search for mappings {mono}:grep_config "^map\b"{}
 
 Releases: {link}https://github.com/mawww/kakoune/releases{}
 Source Code: {link}https://github.com/mawww/kakoune{}
@@ -38,3 +40,10 @@ Support Chat: {link}https://web.libera.chat/gamja/#kakoune{}
   }
 }
 alias global intro show_splash_screen
+
+hook -once global ClientCreate ".*" %{
+	try %{
+		evaluate-commands -buffer "*scratch*" ""
+		show_splash_screen
+	}
+}
