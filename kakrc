@@ -50,6 +50,12 @@ plug "eraserhd/parinfer-rust" \
 plug 'gustavo-hms/luar' \
 	config %{ require-module luar }
 
+plug 'tomKPZ/replace-mode.kak' \
+	config %{
+		map -docstring "enter replace mode" \
+			global user r ': enter-user-mode replace<ret>'
+	}
+ 
 # ---------------------
 # General configuration
 # ---------------------
