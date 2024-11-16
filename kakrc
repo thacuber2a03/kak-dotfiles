@@ -37,6 +37,14 @@ plug 'https://gitlab.com/Screwtapello/kakoune-inc-dec' \
 			global user x ': inc-dec-modify-numbers - %val{count}<ret>'
 	}
 
+plug "eraserhd/parinfer-rust" do %{
+    cargo install --force --path .
+} config %{
+    hook global WinSetOption filetype=(clojure|lisp|scheme|racket) %{
+        parinfer-enable-window -smart
+    }
+}
+
 # ---------------------
 # General configuration
 # ---------------------
@@ -61,16 +69,20 @@ add-highlighter global/search ref search
 map -docstring "yank the selection into the clipboard" global user y "<a-|> xsel -ib<ret>"
 map -docstring "paste the clipboard" global user p "<a-!> xsel<ret>"
 
-alias global x write-all-quit
-
-# open tutor (needs curl)
-define-command -override trampoline -docstring "open a tutorial" %{
+define-command -docstring "open a tutorial" -override trampoline %{
 	evaluate-commands %sh{
 		tramp_file=$(mktemp -t "kakoune-trampoline.XXXXXXXX")
 		echo "edit -fifo $tramp_file *TRAMPOLINE*"
 		curl -s https://raw.githubusercontent.com/mawww/kakoune/master/contrib/TRAMPOLINE -o "$tramp_file"
 	}
 }
+
+# handy function
+define-command -docstring "calculate an expression" \
+	-params .. -override calc %{ echo %sh{ printf %s $(($@)) } }
+alias global = calc
+
+alias global x write-all-quit
 
 # ----------------
 # Language servers
