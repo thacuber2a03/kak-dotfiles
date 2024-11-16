@@ -27,6 +27,16 @@ plug "andreyorst/smarttab.kak" \
 
 plug 'alexherbo2/auto-pairs.kak' config %{ enable-auto-pairs }
 
+plug 'delapouite/kakoune-text-objects'
+
+plug 'https://gitlab.com/Screwtapello/kakoune-inc-dec' \
+	config %{
+		map -docstring "increment number under selection" \
+			global user a ': inc-dec-modify-numbers + %val{count}<ret>'
+		map -docstring "decrement number under selection" \
+			global user x ': inc-dec-modify-numbers - %val{count}<ret>'
+	}
+
 # ---------------------
 # General configuration
 # ---------------------
