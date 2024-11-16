@@ -63,13 +63,16 @@ set-option global autoinfo command|onkey
 
 set-option global ui_options terminal_status_on_top=true terminal_assistant=cat
 # set-option -add global ui_options terminal_padding_char=- terminal_padding_fill=true
-set-option global ui_options terminal_padding_char=
+set-option -add global ui_options terminal_padding_char=
 
-add-highlighter -override global/my-numlines number-lines -hlcursor -relative -separator ' ¦ '
+add-highlighter -override global/my-numlines number-lines \
+	-relative -separator        '¦  ' \
+	-hlcursor -cursor-separator '¦] '
+
 # add-highlighter -override global/my-trailspace regex \h+$ 0:Error
 add-highlighter -override global/my-wordwrap wrap -word -indent
 # add-highlighter -override global/my-matching show-matching
-add-highlighter global/search ref search
+add-highlighter -override global/search ref search
 
 alias global x write-all-quit
 
