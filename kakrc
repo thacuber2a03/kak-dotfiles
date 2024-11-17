@@ -96,8 +96,10 @@ add-highlighter -override global/search ref search
 
 alias global x write-all-quit
 
-map -docstring "yank the selection into the clipboard" global user y "<a-|> xsel -ib<ret>"
-map -docstring "paste the clipboard" global user p "<a-!> xsel<ret>"
+map -docstring "insert contents of system clipboard" global user P '!xsel --output --clipboard<ret>'
+map -docstring "append contents of system clipboard" global user p '<a-!>xsel --output --clipboard<ret>'
+map -docstring "yank to system clipboard" global user y '<a-|> xsel --input --clipboard <ret>'
+map -docstring "replace with contents of system clipboard" global user R '|xsel --output --clipboard<ret>'
 
 # handy function
 # TODO: replace selections with result somehow
@@ -120,7 +122,7 @@ eval %sh{ kak-lsp }
 set-option global lsp_file_watch_support true
 lsp-enable
 
-hook global BufSetOption filetype=.* %{ hook buffer BufWritePre .* lsp-formatting-sync }
+hook global BufSetOption filetype=.* %{ hook buffer BufWritePre .* lsp-formatting }
 
 map global user l "<a-;>:enter-user-mode lsp<ret>" -docstring "LSP mode"
 
