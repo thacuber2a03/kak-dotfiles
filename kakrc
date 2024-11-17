@@ -122,7 +122,7 @@ eval %sh{ kak-lsp }
 set-option global lsp_file_watch_support true
 lsp-enable
 
-hook global BufSetOption filetype=.* %{ hook buffer BufWritePre .* lsp-formatting }
+hook global BufSetOption filetype=.* %{ hook buffer BufWritePre .* lsp-formatting-sync }
 
 map global user l "<a-;>:enter-user-mode lsp<ret>" -docstring "LSP mode"
 
