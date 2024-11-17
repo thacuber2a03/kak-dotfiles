@@ -55,7 +55,21 @@ plug 'tomKPZ/replace-mode.kak' \
 		map -docstring "enter replace mode" \
 			global user r ': enter-user-mode replace<ret>'
 	}
- 
+
+plug 'caksoylar/kakoune-focus' \
+	config %{
+		map -docstring "toggle selections focus" \
+			global user <space> ": focus-toggle<ret>"
+		define-command focus-live-enable %{
+		    focus-selections
+		    hook -group focus window NormalIdle .* %{ focus-extend }
+		}
+		define-command focus-live-disable %{
+		    remove-hooks window focus
+		    focus-clear
+		}
+	}
+
 # ---------------------
 # General configuration
 # ---------------------
@@ -76,7 +90,7 @@ add-highlighter -override global/my-numlines number-lines \
 	-hlcursor -cursor-separator ' ¦❱ '
 
 # add-highlighter -override global/my-trailspace regex \h+$ 0:Error
-add-highlighter -override global/my-wordwrap wrap -word -indent
+# add-highlighter -override global/my-wordwrap wrap -word -indent
 # add-highlighter -override global/my-matching show-matching
 add-highlighter -override global/search ref search
 
