@@ -89,7 +89,7 @@ add-highlighter -override global/my-numlines number-lines \
 	-relative -separator        ' ¦  ' \
 	-hlcursor -cursor-separator ' ¦❱ '
 
-# add-highlighter -override global/my-trailspace regex \h+$ 0:Error
+add-highlighter -override global/my-trailspace regex \h+$ 0:Error
 # add-highlighter -override global/my-wordwrap wrap -word -indent
 # add-highlighter -override global/my-matching show-matching
 add-highlighter -override global/search ref search
