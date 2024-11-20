@@ -1,4 +1,4 @@
-# borroed and slightly modified from 
+# borrowed and slightly modified from 
 # https://github.com/alexherbo2/dotfiles/blob/master/.local/share/kak/autoload/core/config.kak
 
 define-command open_kakrc %{ edit "%val{config}/kakrc" }
