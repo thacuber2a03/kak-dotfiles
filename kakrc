@@ -86,8 +86,8 @@ set-option global ui_options terminal_status_on_top=true terminal_assistant=cat
 set-option -add global ui_options terminal_padding_char=
 
 add-highlighter -override global/my-numlines number-lines \
-	-relative -separator        ' ¦  ' \
-	-hlcursor -cursor-separator ' ¦❱ '
+	-relative -separator        '  ¦ ' \
+	-hlcursor -cursor-separator ' <| '
 
 add-highlighter -override global/my-trailspace regex \h+$ 0:Error
 # add-highlighter -override global/my-wordwrap wrap -word -indent
