@@ -3,11 +3,11 @@
 # -------
 
 evaluate-commands %sh{
-    plugins="$kak_config/plugins"
-    mkdir -p "$plugins"
-    [ ! -e "$plugins/plug.kak" ] && \
-        git clone -q https://github.com/andreyorst/plug.kak.git "$plugins/plug.kak"
-    printf "%s\n" "source '$plugins/plug.kak/rc/plug.kak'"
+	plugins="$kak_config/plugins"
+	mkdir -p "$plugins"
+	[ ! -e "$plugins/plug.kak" ] && \
+		git clone -q https://github.com/andreyorst/plug.kak.git "$plugins/plug.kak"
+	printf "%s\n" "source '$plugins/plug.kak/rc/plug.kak'"
 }
 plug "andreyorst/plug.kak" noload
 
@@ -43,8 +43,8 @@ plug 'https://gitlab.com/Screwtapello/kakoune-inc-dec' \
 plug "eraserhd/parinfer-rust" \
 	do %{ cargo install --force --path . } \
 	config %{
-	    hook global WinSetOption filetype=(clojure|lisp|scheme|racket) \
-	    	%{ parinfer-enable-window -smart }
+		hook global WinSetOption filetype=(clojure|lisp|scheme|racket) \
+			%{ parinfer-enable-window -smart }
 	}
 
 plug 'gustavo-hms/luar' \
@@ -60,13 +60,36 @@ plug 'caksoylar/kakoune-focus' \
 	config %{
 		map -docstring "toggle selections focus" \
 			global user <space> ": focus-toggle<ret>"
+
 		define-command focus-live-enable %{
-		    focus-selections
-		    hook -group focus window NormalIdle .* %{ focus-extend }
+			focus-selections
+			hook -group focus window NormalIdle .* %{ focus-extend }
 		}
+
 		define-command focus-live-disable %{
-		    remove-hooks window focus
-		    focus-clear
+			remove-hooks window focus
+			focus-clear
+		}
+	}
+
+plug 'kkga/ui.kak' \
+	config %{
+		set-option global ui_line_numbers_flags \
+			-separator '  ¦' \
+			-hlcursor -cursor-separator ' <|' \
+			-min-digits 3 -relative
+
+		set-option global ui_whitespaces_flags -lf ' '
+
+		hook global WinCreate .* %{
+			ui-line-numbers-toggle
+			ui-whitespaces-toggle
+			ui-trailing-spaces-toggle
+			ui-matching-toggle
+			ui-search-toggle
+			ui-git-diff-toggle
+			ui-todos-toggle
+			# ui-lint-toggle # not sure about this one
 		}
 	}
 
@@ -82,18 +105,8 @@ set-option global scrolloff 1,3
 set-option global autoinfo command|onkey
 
 set-option global ui_options terminal_status_on_top=true terminal_assistant=cat
-# set-option -add global ui_options terminal_padding_char=- terminal_padding_fill=true
+			# set-option -add global ui_options terminal_padding_char=- terminal_padding_fill=true
 set-option -add global ui_options terminal_padding_char=
-
-add-highlighter -override global/my-numlines number-lines \
-	-relative -separator        '  ¦ ' \
-	-hlcursor -cursor-separator ' <| ' \
-	-min-digits 3
-
-add-highlighter -override global/my-trailspace regex \h+$ 0:Error
-# add-highlighter -override global/my-wordwrap wrap -word -indent
-# add-highlighter -override global/my-matching show-matching
-add-highlighter -override global/search ref search
 
 alias global x write-all-quit
 
@@ -103,9 +116,8 @@ map -docstring "yank to system clipboard" global user y '<a-|> xsel --input --cl
 map -docstring "replace with contents of system clipboard" global user R '|xsel --output --clipboard<ret>'
 
 # handy function
-# TODO: replace selections with result somehow
 map -docstring "for each selection, evaluate its expression and replace with result" global user = \
-	':eval -itersel -save-regs dquote %{ set-register dquote %sh{ printf %s $(($kak_selection)) }; exec R }<ret>'
+	': eval -itersel -save-regs dquote %{ set-register dquote %sh{ printf %s $(($kak_selection)) }; exec R }<ret>'
 
 define-command -docstring "open a tutorial" -override trampoline %{
 	evaluate-commands %sh{
@@ -125,7 +137,7 @@ lsp-enable
 
 hook global BufSetOption filetype=.* %{ hook buffer BufWritePre .* lsp-formatting-sync }
 
-map global user l "<a-;>:enter-user-mode lsp<ret>" -docstring "LSP mode"
+map global user l "<a-;>: enter-user-mode lsp<ret>" -docstring "LSP mode"
 
 map global insert <tab> \
 	'<a-;>:try lsp-snippets-select-next-placeholders catch %{ execute-keys -with-hooks <lt>tab> }<ret>' \
