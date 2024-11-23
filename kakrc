@@ -22,7 +22,10 @@ plug "andreyorst/powerline.kak" \
 
 plug "andreyorst/smarttab.kak" \
 	defer smarttab %{
+    	set-option global tabstop     4
     	set-option global softtabstop 4
+    	set-option global indentwidth 4
+
 		set-option global smarttab_expandtab_mode_name 'et'
 	    set-option global smarttab_noexpandtab_mode_name 'noet'
 	    set-option global smarttab_smarttab_mode_name 'smet'
