@@ -21,10 +21,14 @@ plug "andreyorst/powerline.kak" \
 	config %{ powerline-start }
 
 plug "andreyorst/smarttab.kak" \
-	defer 'smarttab' %{ set-option global softtabstop 4 } \
-	config %{
+	defer smarttab %{
+    	set-option global softtabstop 4
+		set-option global smarttab_expandtab_mode_name 'et'
+	    set-option global smarttab_noexpandtab_mode_name 'noet'
+	    set-option global smarttab_smarttab_mode_name 'smet'
+	} config %{
 		hook global BufOpenFile .* smarttab
-		hook global BufNewFile .* smarttab
+		hook global BufNewFile  .* smarttab
 	}
 
 plug 'alexherbo2/auto-pairs.kak' \
@@ -102,18 +106,18 @@ colorscheme berry
 set-option global tabstop 4
 set-option global indentwidth 4
 set-option global scrolloff 1,3
-set-option global autoinfo command|onkey
 
-set-option global ui_options terminal_status_on_top=true terminal_assistant=cat
-			# set-option -add global ui_options terminal_padding_char=- terminal_padding_fill=true
+set-option      global ui_options terminal_status_on_top=true terminal_assistant=cat
 set-option -add global ui_options terminal_padding_char=
+# set-option -add global ui_options terminal_padding_char=- terminal_padding_fill=true
 
 alias global x write-all-quit
 
-map -docstring "insert contents of system clipboard" global user P '!xsel --output --clipboard<ret>'
-map -docstring "append contents of system clipboard" global user p '<a-!>xsel --output --clipboard<ret>'
-map -docstring "yank to system clipboard" global user y '<a-|> xsel --input --clipboard <ret>'
+map -docstring "insert contents of system clipboard"       global user P '!xsel --output --clipboard<ret>'
+map -docstring "append contents of system clipboard"       global user p '<a-!>xsel --output --clipboard<ret>'
+map -docstring "yank to system clipboard"                  global user y '<a-|> xsel --input --clipboard <ret>'
 map -docstring "replace with contents of system clipboard" global user R '|xsel --output --clipboard<ret>'
+map -docstring "search literally"                          global user / ':exec /<ret>\Q\E<left><left>'
 
 # handy function
 map -docstring "for each selection, evaluate its expression and replace with result" global user = \
@@ -143,9 +147,9 @@ map global insert <tab> \
 	'<a-;>:try lsp-snippets-select-next-placeholders catch %{ execute-keys -with-hooks <lt>tab> }<ret>' \
 	-docstring 'Select next snippet placeholder'
 
-map global object a '<a-;>lsp-object<ret>' -docstring 'LSP any symbol'
-map global object <a-a> '<a-;>lsp-object<ret>' -docstring 'LSP any symbol'
-map global object f '<a-;>lsp-object Function Method<ret>' -docstring 'LSP function or method'
-map global object t '<a-;>lsp-object Class Interface Struct<ret>' -docstring 'LSP class interface or struct'
+map global object a '<a-;>lsp-object<ret>'                               -docstring 'LSP any symbol'
+map global object <a-a> '<a-;>lsp-object<ret>'                           -docstring 'LSP any symbol'
+map global object f '<a-;>lsp-object Function Method<ret>'               -docstring 'LSP function or method'
+map global object t '<a-;>lsp-object Class Interface Struct<ret>'        -docstring 'LSP class interface or struct'
 map global object d '<a-;>lsp-diagnostic-object --include-warnings<ret>' -docstring 'LSP errors and warnings'
-map global object D '<a-;>lsp-diagnostic-object<ret>' -docstring 'LSP errors'
+map global object D '<a-;>lsp-diagnostic-object<ret>'                    -docstring 'LSP errors'
