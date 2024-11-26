@@ -17,22 +17,27 @@ plug "dgmulf/local-kakrc" \
 		hook global BufCreate (.*/)?\.kakrc %{ set-option buffer filetype kak }
 	}
 
-plug "andreyorst/powerline.kak" \
-	config %{ powerline-start }
-
 plug "andreyorst/smarttab.kak" \
 	defer smarttab %{
-    	set-option global tabstop     4
-    	set-option global softtabstop 4
-    	set-option global indentwidth 4
+		set-option global tabstop     4
+		set-option global softtabstop 4
+		set-option global indentwidth 4
 
 		set-option global smarttab_expandtab_mode_name 'et'
-	    set-option global smarttab_noexpandtab_mode_name 'noet'
-	    set-option global smarttab_smarttab_mode_name 'smet'
+		set-option global smarttab_noexpandtab_mode_name 'noet'
+		set-option global smarttab_smarttab_mode_name 'smart'
 	} config %{
 		hook global BufOpenFile .* smarttab
 		hook global BufNewFile  .* smarttab
 	}
+
+plug "andreyorst/powerline.kak" \
+	defer powerline_default %{
+		set-option global powerline_format 'git mode_info smarttab position line_column bufname filetype'
+		powerline-separator triangle
+	} defer powerline_bufname %{
+		set-option global powerline_shorten_bufname 'short'
+	} config 'powerline-start'
 
 plug 'alexherbo2/auto-pairs.kak' \
 	config %{ enable-auto-pairs }
@@ -93,7 +98,6 @@ plug 'kkga/ui.kak' \
 			ui-whitespaces-toggle
 			ui-trailing-spaces-toggle
 			ui-matching-toggle
-			ui-search-toggle
 			ui-git-diff-toggle
 			ui-todos-toggle
 			# ui-lint-toggle # not sure about this one
@@ -112,7 +116,7 @@ set-option global scrolloff 1,3
 
 set-option      global ui_options terminal_status_on_top=true terminal_assistant=cat
 set-option -add global ui_options terminal_padding_char=
-# set-option -add global ui_options terminal_padding_char=- terminal_padding_fill=true
+set-option -add global ui_options terminal_padding_char=∙ terminal_padding_fill=true
 
 alias global x write-all-quit
 
