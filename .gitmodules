@@ -1,0 +1,3 @@
+[submodule "colors/kakoune-tree-sitter-themes"]
+	path = colors/kakoune-tree-sitter-themes
+	url = https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes
