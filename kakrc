@@ -130,26 +130,3 @@ define-command -docstring "open a tutorial" -override trampoline %{
 		curl -s https://raw.githubusercontent.com/mawww/kakoune/master/contrib/TRAMPOLINE -o "$tramp_file"
 	}
 }
-
-# ----------------
-# Language servers
-# ----------------
-
-eval %sh{ kak-lsp }
-set-option global lsp_file_watch_support true
-lsp-enable
-
-hook global BufSetOption filetype=.* %{ hook buffer BufWritePre .* lsp-formatting-sync }
-
-map global user l "<a-;>: enter-user-mode lsp<ret>" -docstring "LSP mode"
-
-map global insert <tab> \
-	'<a-;>:try lsp-snippets-select-next-placeholders catch %{ execute-keys -with-hooks <lt>tab> }<ret>' \
-	-docstring 'Select next snippet placeholder'
-
-map global object a '<a-;>lsp-object<ret>'                               -docstring 'LSP any symbol'
-map global object <a-a> '<a-;>lsp-object<ret>'                           -docstring 'LSP any symbol'
-map global object f '<a-;>lsp-object Function Method<ret>'               -docstring 'LSP function or method'
-map global object t '<a-;>lsp-object Class Interface Struct<ret>'        -docstring 'LSP class interface or struct'
-map global object d '<a-;>lsp-diagnostic-object --include-warnings<ret>' -docstring 'LSP errors and warnings'
-map global object D '<a-;>lsp-diagnostic-object<ret>'                    -docstring 'LSP errors'
