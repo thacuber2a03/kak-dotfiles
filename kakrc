@@ -108,7 +108,8 @@ plug 'kkga/ui.kak' \
 # General configuration
 # ---------------------
 
-colorscheme berry
+# colorscheme catppuccin_macchiato
+colorscheme night-owl
 
 set-option global tabstop 4
 set-option global indentwidth 4
