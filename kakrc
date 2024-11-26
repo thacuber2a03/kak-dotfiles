@@ -52,13 +52,6 @@ plug 'https://gitlab.com/Screwtapello/kakoune-inc-dec' \
 			global user x ': inc-dec-modify-numbers - %val{count}<ret>'
 	}
 
-plug "eraserhd/parinfer-rust" \
-	do %{ cargo install --force --path . } \
-	config %{
-		hook global WinSetOption filetype=(clojure|lisp|scheme|racket) \
-			%{ parinfer-enable-window -smart }
-	}
-
 plug 'gustavo-hms/luar' \
 	config %{ require-module luar }
 
