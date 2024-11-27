@@ -80,8 +80,8 @@ plug 'caksoylar/kakoune-focus' \
 plug 'kkga/ui.kak' \
 	config %{
 		set-option global ui_line_numbers_flags \
-			-separator '  ¦' \
-			-hlcursor -cursor-separator ' <|' \
+			-separator ' ¦ ' \
+			-hlcursor -cursor-separator '<| ' \
 			-min-digits 3 -relative
 
 		set-option global ui_whitespaces_flags -lf ' '
@@ -100,8 +100,6 @@ plug 'kkga/ui.kak' \
 # ---------------------
 # General configuration
 # ---------------------
-
-colorscheme berry
 
 set-option global tabstop 4
 set-option global indentwidth 4
