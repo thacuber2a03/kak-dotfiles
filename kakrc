@@ -19,9 +19,9 @@ plug "dgmulf/local-kakrc" \
 
 plug "andreyorst/smarttab.kak" \
 	defer smarttab %{
-		set-option global tabstop     4
-		set-option global softtabstop 4
-		set-option global indentwidth 4
+		# set-option global tabstop     4
+		# set-option global softtabstop 4
+		# set-option global indentwidth 4
 
 		set-option global smarttab_expandtab_mode_name 'et'
 		set-option global smarttab_noexpandtab_mode_name 'noet'
@@ -147,6 +147,9 @@ eval %sh{ kak-lsp }
 set-option global lsp_file_watch_support true
 lsp-enable
 
+lsp-inlay-hints-enable global
+lsp-inlay-diagnostics-enable global
+
 hook global BufSetOption filetype=.* %{ hook buffer BufWritePre .* lsp-formatting-sync }
 
 map global user l "<a-;>: enter-user-mode lsp<ret>" -docstring "LSP mode"
@@ -161,3 +164,37 @@ map global object f '<a-;>lsp-object Function Method<ret>'               -docstr
 map global object t '<a-;>lsp-object Class Interface Struct<ret>'        -docstring 'LSP class interface or struct'
 map global object d '<a-;>lsp-diagnostic-object --include-warnings<ret>' -docstring 'LSP errors and warnings'
 map global object D '<a-;>lsp-diagnostic-object<ret>'                    -docstring 'LSP errors'
+
+hook -group lsp-filetype-lua global BufSetOption filetype=lua %{
+	set-option buffer lsp_servers %{
+		[lua-language-server]
+		root_globs = [".git", ".hg"]
+		settings_section = "Lua"
+
+		[lua-language-server.settings.Lua]
+		# diagnostics.enable = true
+
+		[lua-language-server.settings.Lua.format.defaultConfig]
+		indent_style = "tab"
+		tab_width = "4"
+		call_arg_parentheses = "remove"
+		continuation_indent = "2"
+		trailing_table_separator = "smart"
+		space_around_table_append_operator = "false"
+		align_call_args = "true"
+		align_if_branch = "true"
+		never_indent_before_if_condition = "true"
+		line_space_after_function_statement = "max(2)"
+		break_all_list_when_line_exceed = "true"
+		auto_collapse_line = "true"
+		end_statement_with_semicolon = "same_line"
+
+		[lua-language-server.settings.Lua.completion]
+		callSnippet = "Replace"
+		displayContext = 5
+		keywordSnippet = "Replace"
+		
+		[lua-language-server.settings.Lua.hover]
+		expandAlias = false
+	}
+}
