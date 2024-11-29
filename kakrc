@@ -104,7 +104,13 @@ plug 'kkga/ui.kak' \
 		}
 	}
 
-# ---------------------
+# -----------
+# Tree-sitter
+# -----------
+
+eval %sh{ kak-tree-sitter -dks --init $kak_session }
+
+		# ---------------------
 # General configuration
 # ---------------------
 
