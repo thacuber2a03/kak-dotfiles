@@ -95,20 +95,24 @@ plug 'kkga/ui.kak' \
 
 		hook global WinCreate .* %{
 			ui-line-numbers-toggle
-			ui-whitespaces-toggle
+			# ui-whitespaces-toggle    # Kakoune issue 2654
 			ui-trailing-spaces-toggle
 			ui-matching-toggle
 			ui-git-diff-toggle
 			ui-todos-toggle
 			# ui-lint-toggle # not sure about this one
 		}
+
+		hook global WinDisplay '\Q*debug*' %{ ui-wrap-enable }
 	}
+
+plug 'thacuber2a03/forth.kak'
 
 # -----------
 # Tree-sitter
 # -----------
 
-eval %sh{ kak-tree-sitter -dks --init $kak_session }
+evaluate-commands %sh{ kak-tree-sitter -dks --init $kak_session }
 
 # ---------------------
 # General configuration
@@ -149,12 +153,13 @@ define-command -docstring "open a tutorial" -override trampoline %{
 # Language servers
 # ----------------
 
-eval %sh{ kak-lsp }
+evaluate-commands %sh{ kak-lsp }
 set-option global lsp_file_watch_support true
 lsp-enable
 
 lsp-inlay-hints-enable global
 lsp-inlay-diagnostics-enable global
+lsp-inlay-code-lenses-enable global
 
 hook global BufSetOption filetype=.* %{ hook buffer BufWritePre .* lsp-formatting-sync }
 
