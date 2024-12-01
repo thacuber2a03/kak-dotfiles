@@ -118,8 +118,7 @@ evaluate-commands %sh{ kak-tree-sitter -dks --init $kak_session }
 # General configuration
 # ---------------------
 
-# colorscheme catppuccin_macchiato
-colorscheme night-owl
+try %{ colorscheme catppuccin_macchiato }
 
 set-option global tabstop 4
 set-option global indentwidth 4
