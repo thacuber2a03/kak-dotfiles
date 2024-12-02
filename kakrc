@@ -11,11 +11,31 @@ evaluate-commands %sh{
 }
 plug "andreyorst/plug.kak" noload
 
-plug "dgmulf/local-kakrc" \
-	config %{
-		set-option global source_local_kakrc true
-		hook global BufCreate (.*/)?\.kakrc %{ set-option buffer filetype kak }
+# dgmulf/local-kakrc
+
+declare-option str project_directory
+declare-option bool source_local_kakrc false
+
+hook global KakBegin .* %{
+	evaluate-commands %sh{
+		if [ $kak_opt_source_local_kakrc = true ]; then
+			while [ "$PWD" != "/" ]; do
+				if [ -f .kakrc ]; then
+					printf %s\\n "set-option global project_directory '$PWD'"
+					printf %s\\n "source '$PWD/.kakrc'"
+					break
+				fi
+				cd ..
+			done
+		fi
 	}
+}
+
+hook global BufCreate (.*/)?\.kakrc %{ set-option buffer filetype kak }
+
+####################
+
+set-option global source_local_kakrc true
 
 plug "andreyorst/smarttab.kak" \
 	defer smarttab %{
@@ -31,14 +51,13 @@ plug "andreyorst/smarttab.kak" \
 		hook global BufNewFile  .* smarttab
 	}
 
-plug 'alexherbo2/auto-pairs.kak' \
-	config %{ enable-auto-pairs }
+plug 'alexherbo2/auto-pairs.kak' config %{ enable-auto-pairs }
 
-plug 'https://gitlab.com/Screwtapello/kakoune-inc-dec' \
-	config %{
-		map -docstring "increment number under selection" global user a ': inc-dec-modify-numbers + %val{count}<ret>'
-		map -docstring "decrement number under selection" global user x ': inc-dec-modify-numbers - %val{count}<ret>'
-	}
+# plug 'https://gitlab.com/Screwtapello/kakoune-inc-dec' \
+# 	config %{
+# 		map -docstring "increment number under selection" global user a ': inc-dec-modify-numbers + %val{count}<ret>'
+# 		map -docstring "decrement number under selection" global user x ': inc-dec-modify-numbers - %val{count}<ret>'
+# 	}
 
 plug 'tomKPZ/replace-mode.kak' \
 	config %{
@@ -49,8 +68,8 @@ plug 'tomKPZ/replace-mode.kak' \
 plug 'kkga/ui.kak' \
 	config %{
 		set-option global ui_line_numbers_flags \
-			-separator '  ¦' \
-			-hlcursor -cursor-separator ' <|' \
+			-separator ' ¦ ' \
+			-hlcursor -cursor-separator '<| ' \
 			-min-digits 3 -relative
 
 		set-option global ui_whitespaces_flags -lf ' '
