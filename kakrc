@@ -125,16 +125,16 @@ set-option global indentwidth 4
 set-option global scrolloff 1,3
 
 set-option      global ui_options terminal_status_on_top=true terminal_assistant=cat
-set-option -add global ui_options terminal_padding_char=
 set-option -add global ui_options terminal_padding_char=∙ terminal_padding_fill=true
+# set-option -add global ui_options terminal_padding_char=
 
 alias global x write-all-quit
 
-map -docstring "insert contents of system clipboard"       global user P '!xsel --output --clipboard<ret>'
-map -docstring "append contents of system clipboard"       global user p '<a-!>xsel --output --clipboard<ret>'
-map -docstring "yank to system clipboard"                  global user y '<a-|> xsel --input --clipboard <ret>'
-map -docstring "replace with contents of system clipboard" global user R '|xsel --output --clipboard<ret>'
-map -docstring "search literally"                          global user / ':exec /<ret>\Q\E<left><left>'
+map -docstring "insert system clipboard"       global user P '!xsel --output --clipboard<ret>'
+map -docstring "append system clipboard"       global user p '<a-!>xsel --output --clipboard<ret>'
+map -docstring "yank to system clipboard"      global user y '<a-|> xsel --input --clipboard <ret>'
+map -docstring "replace with system clipboard" global user R '|xsel --output --clipboard<ret>'
+map -docstring "search literally"              global user / ':exec /<ret>\Q\E<left><left>'
 
 # handy function
 map -docstring "for each selection, evaluate its expression and replace with result" global user = \
@@ -203,7 +203,7 @@ hook -group lsp-filetype-lua global BufSetOption filetype=lua %{
 		callSnippet = "Replace"
 		displayContext = 5
 		keywordSnippet = "Replace"
-		
+
 		[lua-language-server.settings.Lua.hover]
 		expandAlias = false
 	}
