@@ -101,13 +101,12 @@ plug 'kkga/ui.kak' \
 # General configuration
 # ---------------------
 
-set-option global tabstop 4
 set-option global indentwidth 4
 set-option global scrolloff 1,3
 
 set-option      global ui_options terminal_status_on_top=true terminal_assistant=cat
-set-option -add global ui_options terminal_padding_char=
 set-option -add global ui_options terminal_padding_char=∙ terminal_padding_fill=true
+# set-option -add global ui_options terminal_padding_char=
 
 alias global x write-all-quit
 
