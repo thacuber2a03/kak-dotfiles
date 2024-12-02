@@ -19,9 +19,9 @@ plug "dgmulf/local-kakrc" \
 
 plug "andreyorst/smarttab.kak" \
 	defer smarttab %{
-		# set-option global tabstop     4
-		# set-option global softtabstop 4
-		# set-option global indentwidth 4
+		set-option global tabstop     4
+		set-option global softtabstop 4
+		set-option global indentwidth 4
 
 		set-option global smarttab_expandtab_mode_name 'et'
 		set-option global smarttab_noexpandtab_mode_name 'noet'
@@ -46,10 +46,8 @@ plug 'delapouite/kakoune-text-objects'
 
 plug 'https://gitlab.com/Screwtapello/kakoune-inc-dec' \
 	config %{
-		map -docstring "increment number under selection" \
-			global user a ': inc-dec-modify-numbers + %val{count}<ret>'
-		map -docstring "decrement number under selection" \
-			global user x ': inc-dec-modify-numbers - %val{count}<ret>'
+		map -docstring "increment number under selection" global user a ': inc-dec-modify-numbers + %val{count}<ret>'
+		map -docstring "decrement number under selection" global user x ': inc-dec-modify-numbers - %val{count}<ret>'
 	}
 
 plug "eraserhd/parinfer-rust" \
@@ -120,7 +118,6 @@ evaluate-commands %sh{ kak-tree-sitter -dks --init $kak_session }
 
 try %{ colorscheme catppuccin_macchiato }
 
-set-option global tabstop 4
 set-option global indentwidth 4
 set-option global scrolloff 1,3
 
