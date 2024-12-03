@@ -2,15 +2,10 @@
 # Plugins
 # -------
 
-evaluate-commands %sh{
-	plugins="$kak_config/plugins"
-	mkdir -p "$plugins"
-	[ ! -e "$plugins/plug.kak" ] && \
-		git clone -q https://github.com/andreyorst/plug.kak.git "$plugins/plug.kak"
-	printf "%s\n" "source '$plugins/plug.kak/rc/plug.kak'"
-}
+source "%val{kak_config}/autoload/plugins/plug.kak/rc/plug.kak"
 plug "andreyorst/plug.kak" noload
 
+# ------------------
 # dgmulf/local-kakrc
 
 declare-option str project_directory
@@ -33,23 +28,22 @@ hook global KakBegin .* %{
 
 hook global BufCreate (.*/)?\.kakrc %{ set-option buffer filetype kak }
 
-####################
-
 set-option global source_local_kakrc true
 
-plug "andreyorst/smarttab.kak" \
-	defer smarttab %{
-		set-option global tabstop     4
-		set-option global softtabstop 4
-		set-option global indentwidth 4
+# -----------------------
+# andreyorst/smarttab.kak
+# within autoload/
 
-		set-option global smarttab_expandtab_mode_name 'et'
-		set-option global smarttab_noexpandtab_mode_name 'noet'
-		set-option global smarttab_smarttab_mode_name 'smart'
-	} config %{
-		hook global BufOpenFile .* smarttab
-		hook global BufNewFile  .* smarttab
-	}
+hook global BufOpenFile .* smarttab
+hook global BufNewFile  .* smarttab
+
+hook global ModuleLoaded smarttab %{
+	set-option global tabstop     4
+	set-option global softtabstop 4
+	set-option global indentwidth 4
+}
+
+# -----------------------
 
 plug 'alexherbo2/auto-pairs.kak' config %{ enable-auto-pairs }
 
@@ -59,16 +53,15 @@ plug 'alexherbo2/auto-pairs.kak' config %{ enable-auto-pairs }
 # 		map -docstring "decrement number under selection" global user x ': inc-dec-modify-numbers - %val{count}<ret>'
 # 	}
 
-plug 'tomKPZ/replace-mode.kak' \
-	config %{
-		map -docstring "enter replace mode" \
-			global user r ': enter-user-mode replace<ret>'
-	}
+# plug 'tomKPZ/replace-mode.kak' \
+# 	config %{
+# 		map -docstring "enter replace mode" global user r ': enter-user-mode replace<ret>'
+# 	}
 
 plug 'kkga/ui.kak' \
 	config %{
 		set-option global ui_line_numbers_flags \
-			-separator ' ¦ ' \
+			-separator ' │ ' \
 			-hlcursor -cursor-separator '<| ' \
 			-min-digits 3 -relative
 
@@ -83,7 +76,7 @@ plug 'kkga/ui.kak' \
 			ui-todos-toggle
 		}
 
-		hook global WinDisplay '\Q*debug*' %{ try %{ ui-wrap-enable } }
+		hook global WinDisplay '\Q*debug*' %{ ui-wrap-enable }
 	}
 
 plug 'thacuber2a03/forth.kak'
@@ -94,7 +87,6 @@ plug 'thacuber2a03/forth.kak'
 
 try %{ colorscheme catppuccin_macchiato }
 
-set-option global indentwidth 4
 set-option global scrolloff 1,3
 
 set-option      global ui_options terminal_status_on_top=true terminal_assistant=cat
@@ -109,14 +101,6 @@ map -docstring "yank to system clipboard"      global user y ': nop %sh{ printf 
 map -docstring "replace with system clipboard" global user R '|cat /dev/clipboard<ret>s\r<ret>d<c-o>'
 map -docstring "search literally"              global user / ': exec /<ret>\Q\E<left><left>'
 
-# handy function
-map -docstring "for each selection, evaluate its expression and replace with result" global user = \
-	': eval -itersel -save-regs dquote %{ set-register dquote %sh{ printf %s $(($kak_selection)) }; exec R }<ret>'
-
-define-command -docstring "open a tutorial" -override trampoline %{
-	evaluate-commands %sh{
-		tramp_file=$(mktemp -t "kakoune-trampoline.XXXXXXXX")
-		echo "edit -fifo $tramp_file *TRAMPOLINE*"
-		curl -s https://raw.githubusercontent.com/mawww/kakoune/master/contrib/TRAMPOLINE -o "$tramp_file"
-	}
-}
+# # handy function
+# map -docstring "for each selection, evaluate its expression and replace with result" global user = \
+# 	': eval -itersel -save-regs dquote %{ set-register dquote %sh{ printf %s $(($kak_selection)) }; exec R }<ret>'
