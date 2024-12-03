@@ -2,7 +2,7 @@
 # Plugins
 # -------
 
-source "%val{config}/autoload/plugins/plug.kak/rc/plug.kak"
+# within autoload/plugins/
 plug "andreyorst/plug.kak" noload
 
 # ------------------
@@ -32,7 +32,9 @@ set-option global source_local_kakrc true
 
 # -----------------------
 # andreyorst/smarttab.kak
-# within autoload/
+# within autoload/plugins/
+
+plug "andreyorst/smarttab.kak" noload
 
 hook global BufOpenFile .* smarttab
 hook global BufNewFile  .* smarttab
