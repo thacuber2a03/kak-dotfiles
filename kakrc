@@ -83,7 +83,7 @@ plug 'kkga/ui.kak' \
 			ui-todos-toggle
 		}
 
-		hook global WinDisplay '\Q*debug*' %{ ui-wrap-enable }
+		hook global WinDisplay '\Q*debug*' %{ try %{ ui-wrap-enable } }
 	}
 
 plug 'thacuber2a03/forth.kak'
