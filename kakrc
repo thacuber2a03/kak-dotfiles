@@ -94,7 +94,6 @@ plug 'thacuber2a03/forth.kak'
 
 try %{ colorscheme catppuccin_macchiato }
 
-set-option global indentwidth 4
 set-option global scrolloff 1,3
 
 set-option      global ui_options terminal_status_on_top=true terminal_assistant=cat
@@ -108,15 +107,3 @@ map -docstring "append from system clipboard"  global user p '<a-!>cat /dev/clip
 map -docstring "yank to system clipboard"      global user y ': nop %sh{ printf %s "$kak_selections" > /dev/clipboard }<ret>'
 map -docstring "replace with system clipboard" global user R '|cat /dev/clipboard<ret>s\r<ret>d<c-o>'
 map -docstring "search literally"              global user / ': exec /<ret>\Q\E<left><left>'
-
-# handy function
-map -docstring "for each selection, evaluate its expression and replace with result" global user = \
-	': eval -itersel -save-regs dquote %{ set-register dquote %sh{ printf %s $(($kak_selection)) }; exec R }<ret>'
-
-define-command -docstring "open a tutorial" -override trampoline %{
-	evaluate-commands %sh{
-		tramp_file=$(mktemp -t "kakoune-trampoline.XXXXXXXX")
-		echo "edit -fifo $tramp_file *TRAMPOLINE*"
-		curl -s https://raw.githubusercontent.com/mawww/kakoune/master/contrib/TRAMPOLINE -o "$tramp_file"
-	}
-}
