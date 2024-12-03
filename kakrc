@@ -2,7 +2,7 @@
 # Plugins
 # -------
 
-source "%val{kak_config}/autoload/plugins/plug.kak/rc/plug.kak"
+source "%val{config}/autoload/plugins/plug.kak/rc/plug.kak"
 plug "andreyorst/plug.kak" noload
 
 # ------------------
