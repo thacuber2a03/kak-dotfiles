@@ -1,57 +1,16 @@
-# -------
-# Plugins
-# -------
-
-evaluate-commands %sh{
-	plugins="$kak_config/plugins"
-	mkdir -p "$plugins"
-	[ ! -e "$plugins/plug.kak" ] && \
-		git clone -q https://github.com/andreyorst/plug.kak.git "$plugins/plug.kak"
-	printf "%s\n" "source '$plugins/plug.kak/rc/plug.kak'"
-}
-plug "andreyorst/plug.kak" noload
-
-# dgmulf/local-kakrc
-
-declare-option str project_directory
-declare-option bool source_local_kakrc false
-
-hook global KakBegin .* %{
-	evaluate-commands %sh{
-		if [ $kak_opt_source_local_kakrc = true ]; then
-			while [ "$PWD" != "/" ]; do
-				if [ -f .kakrc ]; then
-					printf %s\\n "set-option global project_directory '$PWD'"
-					printf %s\\n "source '$PWD/.kakrc'"
-					break
-				fi
-				cd ..
-			done
-		fi
-	}
-}
-
 hook global BufCreate (.*/)?\.kakrc %{ set-option buffer filetype kak }
-
-####################
-
 set-option global source_local_kakrc true
 
-plug "andreyorst/smarttab.kak" \
-	defer smarttab %{
-		set-option global tabstop     4
-		set-option global softtabstop 4
-		set-option global indentwidth 4
+hook global BufOpenFile .* smarttab
+hook global BufNewFile  .* smarttab
 
-		set-option global smarttab_expandtab_mode_name 'et'
-		set-option global smarttab_noexpandtab_mode_name 'noet'
-		set-option global smarttab_smarttab_mode_name 'smart'
-	} config %{
-		hook global BufOpenFile .* smarttab
-		hook global BufNewFile  .* smarttab
-	}
+hook global ModuleLoaded smarttab %{
+    set-option global tabstop     4
+    set-option global softtabstop 4
+    set-option global indentwidth 4
+}
 
-plug 'alexherbo2/auto-pairs.kak' config %{ enable-auto-pairs }
+enable-auto-pairs
 
 # plug 'https://gitlab.com/Screwtapello/kakoune-inc-dec' \
 # 	config %{
@@ -59,38 +18,25 @@ plug 'alexherbo2/auto-pairs.kak' config %{ enable-auto-pairs }
 # 		map -docstring "decrement number under selection" global user x ': inc-dec-modify-numbers - %val{count}<ret>'
 # 	}
 
-plug 'tomKPZ/replace-mode.kak' \
-	config %{
-		map -docstring "enter replace mode" \
-			global user r ': enter-user-mode replace<ret>'
-	}
+map -docstring "enter replace mode" global user r ': enter-user-mode replace<ret>'
 
-plug 'kkga/ui.kak' \
-	config %{
-		set-option global ui_line_numbers_flags \
-			-separator ' ¦ ' \
-			-hlcursor -cursor-separator '<| ' \
-			-min-digits 3 -relative
+set-option global ui_line_numbers_flags \
+	-separator ' ¦ ' \
+	-hlcursor -cursor-separator '<| ' \
+	-min-digits 3 -relative
 
-		set-option global ui_whitespaces_flags -lf ' '
+set-option global ui_whitespaces_flags -lf ' '
 
-		hook global WinCreate .* %{
-			ui-line-numbers-toggle
-			# ui-whitespaces-toggle    # Kakoune issue 2654
-			ui-trailing-spaces-toggle
-			ui-matching-toggle
-			ui-git-diff-toggle
-			ui-todos-toggle
-		}
+hook global WinCreate .* %{
+	ui-line-numbers-toggle
+	# ui-whitespaces-toggle    # Kakoune issue 2654
+	ui-trailing-spaces-toggle
+	ui-matching-toggle
+	ui-git-diff-toggle
+	ui-todos-toggle
+}
 
-		hook global WinDisplay '\Q*debug*' %{ try %{ ui-wrap-enable } }
-	}
-
-plug 'thacuber2a03/forth.kak'
-
-# ---------------------
-# General configuration
-# ---------------------
+hook global WinDisplay '\Q*debug*' %{ try %{ ui-wrap-enable } }
 
 try %{ colorscheme catppuccin_macchiato }
 
