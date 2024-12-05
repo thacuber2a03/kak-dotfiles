@@ -1,6 +1,7 @@
 provide-module -override uxntal %{
 	add-highlighter shared/uxntal         regions
-	add-highlighter shared/uxntal/comment region -recurse '\s\(\s' '\(\s' '\s\)' fill comment
+	add-highlighter shared/uxntal/ region -recurse '(?<=\s)\((?=\s)' '^\((?=\s)'       '(?<=\s)\)(?=\s)' fill comment
+	add-highlighter shared/uxntal/ region -recurse '(?<=\s)\((?=\s)' '(?<=\s)\((?=\s)' '(?<=\s)\)(?=\s)' fill comment
 	add-highlighter shared/uxntal/code    default-region group
 
 	add-highlighter shared/uxntal/code/ regex "\bBRK\b"                                                                        0:keyword
