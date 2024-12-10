@@ -24,7 +24,7 @@ provide-module -override wren %§
 	add-highlighter shared/wren/code/ regex '\b(Bool|Class|Fiber|Fn|List|Map|Null|Num|Object|Range|Sequence|String|System)\b' 0:+b@type
 	add-highlighter shared/wren/code/ regex '(-|!|~|\*|/|%|\+|\.\.\.?|<<|>>|&{1,2}|\^|\|{1,2}|[<>]=?)|\bis\b|[!=]?=|\?|:)' 0:operator
 
-	add-highlighter shared/wren/code/ regex 'class\h+([A-Za-z][\w_]*)\h+(is\h+[A-Za-z][\w_]*)\h*(?=\{)' 1:type 2:keyword 3:attribute
+	add-highlighter shared/wren/code/ regex 'class\h+([A-Za-z][\w_]*)\h+(is\h+[A-Za-z][\w_]*)\h*(?=\{)' 1:type 2:attribute
 
 	add-highlighter shared/wren/code/ regex '\b(?i)-?\d+\b'               0:value
 	add-highlighter shared/wren/code/ regex '\b-?0x(?i)[\da-f]+\b'        0:value
