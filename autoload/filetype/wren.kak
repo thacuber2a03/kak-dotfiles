@@ -16,7 +16,7 @@ provide-module -override wren %§
 	add-highlighter shared/wren/code/ regex 'construct\h+(?i)([a-z][\w_]*)\h*(?=\()' 1:meta
 	add-highlighter shared/wren/code/ regex 'var\h+(?i)([a-z][\w_]*)' 1:variable
 
-	add-highlighter shared/wren/code/ regex '_[\w_]+' 0:variable
+	add-highlighter shared/wren/code/ regex '\b_[\w_]+' 0:variable
 
 	add-highlighter shared/wren/code/ regex '\bimport\b' 0:meta
 	add-highlighter shared/wren/code/ regex '\b(true|false|null)\b' 0:value
