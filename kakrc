@@ -1,5 +1,9 @@
+# dgmulf/local-kakrc
+
 hook global BufCreate (.*/)?\.kakrc %{ set-option buffer filetype kak }
 set-option global source_local_kakrc true
+
+# andreyorst/smarttab
 
 hook global BufOpenFile .* smarttab
 hook global BufNewFile  .* smarttab
@@ -8,7 +12,11 @@ hook global ModuleLoaded smarttab %{
     set-option global tabstop     4
     set-option global softtabstop 4
     set-option global indentwidth 4
+
+	hook global WinSetOption filetype=(python|rust) expandtab
 }
+
+# alexherbo2/auto-pairs.kak
 
 enable-auto-pairs
 
@@ -32,13 +40,13 @@ hook global WinCreate .* %{
 	# ui-whitespaces-toggle    # Kakoune issue 2654
 	ui-trailing-spaces-toggle
 	ui-matching-toggle
-	ui-git-diff-toggle
+	# ui-git-diff-toggle
 	ui-todos-toggle
 }
 
 hook global WinDisplay '\Q*debug*' %{ try %{ ui-wrap-enable } }
 
-try %{ colorscheme catppuccin_macchiato }
+# try %{ colorscheme catppuccin_macchiato }
 
 set-option global scrolloff 1,3
 
@@ -46,7 +54,8 @@ set-option      global ui_options terminal_status_on_top=true terminal_assistant
 set-option -add global ui_options terminal_padding_char=∙ terminal_padding_fill=true
 # set-option -add global ui_options terminal_padding_char=
 
-alias global x write-all-quit
+alias global x write-quit
+alias global xa write-all-quit
 
 map -docstring "insert from system clipboard"  global user P '!cat /dev/clipboard<ret>s\r<ret>d<c-o>'
 map -docstring "append from system clipboard"  global user p '<a-!>cat /dev/clipboard<ret>s\r<ret>d<c-o>'
