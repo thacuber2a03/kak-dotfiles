@@ -10,12 +10,6 @@ provide-module -override wren %§
 
 	add-highlighter shared/wren/code default-region group
 
-	add-highlighter shared/wren/code/ regex '\bimport\b' 0:meta
-	add-highlighter shared/wren/code/ regex '\b(true|false|null)\b' 0:value
-	add-highlighter shared/wren/code/ regex '\b(as|break|class|construct|continue|else|for|foreign|if|in|return|static|super|this|var|while)\b' 0:keyword
-	add-highlighter shared/wren/code/ regex '\b(Bool|Class|Fiber|Fn|List|Map|Null|Num|Object|Range|Sequence|String|System)\b' 0:+b@type
-	add-highlighter shared/wren/code/ regex '(-|!|~|\*|/|%|\+|\.\.\.?|<<|>>|&{1,2}|\^|\|{1,2}|[<>]=?)|\bis\b|[!=]?=|\?|:)' 0:operator
-
 	add-highlighter shared/wren/code/ regex '(?i)([a-z][\w_]*)\h*(?=[\(\{])' 1:function
 	add-highlighter shared/wren/code/ regex '(?i)([a-z][\w_]*)=\(.*?\)\h*(?=\{)' 1:function
 	add-highlighter shared/wren/code/ regex 'class\h+(?i)([a-z][\w_]*)\h*(?=\{)' 1:type
@@ -23,6 +17,12 @@ provide-module -override wren %§
 	add-highlighter shared/wren/code/ regex 'var\h+(?i)([a-z][\w_]*)' 1:variable
 
 	add-highlighter shared/wren/code/ regex '_[\w_]+' 0:variable
+
+	add-highlighter shared/wren/code/ regex '\bimport\b' 0:meta
+	add-highlighter shared/wren/code/ regex '\b(true|false|null)\b' 0:value
+	add-highlighter shared/wren/code/ regex '\b(as|break|class|construct|continue|else|for|foreign|if|in|return|static|super|this|var|while)\b' 0:keyword
+	add-highlighter shared/wren/code/ regex '\b(Bool|Class|Fiber|Fn|List|Map|Null|Num|Object|Range|Sequence|String|System)\b' 0:+b@type
+	add-highlighter shared/wren/code/ regex '(-|!|~|\*|/|%|\+|\.\.\.?|<<|>>|&{1,2}|\^|\|{1,2}|[<>]=?)|\bis\b|[!=]?=|\?|:)' 0:operator
 
 	add-highlighter shared/wren/code/ regex '\b(?i)-?\d+\b'               0:value
 	add-highlighter shared/wren/code/ regex '\b-?0x(?i)[\da-f]+\b'        0:value
