@@ -33,6 +33,10 @@ provide-module -override wren %§
 
 	add-highlighter shared/wren/code/ regex '^\h*import\h*"(.*?)"' 1:module
 	add-highlighter shared/wren/code/ regex '\bFn\.new\h*(?=\{)' 0:+b@value
+
+	declare-option str-list wren_static_words \
+		'import' 'true' 'false' 'null' 'as' 'break' 'class' 'construct' 'continue' 'else' 'for' 'foreign' 'if' 'in' 'return' 'static' 'super' 'this' \
+		'var' 'while' 'Bool' 'Class' 'Fiber' 'Fn' 'List' 'Map' 'Null' 'Num' 'Object' 'Range' 'Sequence' 'String' 'System' 
 §
 
 hook global BufCreate (.*/)?.*\.wren %{ set-option buffer filetype wren }
@@ -44,3 +48,86 @@ hook -group wren-highlight global WinSetOption filetype=wren %{
         remove-highlighter window/wren
     }
 }
+
+hook global WinSetOption filetype=wren %{
+	require-module wren
+
+	set-option window static_words %opt{wren_static_words}
+
+	hook window ModeChange pop:insert:.* -group wren-trim-indent %{ try %{ execute-keys -draft xs^\h+$<ret>d } }
+	hook window InsertChar \n -group wren-indent wren-indent-on-new-line
+    hook window InsertChar \{ -group wren-indent wren-indent-on-opening-curly-brace
+    hook window InsertChar \} -group wren-indent wren-indent-on-closing-curly-brace
+    hook window InsertChar \n -group wren-comment-insert wren-insert-comment-on-new-line
+    hook window InsertChar \n -group wren-closing-delimiter-insert wren-insert-closing-delimiter-on-new-line
+}
+
+define-command -hidden wren-indent-on-new-line %~
+	evaluate-commands -draft -itersel %=
+        # preserve previous line indent
+        try %{ execute-keys -draft <semicolon>K<a-&> }
+        # cleanup trailing white spaces on the previous line
+        try %{ execute-keys -draft kx s \h+$ <ret>d }
+        try %<
+            try %{ # line comment
+                execute-keys -draft kx s ^\h*// <ret>
+            } catch %{ # block comment
+                execute-keys -draft <a-?> /\* <ret> <a-K>\*/<ret>
+            }
+        > catch %<
+            # indent after lines with an unclosed { or (
+            try %< execute-keys -draft [c[({],[)}] <ret> <a-k> \A[({][^\n]*\n[^\n]*\n?\z <ret> j<a-gt> >
+            # deindent closing brace(s) when after cursor
+            try %[ execute-keys -draft x <a-k> ^\h*[})] <ret> gh / [})] <ret> m <a-S> 1<a-&> ]
+        >
+	=
+~
+
+define-command -hidden wren-indent-on-opening-curly-brace %[
+    # align indent with opening paren when { is entered on a new line after the closing paren
+    try %[ execute-keys -draft -itersel h<a-F>)M <a-k> \A\(.*\)\h*\n\h*\{\z <ret> s \A|.\z <ret> 1<a-&> ]
+]
+
+define-command -hidden wren-indent-on-closing-curly-brace %[
+    # align to opening curly brace when alone on a line
+    try %[ execute-keys -itersel -draft <a-h><a-k>^\h+\}$<ret>hms\A|.\z<ret>1<a-&> ]
+]
+
+define-command -hidden wren-insert-comment-on-new-line %[
+    evaluate-commands -no-hooks -draft -itersel %[
+        # copy // comments prefix and following white spaces
+        try %{ execute-keys -draft <semicolon><c-s>kx s ^\h*\K/{2,}\h* <ret> y<c-o>P<esc> }
+    ]
+]
+
+define-command -hidden wren-insert-closing-delimiter-on-new-line %[
+    evaluate-commands -no-hooks -draft -itersel %[
+        # Wisely add '}'.
+        evaluate-commands -save-regs x %[
+            # Save previous line indent in register x.
+            try %[ execute-keys -draft kxs^\h+<ret>"xy ] catch %[ reg x '' ]
+            try %[
+                # Validate previous line and that it is not closed yet.
+                execute-keys -draft kx <a-k>^<c-r>x.*\{\h*\(?\h*$<ret> j}iJx <a-K>^<c-r>x\)?\h*\}<ret>
+                # Insert closing '}'.
+                execute-keys -draft o<c-r>x}<esc>
+                # Delete trailing '}' on the line below the '{'.
+                execute-keys -draft xs\}$<ret>d
+            ]
+        ]
+
+        # Wisely add ')'.
+        evaluate-commands -save-regs x %[
+            # Save previous line indent in register x.
+            try %[ execute-keys -draft kxs^\h+<ret>"xy ] catch %[ reg x '' ]
+            try %[
+                # Validate previous line and that it is not closed yet.
+                execute-keys -draft kx <a-k>^<c-r>x.*\(\h*$<ret> J}iJx <a-K>^<c-r>x\)<ret>
+                # Insert closing ')'.
+                execute-keys -draft o<c-r>x)<esc>
+                # Delete trailing ')' on the line below the '('.
+                execute-keys -draft xs\)\h*\}?\h*$<ret>d
+            ]
+        ]
+    ]
+]
