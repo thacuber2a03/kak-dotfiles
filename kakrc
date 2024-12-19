@@ -126,6 +126,8 @@ set-option -add global ui_options terminal_padding_char=∙ terminal_padding_fil
 # set-option -add global ui_options terminal_padding_char=
 
 alias global x write-all-quit
+define-command -docstring "source the current buffer (%val{buffile})" source-this %{ source "%val{buffile}" }
+alias global . source-this
 
 map -docstring "insert system clipboard"       global user P '!xsel --output --clipboard<ret>'
 map -docstring "append system clipboard"       global user p '<a-!>xsel --output --clipboard<ret>'
