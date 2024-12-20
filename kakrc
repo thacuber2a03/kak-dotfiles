@@ -129,9 +129,9 @@ alias global x write-all-quit
 define-command -docstring "source the current buffer" source-this %{ source "%val{buffile}" }
 alias global . source-this
 
-map -docstring "insert system clipboard"       global user P '!xsel --output --clipboard<ret>s\r<ret>d<c-o>'
-map -docstring "append system clipboard"       global user p '<a-!>xsel --output --clipboard<ret>s\r<ret>d<c-o>'
-map -docstring "replace with system clipboard" global user R '|xsel --output --clipboard<ret>s\r<ret>d<c-o>'
+map -docstring "insert system clipboard"       global user P '!xsel --output --clipboard<ret>'
+map -docstring "append system clipboard"       global user p '<a-!>xsel --output --clipboard<ret>'
+map -docstring "replace with system clipboard" global user R '|xsel --output --clipboard<ret>'
 map -docstring "yank to system clipboard"      global user y '<a-|> xsel --input --clipboard <ret>'
 map -docstring "search literally"              global user / ':exec /<ret>\Q\E<left><left>'
 
