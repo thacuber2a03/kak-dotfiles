@@ -129,10 +129,10 @@ alias global x write-all-quit
 define-command -docstring "source the current buffer" source-this %{ source "%val{buffile}" }
 alias global . source-this
 
-map -docstring "insert system clipboard"       global user P '!xsel --output --clipboard<ret>'
-map -docstring "append system clipboard"       global user p '<a-!>xsel --output --clipboard<ret>'
+map -docstring "insert system clipboard"       global user P '!xsel --output --clipboard<ret>s\r<ret>d<c-o>'
+map -docstring "append system clipboard"       global user p '<a-!>xsel --output --clipboard<ret>s\r<ret>d<c-o>'
+map -docstring "replace with system clipboard" global user R '|xsel --output --clipboard<ret>s\r<ret>d<c-o>'
 map -docstring "yank to system clipboard"      global user y '<a-|> xsel --input --clipboard <ret>'
-map -docstring "replace with system clipboard" global user R '|xsel --output --clipboard<ret>'
 map -docstring "search literally"              global user / ':exec /<ret>\Q\E<left><left>'
 
 # handy function
@@ -173,6 +173,14 @@ map global object f '<a-;>lsp-object Function Method<ret>'               -docstr
 map global object t '<a-;>lsp-object Class Interface Struct<ret>'        -docstring 'LSP class interface or struct'
 map global object d '<a-;>lsp-diagnostic-object --include-warnings<ret>' -docstring 'LSP errors and warnings'
 map global object D '<a-;>lsp-diagnostic-object<ret>'                    -docstring 'LSP errors'
+
+hook -group lsp-filetype-c-family global BufSetOption filetype=(?:c|cpp|objc) %{
+    set-option buffer lsp_servers %{
+        [clangd]
+        args = ["--log=error", "--fallback-style=Microsoft"]
+        root_globs = ["compile_commands.json", ".clangd", ".git", ".hg"]
+    }
+}
 
 hook -group lsp-filetype-lua global BufSetOption filetype=lua %{
 	set-option buffer lsp_servers %{
