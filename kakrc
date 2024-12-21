@@ -101,22 +101,14 @@ plug 'kkga/ui.kak' \
 			# ui-lint-toggle # not sure about this one
 		}
 
-		hook global WinDisplay '\Q*debug*' %{ try %{ ui-wrap-enable } }
+		hook global WinDisplay '\*.+?\*' %{ try %{ ui-wrap-enable } }
 	}
 
 plug 'thacuber2a03/forth.kak'
 
-# -----------
-# Tree-sitter
-# -----------
-
-evaluate-commands %sh{ kak-tree-sitter -dks --init $kak_session }
-
 # ---------------------
 # General configuration
 # ---------------------
-
-try %{ colorscheme catppuccin_macchiato }
 
 set-option global indentwidth 4
 set-option global scrolloff 1,3
@@ -146,6 +138,13 @@ define-command -docstring "open a tutorial" -override trampoline %{
 		curl -s https://raw.githubusercontent.com/mawww/kakoune/master/contrib/TRAMPOLINE -o "$tramp_file"
 	}
 }
+
+# -----------
+# Tree-sitter
+# -----------
+
+evaluate-commands %sh{ kak-tree-sitter -dks --init $kak_session }
+try %{ colorscheme catppuccin_macchiato }
 
 # ----------------
 # Language servers
