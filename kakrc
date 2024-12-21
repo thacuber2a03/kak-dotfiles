@@ -101,7 +101,7 @@ plug 'kkga/ui.kak' \
 			# ui-lint-toggle # not sure about this one
 		}
 
-		hook global WinDisplay '\*.+?\*' %{ try %{ ui-wrap-enable } }
+		hook global WinDisplay '\*.+?\*' %{ try %{ ui-wrap-enable; ui-line-numbers-disable } }
 	}
 
 plug 'thacuber2a03/forth.kak'
