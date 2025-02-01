@@ -2,12 +2,7 @@ hook global BufCreate .*\.ua %{
 	set-option buffer filetype uiua
 }
 
-hook global BufSetOption filetype=uiua %{
-	set-option buffer formatcmd 'uiua fmt --io'
-	hook -once -always buffer BufSetOption .* %{
-		unset-option buffer formatcmd
-	}
-}
+config-set-formatter uiua 'uiua fmt --io'
 
 hook -group lsp-filetype-uiua global BufSetOption filetype=uiua %{
 	set-option buffer lsp_servers %{

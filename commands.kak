@@ -52,10 +52,12 @@ define-command -docstring "
 
 define-command -docstring "
 	open-config <file>: open one of the files in the config dir
-" open-config -params 1 %{ edit -existing %arg{1} }
+" open-config -params 1 %{
+	edit -existing %arg{1}
+}
 
 complete-command -menu open-config shell-script-candidates %{
-	find -L "$kak_config/kakrc" "$kak_runtime/kakrc" -type f -name 'kakrc'
+	find -L "$kak_config/kakrc" "$kak_config" -type f -name '*.kak'
 	find -L "$kak_config/autoload" "$kak_runtime/autoload" -type f -name '*.kak'
 }
 
@@ -69,7 +71,7 @@ define-command -docstring "
 
 complete-command grep-config shell-script-candidates %{
 	{
-		find -L "$kak_config/kakrc" "$kak_runtime/kakrc" -type f -name 'kakrc'
+		find -L "$kak_config/kakrc" "$kak_config" -type f -name '*.kak'
 		find -L "$kak_config/autoload" "$kak_runtime/autoload" -type f -name '*.kak'
 	} |
 	xargs grep -o -h -w '[[:alpha:]][[:alnum:]_-]\+' -- |
