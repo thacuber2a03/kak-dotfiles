@@ -8,6 +8,7 @@ hook global WinCreate .* %{
 	ui-line-numbers-toggle
 	ui-cursorline-toggle
 	ui-trailing-spaces-toggle
+	ui-matching-toggle
 	ui-search-toggle
 	ui-git-diff-toggle
 }

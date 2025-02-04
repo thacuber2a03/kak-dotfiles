@@ -57,7 +57,7 @@ define-command -docstring "
 }
 
 complete-command -menu open-config shell-script-candidates %{
-	find -L "$kak_config/kakrc" "$kak_config" -type f -name '*.kak'
+	find -L "$kak_config" -name 'bundle' -prune -o -type f \( -name '*.kak' -o -name 'kakrc' \) -print
 	find -L "$kak_config/autoload" "$kak_runtime/autoload" -type f -name '*.kak'
 }
 
@@ -66,7 +66,7 @@ alias global config open-config
 define-command -docstring "
 	grep-config <pattern>: find a grep pattern in all files in the config dir
 " grep-config -params 1 %{
-	grep %arg{1} "%val{config}/kakrc" "%val{runtime}/kakrc" "%val{config}/autoload" "%val{runtime}/autoload"
+	grep %arg{1} "%val{config}" "%val{runtime}/kakrc" "%val{config}/autoload" "%val{runtime}/autoload"
 }
 
 complete-command grep-config shell-script-candidates %{
