@@ -53,7 +53,7 @@ define-command -docstring "
 define-command -docstring "
 	open-config <file>: open one of the files in the config dir
 " open-config -params 1 %{
-	edit -existing %arg{1}
+	edit! -existing %arg{1}
 }
 
 complete-command -menu open-config shell-script-candidates %{
