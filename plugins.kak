@@ -43,9 +43,10 @@ define-command -hidden -params .. config-add-plugin %{
 
 config-add-theme kalolo 'https://github.com/nojhan/kalolo'
 
-config-add-plugin kak-lsp            'https://github.com/kakoune-lsp/kakoune-lsp'
-config-add-plugin ui                 'https://github.com/kkga/ui.kak'
-config-add-plugin Encapsul8          'https://github.com/ElectricR/Encapsul8'
-config-add-plugin kakoune-shellcheck 'https://gitlab.com/Screwtapello/kakoune-shellcheck'
-config-add-plugin highlighters.kak   'https://github.com/thacuber2a03/highlighters.kak'
-config-add-plugin local-kakrc        'https://github.com/thacuber2a03/local-kakrc'
+config-add-plugin kak-lsp             'https://github.com/kakoune-lsp/kakoune-lsp'
+config-add-plugin ui                  'https://github.com/kkga/ui.kak'
+config-add-plugin Encapsul8           'https://github.com/ElectricR/Encapsul8'
+config-add-plugin kakoune-shellcheck  'https://gitlab.com/Screwtapello/kakoune-shellcheck'
+config-add-plugin highlighters.kak    'https://github.com/thacuber2a03/highlighters.kak'
+config-add-plugin local-kakrc         'https://github.com/thacuber2a03/local-kakrc'
+config-add-plugin kakoune-repl-buffer 'https://gitlab.com/Screwtapello/kakoune-repl-buffer'

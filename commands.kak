@@ -58,6 +58,7 @@ define-command -docstring "
 
 complete-command -menu open-config shell-script-candidates %{
 	find -L "$kak_config" -name 'bundle' -prune -o -type f \( -name '*.kak' -o -name 'kakrc' \) -print
+	find -L "$kak_runtime" -type f \( -name '*.kak' -o -name 'kakrc' \)
 	find -L "$kak_config/autoload" "$kak_runtime/autoload" -type f -name '*.kak'
 }
 
