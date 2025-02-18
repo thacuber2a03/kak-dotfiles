@@ -34,5 +34,10 @@ set-option global modelinefmt \
 
 #############################################################################################################################################################################
 
-set-option global windowing_placement vertical
+try %{ set-option global windowing_placement vertical }
+try %{ alias global repl-new tmux-repl-vertical }
 
+#############################################################################################################################################################################
+
+# are colorschemes options?
+colorscheme night-owl
