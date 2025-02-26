@@ -1,8 +1,18 @@
-try %{ rename-session main }
-try %{ rename-client  main }
+# bit tired already of having to see my debug buffer filled with stuff
+declare-option bool config_log_enabled false
 
-define-command -hidden -params .. config-log  %{ echo -debug config: %arg{@} }
-define-command -hidden -params .. config-fail %{ fail config: %arg{@}        }
+define-command -hidden -params .. config-log  %{
+	evaluate-commands %sh{
+		[ "$kak_opt_config_log_enabled" = "true" ] && \
+			printf %s "echo -debug config: $*"
+	}
+}
+define-command -hidden -params .. config-fail %{ fail config: %arg{@} }
+
+try %{
+	rename-session main
+	rename-client  main
+}
 
 define-command -hidden -params 1 config-try-source %{
 	try %{

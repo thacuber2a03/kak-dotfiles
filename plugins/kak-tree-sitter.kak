@@ -1,3 +1,11 @@
-bundle-install-hook kak-tree-sitter %{ cargo install kak-tree-sitter }
+bundle-install-hook kak-tree-sitter %{
+	cargo install --force kak-tree-sitter
+	cargo install --force ktsctl
+}
 
-eval %sh{ kak-tree-sitter -dks --init $kak_session }
+bundle-cleaner kak-tree-sitter %{
+	cargo uninstall kak-tree-sitter
+	cargo uninstall ktsctl
+}
+
+evaluate-commands %sh{ kak-tree-sitter -dks -vvvvv --init $kak_session }

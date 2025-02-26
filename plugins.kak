@@ -33,7 +33,8 @@ define-command -hidden -params .. config-add-theme %{
 }
 
 declare-option -hidden str config_plugin_name
-define-command -hidden -params .. config-add-plugin %{
+
+define-command -hidden -params .. config-add %{
 	config-log "registering plugin '%arg{1}'"
 	set-option global config_plugin_name %arg{1}
 	bundle %arg{1} %arg{2} %{
@@ -41,17 +42,24 @@ define-command -hidden -params .. config-add-plugin %{
 	}
 }
 
-config-add-theme kalolo 'https://github.com/nojhan/kalolo'
+define-command -hidden -params .. config-add-custom %{
+	config-log "registering plugin '%arg{1}' (custom load)"
+	set-option global config_plugin_name %arg{1}
+	bundle-customload %arg{1} %arg{2} %{
+		config-try-source "%opt{config_plugin_config_directory}/%opt{config_plugin_name}.kak"
+	}
+}
 
+config-add kak-lsp             'https://github.com/kakoune-lsp/kakoune-lsp'
+config-add ui                  'https://github.com/kkga/ui.kak'
+config-add Encapsul8           'https://github.com/ElectricR/Encapsul8'
+config-add kakoune-shellcheck  'https://gitlab.com/Screwtapello/kakoune-shellcheck'
+config-add highlighters.kak    'https://github.com/thacuber2a03/highlighters.kak'
+config-add local-kakrc         'https://github.com/thacuber2a03/local-kakrc'
+config-add kakoune-repl-buffer 'https://gitlab.com/Screwtapello/kakoune-repl-buffer'
+
+config-add-theme kalolo 'https://github.com/nojhan/kalolo'
 config-add-theme kakoune-tree-sitter-themes \
 	'https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes'
 
-config-add-plugin kak-lsp             'https://github.com/kakoune-lsp/kakoune-lsp'
-config-add-plugin ui                  'https://github.com/kkga/ui.kak'
-config-add-plugin Encapsul8           'https://github.com/ElectricR/Encapsul8'
-config-add-plugin kakoune-shellcheck  'https://gitlab.com/Screwtapello/kakoune-shellcheck'
-config-add-plugin highlighters.kak    'https://github.com/thacuber2a03/highlighters.kak'
-config-add-plugin local-kakrc         'https://github.com/thacuber2a03/local-kakrc'
-config-add-plugin kakoune-repl-buffer 'https://gitlab.com/Screwtapello/kakoune-repl-buffer'
-
-config-add-plugin kak-tree-sitter 'https://git.sr.ht/~hadronized/kak-tree-sitter'
+config-add-custom kak-tree-sitter 'https://git.sr.ht/~hadronized/kak-tree-sitter'
