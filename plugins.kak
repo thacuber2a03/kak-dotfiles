@@ -50,7 +50,6 @@ define-command -hidden -params .. config-add-custom %{
 	}
 }
 
-config-add kak-lsp             'https://github.com/kakoune-lsp/kakoune-lsp'
 config-add ui                  'https://github.com/kkga/ui.kak'
 config-add Encapsul8           'https://github.com/ElectricR/Encapsul8'
 config-add kakoune-shellcheck  'https://gitlab.com/Screwtapello/kakoune-shellcheck'
@@ -59,7 +58,15 @@ config-add local-kakrc         'https://github.com/thacuber2a03/local-kakrc'
 config-add kakoune-repl-buffer 'https://gitlab.com/Screwtapello/kakoune-repl-buffer'
 
 config-add-theme kalolo 'https://github.com/nojhan/kalolo'
+# I'd disable this one in Android as well, but I like having night-owl
 config-add-theme kakoune-tree-sitter-themes \
-	'https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes'
+		'https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes'
 
-config-add-custom kak-tree-sitter 'https://git.sr.ht/~hadronized/kak-tree-sitter'
+try %{
+	# these plugins are disabled when using kak in Termux.
+	evaluate-commands %sh{ [ "$kak_opt_config_os" = Android ] && printf %s "fail" }
+	config-add        kak-lsp         'https://github.com/kakoune-lsp/kakoune-lsp'
+	config-add-custom kak-tree-sitter 'https://git.sr.ht/~hadronized/kak-tree-sitter'
+} catch %{
+	config-log "Android detected, disabling Rust based plugins"
+}
