@@ -78,3 +78,15 @@ complete-command grep-config shell-script-candidates %{
 	xargs grep -o -h -w '[[:alpha:]][[:alnum:]_-]\+' -- |
 	sort -u
 }
+
+#############################################################################################################################################################################
+
+define-command -docstring "
+	afk: show an 'afk' modal text that disappears as soon as a key is pressed
+" afk -params 0 %{
+	info -style modal -title afk "not here, brb"
+	on-key %{
+		info -style modal
+		echo "I'm back :D"
+	}
+}
