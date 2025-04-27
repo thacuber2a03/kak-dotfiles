@@ -10,8 +10,8 @@ define-command -hidden -params .. config-log  %{
 define-command -hidden -params .. config-fail %{ fail config: %arg{@} }
 
 try %{
-	rename-session main
-	rename-client  main
+	try %{ rename-session main } catch { rename-session other }
+	try %{ rename-client  main } catch { rename-client  other }
 }
 
 define-command -hidden -params 1 config-try-source %{
