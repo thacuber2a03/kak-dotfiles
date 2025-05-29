@@ -1,3 +1,5 @@
+# currently unused. - tc
+
 # This script enables full background coloring of buffer regions.
 # Author: Francois Tonneau
 

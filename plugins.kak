@@ -57,14 +57,13 @@ config-add highlighters.kak    'https://github.com/thacuber2a03/highlighters.kak
 config-add local-kakrc         'https://github.com/thacuber2a03/local-kakrc'
 config-add kakoune-repl-buffer 'https://gitlab.com/Screwtapello/kakoune-repl-buffer'
 
-config-add-theme kalolo 'https://github.com/nojhan/kalolo'
-# I'd disable this one in Android as well, but I like having night-owl
-config-add-theme kakoune-tree-sitter-themes \
-		'https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes'
+config-add-theme kalolo                     'https://github.com/nojhan/kalolo'
+config-add-theme kakoune-tree-sitter-themes 'https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes'
+# I'd disable ^ this one in Termux as well, but I like having night-owl
 
 try %{
 	# these plugins are disabled when using kak in Termux.
-	evaluate-commands %sh{ [ "$kak_opt_config_os" = Android ] && printf %s "fail" }
+	evaluate-commands %sh{ [ "$kak_opt_config_os" = Android ] && printf %s fail }
 	config-add        kak-lsp         'https://github.com/kakoune-lsp/kakoune-lsp'
 	config-add-custom kak-tree-sitter 'https://git.sr.ht/~hadronized/kak-tree-sitter'
 } catch %{

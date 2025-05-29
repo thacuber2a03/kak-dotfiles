@@ -22,7 +22,7 @@ define-command -hidden -params 1 config-try-source %{
 	}
 }
 
-declare-option str config_os %sh{uname -o}
+declare-option -hidden str config_os %sh{uname -o}
 
 config-try-source "plugins.kak"
 

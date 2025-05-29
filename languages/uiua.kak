@@ -10,6 +10,6 @@ hook -group lsp-filetype-uiua global BufSetOption filetype=uiua %{
 		[uiua-lsp]
 		command = "uiua"
 		args = ["lsp"]
-		root_globs = [".git", ".hg"]
+		root_globs = [".git", "main.ua"]
 	}
 }
