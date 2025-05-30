@@ -57,6 +57,7 @@ config-add highlighters.kak    'https://github.com/thacuber2a03/highlighters.kak
 config-add local-kakrc         'https://github.com/thacuber2a03/local-kakrc'
 config-add kakoune-repl-buffer 'https://gitlab.com/Screwtapello/kakoune-repl-buffer'
 config-add kak-ansi            'https://github.com/eraserhd/kak-ansi'
+config-add kakoune-filetree    'https://github.com/occivink/kakoune-filetree'
 
 config-add-theme kalolo                     'https://github.com/nojhan/kalolo'
 config-add-theme kakoune-tree-sitter-themes 'https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes'

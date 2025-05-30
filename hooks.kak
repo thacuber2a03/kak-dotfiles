@@ -15,3 +15,5 @@ hook global BufSetOption lintcmd=.+ %{
 hook -once -always global ModuleLoaded tmux %{
 	alias global repl-new tmux-repl-vertical
 }
+
+hook global BufCreate '\*stdin(?:-\d+)?\*' %{ set-option buffer readonly true }
