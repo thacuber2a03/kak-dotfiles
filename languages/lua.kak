@@ -4,7 +4,7 @@ hook -group	lsp-filetype-lua global BufSetOption filetype=lua %{
 		root_globs = [".git", ".hg", "main.lua"]
 		settings_section = "Lua"
 		[lua-language-server.settings.Lua]
-		completion = { callSnippet = "Both" }
+		completion = { callSnippet = "Replace" }
 
 		# See https://github.com/sumneko/vscode-lua/blob/master/setting/schema.json
 
