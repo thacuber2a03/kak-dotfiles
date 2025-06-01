@@ -17,3 +17,5 @@ hook -once -always global ModuleLoaded tmux %{
 }
 
 hook global BufCreate '\*stdin(?:-\d+)?\*' %{ set-option buffer readonly true }
+
+hook global BufCreate '\.clangd' %{ set-option buffer filetype yaml }
