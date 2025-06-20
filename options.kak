@@ -39,4 +39,4 @@ set-option global windowing_placement vertical
 #############################################################################################################################################################################
 
 # are colorschemes options?
-colorscheme catppuchin_mocha
+colorscheme catppuccin_mocha
