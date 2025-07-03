@@ -6,12 +6,12 @@ set-option global scrolloff   2,0
 
 set-option global ui_options
 
-set-option -add global ui_options  \
-    terminal_assistant=cat         \
-    terminal_status_on_top=yes     \
-    terminal_synchronized=yes      \
-    terminal_padding_char=.        \
-    terminal_padding_fill=yes
+set-option -add global ui_options \
+    terminal_assistant=cat        \
+    terminal_status_on_top=yes    \
+    terminal_padding_fill=yes     \
+    terminal_padding_char=.       \
+#   terminal_synchronized=yes
 
 set-option -add global ui_options terminal_set_title=yes
 hook global WinDisplay .* %{
@@ -19,6 +19,8 @@ hook global WinDisplay .* %{
 }
 
 #############################################################################################################################################################################
+
+# this is option related, but has a hook in it as well...
 
 declare-option str filetype_info
 
