@@ -15,4 +15,4 @@ map global object D '<a-semicolon>lsp-diagnostic-object<ret>' -docstring 'LSP er
 
 map global user l ":enter-user-mode lsp<ret>" -docstring "LSP mode"
 
-hook global BufWritePre .* lsp-formatting-sync
+hook -group lsp-formatting global BufWritePre .* lsp-formatting-sync
