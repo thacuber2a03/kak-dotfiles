@@ -1,5 +1,5 @@
 # bit tired already of having to see my debug buffer filled with stuff
-declare-option bool config_log_enabled true
+declare-option bool config_log_enabled false
 
 define-command -hidden -params .. config-log  %{
 	evaluate-commands %sh{

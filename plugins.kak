@@ -68,6 +68,7 @@ try %{
 	evaluate-commands %sh{ [ "$kak_opt_config_os" = Android ] && printf %s fail }
 	config-add        kak-lsp         'https://github.com/kakoune-lsp/kakoune-lsp'
 	config-add-custom kak-tree-sitter 'https://git.sr.ht/~hadronized/kak-tree-sitter'
+	config-add-custom kakoune-discord 'https://github.com/ABuffSeagull/kakoune-discord'
 } catch %{
 	config-log "Android detected, disabling Rust based plugins"
 }
