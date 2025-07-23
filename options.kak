@@ -7,11 +7,11 @@ set-option global scrolloff   2,0
 set-option global ui_options
 
 set-option -add global ui_options \
-    terminal_assistant=cat        \
-    terminal_status_on_top=yes    \
-    terminal_padding_fill=yes     \
-    terminal_padding_char=.       \
-#   terminal_synchronized=yes
+	terminal_assistant=cat        \
+	terminal_status_on_top=yes    \
+	terminal_padding_fill=yes     \
+	terminal_padding_char=.       \
+	terminal_synchronized=yes
 
 set-option -add global ui_options terminal_set_title=yes
 hook global WinDisplay .* %{
@@ -37,12 +37,9 @@ set-option global modelinefmt \
 #############################################################################################################################################################################
 
 # I'm reconsidering, like, going back to kitty or something
-evaluate-commands %sh{
-	if [ "$kak_opt_config_display_server" != "Wayland" ]; then
-		printf %s 'set-option global windowing_placement vertical'
-	else
-		printf %s 'set-option global windowing_placement window'
-	fi
+set-option global windowing_placement %sh{
+	[ "$kak_opt_config_display_server" != "Wayland" ] && printf %s 'vertical' \
+		|| printf %s 'window'
 }
 
 #############################################################################################################################################################################
