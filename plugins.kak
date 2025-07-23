@@ -59,10 +59,7 @@ config-add kakoune-repl-buffer 'https://gitlab.com/Screwtapello/kakoune-repl-buf
 config-add kak-ansi            'https://github.com/eraserhd/kak-ansi'
 config-add kakoune-filetree    'https://github.com/occivink/kakoune-filetree'
 
-config-add-theme kalolo                     'https://github.com/nojhan/kalolo'
-config-add-theme kakoune-tree-sitter-themes 'https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes'
 config-add-theme dracula                    'https://github.com/dracula/kakoune'
-# I'd disable ^ this one in Termux as well, but I like having night-owl
 
 try %{
 	# these plugins are disabled when using kak in Termux.
@@ -70,6 +67,9 @@ try %{
 	config-add        kak-lsp         'https://github.com/kakoune-lsp/kakoune-lsp'
 	config-add        kakoune-discord 'https://github.com/ABuffSeagull/kakoune-discord'
 	config-add-custom kak-tree-sitter 'https://git.sr.ht/~hadronized/kak-tree-sitter'
+
+	config-add-theme kalolo                     'https://github.com/nojhan/kalolo'
+	config-add-theme kakoune-tree-sitter-themes 'https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes'
 } catch %{
 	config-log "Android detected, disabling Rust based plugins"
 }
