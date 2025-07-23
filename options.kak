@@ -24,12 +24,8 @@ hook global WinDisplay .* %{
 
 declare-option str filetype_info
 
-hook global BufSetOption filetype= %{
-	set-option buffer filetype_info ""
-}
-hook global BufSetOption filetype=(.+) %{
-	set-option buffer filetype_info "(ft %val{hook_param_capture_1}) "
-}
+hook global BufSetOption filetype=     %{ set-option buffer filetype_info ""                                 }
+hook global BufSetOption filetype=(.+) %{ set-option buffer filetype_info "(ft %val{hook_param_capture_1}) " }
 
 set-option global modelinefmt \
 '%val{bufname} %opt{filetype_info}%val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]'
@@ -45,4 +41,4 @@ set-option global windowing_placement %sh{
 #############################################################################################################################################################################
 
 # are colorschemes options?
-colorscheme dracula
+evaluate-commands %sh{ [ -n "$kak_opt_config_display_server" ] && printf %s "colorscheme dracula" }

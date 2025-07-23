@@ -23,8 +23,15 @@ define-command -hidden -params 1 config-try-source %{
 }
 
 # system related stuff
-declare-option -hidden str config_os             %sh{uname -o}
-declare-option -hidden str config_display_server %sh{ [ -n "$WAYLAND_DISPLAY" ] && printf %s "Wayland" || printf %s "X11" }
+declare-option str config_os             %sh{uname -o}
+
+declare-option str config_display_server %sh{
+	if [ -n "$WAYLAND_DISPLAY" ]; then
+		printf %s "Wayland"
+	elif [ -n "$DISPLAY" ]; then
+		printf %s "X11"
+	fi
+}
 
 config-log "operating system: %opt{config_os}"
 config-log "display server: %opt{config_display_server}"
