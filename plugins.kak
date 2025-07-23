@@ -65,7 +65,7 @@ try %{
 	# these plugins are disabled when using kak in Termux.
 	evaluate-commands %sh{ [ "$kak_opt_config_os" = Android ] && printf %s fail }
 	config-add        kak-lsp         'https://github.com/kakoune-lsp/kakoune-lsp'
-	config-add        kakoune-discord 'https://github.com/ABuffSeagull/kakoune-discord'
+	config-add        kakoune-discord 'https://github.com/thacuber2a03/kakoune-discord'
 	config-add-custom kak-tree-sitter 'https://git.sr.ht/~hadronized/kak-tree-sitter'
 
 	config-add-theme kalolo                     'https://github.com/nojhan/kalolo'

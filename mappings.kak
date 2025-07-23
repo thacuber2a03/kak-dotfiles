@@ -19,7 +19,7 @@ try %{
     map global user y '<a-|>wl-copy<ret>'     -docstring "yank to system clipboard"
     map global user P '!wl-paste -n<ret>'     -docstring "insert from system clipboard"
     map global user p '<a-!>wl-paste -n<ret>' -docstring "append from system clipboard"
-    map global user R '|wl-paste -n<ret>'     -docstring "replace with system clipboard"
+    map global user R '|wl-paste<ret>'     -docstring "replace with system clipboard"
 } catch %{
     config-log "unknown or unsupported environment; system copy/paste commands disabled"
 }
