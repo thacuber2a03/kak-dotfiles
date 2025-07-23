@@ -36,9 +36,16 @@ set-option global modelinefmt \
 
 #############################################################################################################################################################################
 
-set-option global windowing_placement vertical
+# I'm reconsidering, like, going back to kitty or something
+evaluate-commands %sh{
+	if [ "$kak_opt_config_display_server" != "Wayland" ]; then
+		printf %s 'set-option global windowing_placement vertical'
+	else
+		printf %s 'set-option global windowing_placement window'
+	fi
+}
 
 #############################################################################################################################################################################
 
 # are colorschemes options?
-colorscheme catppuccin_mocha
+colorscheme dracula
