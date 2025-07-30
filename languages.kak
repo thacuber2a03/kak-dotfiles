@@ -26,7 +26,7 @@ define-command -hidden -params 2 config-set-linter %{
 
 config-log "sourcing language files..."
 evaluate-commands %sh{
-	for f in "$kak_config/languages/*.kak"; do
+	for f in "$kak_config"/languages/*.kak; do
 		echo "config-try-source ${f##*"$kak_config"/}"
 	done
 }

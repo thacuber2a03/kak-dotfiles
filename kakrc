@@ -1,16 +1,21 @@
 # bit tired already of having to see my debug buffer filled with stuff
-declare-option bool config_log_enabled true
+declare-option bool config_log_enabled false
 
 define-command -hidden -params .. config-log  %{
 	evaluate-commands %sh{
 		[ "$kak_opt_config_log_enabled" = "true" ] && \
-			printf %s "echo -debug config: $*"
+			printf %s "echo -debug ""config: $*"""
 	}
 }
-define-command -hidden -params .. config-fail %{ fail config: %arg{@} }
 
-try %{ rename-session main } catch %{ try %{ rename-session other } }
-try %{ rename-client  main } catch %{ try %{ rename-client  other } }
+define-command -hidden -params .. config-fail %{ fail config: "%arg{@}" }
+
+try %{
+	evaluate-commands %sh{ case "$kak_session" in ''|*[!0-9]*) printf %s fail;; esac }
+	try %{ rename-session main } catch %{ rename-session other } catch %{ config-log "couldn't rename session" }
+} catch %{
+	config-log 'session name already set, will not default'
+}
 
 define-command -hidden -params 1 config-try-source %{
 	try %{
@@ -37,11 +42,11 @@ declare-option str config_display_server %sh{
 config-log "operating system: %opt{config_os}"
 config-log "display server: %opt{config_display_server}"
 
-# FIXME: *something* is going on here and I have no idea what it is
-# source "plugins.kak"
-# try %{ config-try-source "plugins.kak" } catch %{ echo -debug %val{error} }
-
-config-try-source "plugins.kak"
+# TODO(thacuber2a03): funny.
+# a bug with the reimplementation of std::function might be causing this.
+# uncomment this line and comment the next one when it's fixed
+# config-try-source "plugins.kak"
+source "%val{config}/plugins.kak"
 
 config-try-source "mappings.kak"
 config-try-source "options.kak"
@@ -51,3 +56,11 @@ config-try-source "hooks.kak"
 config-try-source "languages.kak"
 
 # for scripts that don't easily go anywhere else
+
+config-log "sourcing standalone scripts..."
+evaluate-commands %sh{
+	for f in "$kak_config"/scripts/*.kak; do
+		echo "config-try-source ${f##*"$kak_config"/}"
+	done
+}
+config-log "finished sourcing standalone scripts"
