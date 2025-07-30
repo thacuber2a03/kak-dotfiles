@@ -1,5 +1,5 @@
 # bit tired already of having to see my debug buffer filled with stuff
-declare-option bool config_log_enabled false
+declare-option bool config_log_enabled true
 
 define-command -hidden -params .. config-log  %{
 	evaluate-commands %sh{
@@ -23,7 +23,8 @@ define-command -hidden -params 1 config-try-source %{
 }
 
 # system related stuff
-declare-option str config_os             %sh{uname -o}
+
+declare-option str config_os %sh{uname -o}
 
 declare-option str config_display_server %sh{
 	if [ -n "$WAYLAND_DISPLAY" ]; then
@@ -36,7 +37,11 @@ declare-option str config_display_server %sh{
 config-log "operating system: %opt{config_os}"
 config-log "display server: %opt{config_display_server}"
 
-source "%val{config}/plugins.kak"
+# FIXME: *something* is going on here and I have no idea what it is
+# source "plugins.kak"
+# try %{ config-try-source "plugins.kak" } catch %{ echo -debug %val{error} }
+
+config-try-source "plugins.kak"
 
 config-try-source "mappings.kak"
 config-try-source "options.kak"
@@ -44,3 +49,5 @@ config-try-source "commands.kak"
 config-try-source "hooks.kak"
 
 config-try-source "languages.kak"
+
+# for scripts that don't easily go anywhere else

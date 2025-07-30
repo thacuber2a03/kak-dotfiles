@@ -41,4 +41,6 @@ set-option global windowing_placement %sh{
 #############################################################################################################################################################################
 
 # are colorschemes options?
-evaluate-commands %sh{ [ -n "$kak_opt_config_display_server" ] && printf %s "colorscheme dracula" }
+evaluate-commands %sh{
+	[ -n "$kak_opt_config_display_server" ] && printf %s "colorscheme dracula"
+}

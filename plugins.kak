@@ -2,27 +2,17 @@ declare-option str config_plugin_config_directory "plugins"
 
 evaluate-commands %sh{
     bundledir="$kak_config/bundle"
-
-    mkdir -p "$bundledir" || {
-        echo "config-fail 'couldn't create bundle directory; stopping'"
-        exit 1
-    }
-
     if [ ! -d "$bundledir/kak-bundle" ]; then
         if ! git clone "https://codeberg.org/jdugan6240/kak-bundle" "$bundledir/kak-bundle"; then
-            echo "config-fail 'couldn't install bundle; stopping'"
-            exit 1
+            echo "config-fail 'couldn''t install bundle; stopping'"
         fi
-    fi
-
-    if [ -f "$bundledir/kak-bundle/rc/kak-bundle.kak" ]; then
+    elif [ -f "$bundledir/kak-bundle/rc/kak-bundle.kak" ]; then
         echo "
             source '$bundledir/kak-bundle/rc/kak-bundle.kak'
             bundle-noload kak-bundle 'https://codeberg.org/jdugan6240/kak-bundle'
         "
     else
         echo "config-fail 'kak-bundle.kak not found; stopping'"
-        exit 1
     fi
 }
 
@@ -58,6 +48,7 @@ config-add local-kakrc         'https://github.com/thacuber2a03/local-kakrc'
 config-add kakoune-repl-buffer 'https://gitlab.com/Screwtapello/kakoune-repl-buffer'
 config-add kak-ansi            'https://github.com/eraserhd/kak-ansi'
 config-add kakoune-filetree    'https://github.com/occivink/kakoune-filetree'
+config-add kakoune-palette     'https://github.com/Delapouite/kakoune-palette'
 
 config-add-theme dracula                    'https://github.com/dracula/kakoune'
 

@@ -7,14 +7,12 @@ provide-module brainfuck %{
 	add-highlighter shared/brainfuck/code/ regex '[\.,]'    0:meta
 }
 
-hook global BufCreate .*\.bf %{
-	set-option buffer filetype brainfuck
-}
+hook global BufCreate .+\.bf %{ set-option buffer filetype brainfuck }
 
 hook -group brainfuck-highlight global WinSetOption filetype=brainfuck %{
 	require-module brainfuck
 	add-highlighter window/brainfuck ref brainfuck
-	hook window WinSetOption filetype=.* %{
+	hook -once -always window WinSetOption filetype=.* %{
 		remove-highlighter window/brainfuck
 	}
 }
