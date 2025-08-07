@@ -1,4 +1,3 @@
-# bit tired already of having to see my debug buffer filled with stuff
 declare-option bool config_log_enabled false
 
 define-command -hidden -params .. config-log  %{
@@ -54,13 +53,3 @@ config-try-source "commands.kak"
 config-try-source "hooks.kak"
 
 config-try-source "languages.kak"
-
-# for scripts that don't easily go anywhere else
-
-config-log "sourcing standalone scripts..."
-evaluate-commands %sh{
-	for f in "$kak_config"/scripts/*.kak; do
-		echo "config-try-source ${f##*"$kak_config"/}"
-	done
-}
-config-log "finished sourcing standalone scripts"

@@ -2,15 +2,18 @@ declare-option str config_plugin_config_directory "plugins"
 
 evaluate-commands %sh{
     bundledir="$kak_config/bundle"
+
     if [ ! -d "$bundledir/kak-bundle" ]; then
         if ! git clone "https://codeberg.org/jdugan6240/kak-bundle" "$bundledir/kak-bundle"; then
             echo "config-fail 'couldn''t install bundle; stopping'"
         fi
-    elif [ -f "$bundledir/kak-bundle/rc/kak-bundle.kak" ]; then
+    fi
+
+    if [ -f "$bundledir/kak-bundle/rc/kak-bundle.kak" ]; then
         echo "
             source '$bundledir/kak-bundle/rc/kak-bundle.kak'
             bundle-noload kak-bundle 'https://codeberg.org/jdugan6240/kak-bundle'
-        "
+		"
     else
         echo "config-fail 'kak-bundle.kak not found; stopping'"
     fi
@@ -50,17 +53,19 @@ config-add kak-ansi            'https://github.com/eraserhd/kak-ansi'
 config-add kakoune-filetree    'https://github.com/occivink/kakoune-filetree'
 config-add kakoune-palette     'https://github.com/Delapouite/kakoune-palette'
 
-config-add-theme dracula       'https://github.com/dracula/kakoune'
+config-add-theme dracula       'https://github.com/thacuber2a03/dracula-kakoune'
 
 try %{
 	# these plugins are disabled when using kak in Termux.
 	evaluate-commands %sh{ [ "$kak_opt_config_os" = Android ] && printf %s fail }
-	config-add        kak-lsp         'https://github.com/kakoune-lsp/kakoune-lsp'
-	config-add        kakoune-discord 'https://github.com/thacuber2a03/kakoune-discord'
+
+	config-add kak-lsp  'https://github.com/kakoune-lsp/kakoune-lsp'
+	config-add kak-niri 'https://codeberg.org/ficd/kak-niri'
+
 	config-add-custom kak-tree-sitter 'https://git.sr.ht/~hadronized/kak-tree-sitter'
 
 	config-add-theme kalolo                     'https://github.com/nojhan/kalolo'
 	config-add-theme kakoune-tree-sitter-themes 'https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes'
 } catch %{
-	config-log "Android detected, disabling Rust based plugins"
+	config-log "Android detected, disabling certain plugins"
 }

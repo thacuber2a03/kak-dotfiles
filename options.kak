@@ -32,9 +32,9 @@ set-option global modelinefmt \
 
 #############################################################################################################################################################################
 
-# I'm reconsidering, like, going back to kitty or something
 set-option global windowing_placement %sh{
-	[ "$kak_opt_config_display_server" != "Wayland" ] && printf %s 'vertical' \
+	[ -s "$NIRI_SOCKET" ] && printf %s 'window' \
+		|| [ "$kak_opt_config_display_server" != "Wayland" ] && printf %s 'vertical' \
 		|| printf %s 'window'
 }
 
@@ -44,3 +44,5 @@ set-option global windowing_placement %sh{
 evaluate-commands %sh{
 	[ -n "$kak_opt_config_display_server" ] && printf %s "colorscheme dracula"
 }
+
+set-option global discord_rpc_image_description "lole"

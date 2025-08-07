@@ -23,7 +23,7 @@ provide-module fe %{
 	add-highlighter shared/fe/code/ regex '(?:(?<![^\h()])|^)=(?:(?![^\h()])|$)' 0:keyword
 }
 
-hook global BufCreate .*\.fe %{
+hook global BufCreate .*\.(fe|c7) %{
 	set-option buffer filetype fe
 }
 
