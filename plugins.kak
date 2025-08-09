@@ -19,6 +19,8 @@ evaluate-commands %sh{
     fi
 }
 
+# hook global User bundle-after-install %{ quit! }
+
 define-command -hidden -params .. config-add-theme %{
 	config-log "adding colorscheme '%arg{1}'"
 	bundle-theme %arg{1} %arg{2}
@@ -59,8 +61,9 @@ try %{
 	# these plugins are disabled when using kak in Termux.
 	evaluate-commands %sh{ [ "$kak_opt_config_os" = Android ] && printf %s fail }
 
-	config-add kak-lsp  'https://github.com/kakoune-lsp/kakoune-lsp'
-	config-add kak-niri 'https://codeberg.org/ficd/kak-niri'
+	config-add kak-lsp         'https://github.com/kakoune-lsp/kakoune-lsp'
+	config-add kakoune-discord 'https://github.com/thacuber2a03/kakoune-discord'
+	config-add kak-niri        'https://codeberg.org/ficd/kak-niri'
 
 	config-add-custom kak-tree-sitter 'https://git.sr.ht/~hadronized/kak-tree-sitter'
 

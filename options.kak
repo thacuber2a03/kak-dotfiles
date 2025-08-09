@@ -14,9 +14,7 @@ set-option -add global ui_options \
 	terminal_synchronized=yes
 
 set-option -add global ui_options terminal_set_title=yes
-hook global WinDisplay .* %{
-	set-option -add global ui_options "terminal_title=%val{buffile}"
-}
+hook global WinDisplay .* %{ set-option -add global ui_options "terminal_title=%val{buffile}" }
 
 #############################################################################################################################################################################
 
@@ -32,10 +30,15 @@ set-option global modelinefmt \
 
 #############################################################################################################################################################################
 
-set-option global windowing_placement %sh{
-	[ -s "$NIRI_SOCKET" ] && printf %s 'window' \
-		|| [ "$kak_opt_config_display_server" != "Wayland" ] && printf %s 'vertical' \
-		|| printf %s 'window'
+try %{
+	evaluate-commands %sh{ [ -s "$NIRI_SOCKET" ] && printf %s\\n fail }
+	set-option global windowing_module 'niri'
+	# the niri window module doesn't *technically* support splits other than window
+	set-option global windowing_placement 'window'
+} catch %{
+	set-option global windowing_placement %sh{
+		[ "$kak_opt_config_display_server" = "Wayland" ] && printf %s 'window' || printf %s 'vertical'
+	}
 }
 
 #############################################################################################################################################################################
@@ -44,5 +47,3 @@ set-option global windowing_placement %sh{
 evaluate-commands %sh{
 	[ -n "$kak_opt_config_display_server" ] && printf %s "colorscheme dracula"
 }
-
-set-option global discord_rpc_image_description "lole"
