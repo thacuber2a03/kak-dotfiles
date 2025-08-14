@@ -16,11 +16,12 @@ hook global BufSetOption lintcmd=.+ %{
 # 	alias global repl-new tmux-repl-vertical
 # }
 
-hook global BufCreate '\*stdin(?:-\d+)?\*' %{ set-option buffer readonly true }
-
-hook global BufCreate '(.*/)?\.clangd' %{ set-option buffer filetype yaml }
-
-hook global WinDisplay '\*man.+?\*' %{
+define-command -params 0 -hidden config-enable-reading-mode %{
 	ui-line-numbers-disable
-	hook -once -always window WinDisplay .* ui-line-numbers-enable
+	ui-wrap-enable
 }
+
+hook global BufCreate '(.*/)?\.clangd' 'set-option buffer filetype yaml'
+
+hook global WinDisplay '\*stdin(?:-\d+)?\*' config-enable-reading-mode
+hook global WinDisplay '\*man.+?\*'         config-enable-reading-mode
