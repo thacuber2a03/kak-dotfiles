@@ -21,7 +21,7 @@ try %{
 	map global user p '<a-!>wl-paste<ret>'   -docstring "append from system clipboard"
 	map global user R '|wl-paste<ret>'       -docstring "replace with system clipboard"
 } catch %{
-	config-log "unknown or unsupported environment; system copy/paste commands disabled"
+	config-log "unknown or unsupported environment, system copy/paste commands disabled"
 }
 
 map global user / '/\Q\E<left><left>' -docstring "search literally"

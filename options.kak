@@ -31,13 +31,16 @@ set-option global modelinefmt \
 #############################################################################################################################################################################
 
 try %{
-	evaluate-commands %sh{ [ -s "$NIRI_SOCKET" ] && printf %s\\n fail }
-	set-option global windowing_module 'niri'
-	# the niri window module doesn't *technically* support splits other than window
-	set-option global windowing_placement 'window'
-} catch %{
-	set-option global windowing_placement %sh{
-		[ "$kak_opt_config_display_server" = "Wayland" ] && printf %s 'window' || printf %s 'vertical'
+	evaluate-commands %sh{ [ "$kak_opt_config_os" = Android ] && printf %s fail }
+	try %{
+		evaluate-commands %sh{ [ -s "$NIRI_SOCKET" ] && printf %s\\n fail }
+		set-option global windowing_module 'niri'
+		# the niri window module doesn't *technically* support splits other than window
+		set-option global windowing_placement 'window'
+	} catch %{
+		set-option global windowing_placement %sh{
+			[ "$kak_opt_config_display_server" = "Wayland" ] && printf %s 'window' || printf %s 'vertical'
+		}
 	}
 }
 
@@ -45,5 +48,5 @@ try %{
 
 # are colorschemes options?
 evaluate-commands %sh{
-	[ -n "$kak_opt_config_display_server" ] && printf %s "colorscheme dracula"
+	[ "$kak_opt_config_os" = Android -o -n "$kak_opt_config_display_server" ] && printf %s "colorscheme dracula"
 }

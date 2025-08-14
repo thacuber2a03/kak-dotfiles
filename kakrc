@@ -42,10 +42,20 @@ config-log "operating system: %opt{config_os}"
 config-log "display server: %opt{config_display_server}"
 
 # TODO(thacuber2a03): funny.
-# a bug with the reimplementation of std::function might be causing this.
+# bugs with the re-implementation of std::function might be causing this.
 # uncomment this line and comment the next one when it's fixed
 # config-try-source "plugins.kak"
 source "%val{config}/plugins.kak"
+
+# lesson learned; do *not* rely on autoload
+# for setting up a portable configuration
+config-log "sourcing extra scripts..."
+evaluate-commands %sh{
+	for f in "$kak_config"/scripts/*.kak; do
+		echo "config-try-source ${f##*"$kak_config"/}"
+	done
+}
+config-log "finished sourcing extra scripts"
 
 config-try-source "mappings.kak"
 config-try-source "options.kak"
