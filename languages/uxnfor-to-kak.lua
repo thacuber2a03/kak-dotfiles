@@ -32,4 +32,4 @@ end
 f = assert(io.open(tmp, "rb"))
 io.write(f:read "*a")
 f:close()
-os.execute("rm '" .. tmp .. "'")
+os.execute(string.format("rm '%s'", tmp))
