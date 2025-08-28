@@ -1,10 +1,13 @@
 #!/usr/bin/env lua
 
-local proc = assert(io.popen(string.format(
+local cmd = string.format(
     "uxncli %s/uxnlin.rom 2>&1 %s",
     os.getenv "UXN_ROMS_DIR",
     arg[1]
-)))
+)
+print(cmd)
+
+local proc = assert(io.popen(cmd))
 
 while true do
     local line = assert(proc:read "*l")

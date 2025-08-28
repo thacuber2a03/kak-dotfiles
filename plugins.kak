@@ -55,7 +55,8 @@ config-add kak-ansi            'https://github.com/eraserhd/kak-ansi'
 config-add kakoune-filetree    'https://github.com/occivink/kakoune-filetree'
 config-add kakoune-palette     'https://github.com/Delapouite/kakoune-palette'
 
-config-add-theme dracula       'https://github.com/thacuber2a03/dracula-kakoune'
+config-add-theme dracula    'https://github.com/thacuber2a03/dracula-kakoune'
+config-add-theme everforest 'https://codeberg.org/jdugan6240/everforest.kak'
 
 try %{
 	# these plugins are disabled when using kak in Termux.

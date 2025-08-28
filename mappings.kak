@@ -15,7 +15,7 @@ try %{
 } catch %{
 	evaluate-commands %sh{ [ "$kak_opt_config_display_server" != "Wayland" ] && printf %s fail }
 	# huh, wayland has it shorter
-	map global user d '|wl-copy -n <lt> /dev/stdin<ret>'     -docstring "delete to system clipboard"
+	map global user d '|wl-copy -n<ret>'     -docstring "delete to system clipboard"
 	map global user y '<a-|>wl-copy -n<ret>' -docstring "yank to system clipboard"
 	map global user P '!wl-paste<ret>'       -docstring "insert from system clipboard"
 	map global user p '<a-!>wl-paste<ret>'   -docstring "append from system clipboard"

@@ -48,5 +48,6 @@ try %{
 
 # are colorschemes options?
 evaluate-commands %sh{
-	[ "$kak_opt_config_os" = Android -o -n "$kak_opt_config_display_server" ] && printf %s "colorscheme dracula"
+	[ "$kak_opt_config_os" = Android -o -n "$kak_opt_config_display_server" ] && \
+		printf %s "colorscheme everforest-dark-hard"
 }
