@@ -26,5 +26,9 @@ try %{
 
 map global user / '/\Q\E<left><left>' -docstring "search literally"
 
+map global normal <c-p> vk
 map global normal <c-n> vj
-map global normal <c-n> vk
+
+# undocumented mappings as of master: soft-wrapping j and k
+map global normal j gd
+map global normal k gu
