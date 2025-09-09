@@ -8,6 +8,7 @@ map global user u ':enter-user-mode ui<ret>' -docstring "UI mode"
 
 hook global WinCreate .* %{
 	ui-line-numbers-toggle
+	ui-whitespaces-toggle
 	ui-cursorline-toggle
 	ui-trailing-spaces-toggle
 	ui-matching-toggle
