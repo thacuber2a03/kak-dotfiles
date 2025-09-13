@@ -25,10 +25,7 @@ hook global BufCreate (?:.*/)?\.clangd %{ set-option buffer filetype yaml }
 hook global BufCreate .+\.ldtk         %{ set-option buffer filetype json }
 
 # todo: collapse all of these hooks into one, somehow
-hook global WinDisplay '\*stdin(?:-\d+)?\*' config-enable-reading-mode
-hook global WinDisplay '\*man.+?\*'         config-enable-reading-mode
-hook global WinDisplay '\*fifo\*'           config-enable-reading-mode
-hook global WinDisplay '\*debug\*'          config-enable-reading-mode
+hook global WinDisplay \*.+?\* config-enable-reading-mode
 
 hook -group auto-indent global InsertChar \t %{ try %{
 	evaluate-commands %sh{ [ "$kak_opt_indentwidth" = 0 ] && printf %s "fail" }

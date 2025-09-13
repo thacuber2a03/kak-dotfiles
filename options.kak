@@ -50,7 +50,7 @@ try %{
 try %{ evaluate-commands %sh{
 	if [ "$kak_opt_config_os" = Android ]; then
 		printf %s "colorscheme kanagawa"
-	elif [ -o -n "$kak_opt_config_display_server" ]; then
+	elif [ -z "$kak_opt_config_display_server" ]; then
 		printf %s 'fail'
 	else
 		printf %s "colorscheme everforest-dark-hard"
