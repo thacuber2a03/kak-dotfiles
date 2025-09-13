@@ -48,7 +48,11 @@ try %{
 
 # are colorschemes options?
 try %{ evaluate-commands %sh{
-	[ "$kak_opt_config_os" = Android ] && printf %s 'fail'
-	[ -o -n "$kak_opt_config_display_server" ] && printf %s 'fail'
-	# printf %s "colorscheme everforest-dark-hard"
+	if [ "$kak_opt_config_os" = Android ]; then
+		printf %s "colorscheme kanagawa"
+	elif [ -o -n "$kak_opt_config_display_server" ]; then
+		printf %s 'fail'
+	else
+		printf %s "colorscheme everforest-dark-hard"
+	fi
 } }
