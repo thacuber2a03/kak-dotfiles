@@ -15,11 +15,11 @@ try %{
 } catch %{
 	evaluate-commands %sh{ [ "$kak_opt_config_display_server" != "Wayland" ] && printf %s fail }
 	# ~~huh, wayland has it shorter~~ nevermind anymore
-	map global user d '<a-|>wl-copy -n<ret>"_d' -docstring "delete to system clipboard"
-	map global user y '<a-|>wl-copy -n<ret>'    -docstring "yank to system clipboard"
-	map global user P '!wl-paste<ret>'          -docstring "insert from system clipboard"
-	map global user p '<a-!>wl-paste<ret>'      -docstring "append from system clipboard"
-	map global user R '|wl-paste<ret>'          -docstring "replace with system clipboard"
+	map global user d '<a-|>wl-copy -n<ret><a-d>' -docstring "delete to system clipboard"
+	map global user y '<a-|>wl-copy -n<ret>'      -docstring "yank to system clipboard"
+	map global user P '!wl-paste<ret>'            -docstring "insert from system clipboard"
+	map global user p '<a-!>wl-paste<ret>'        -docstring "append from system clipboard"
+	map global user R '|wl-paste<ret>'            -docstring "replace with system clipboard"
 } catch %{
 	config-log "unknown or unsupported environment, system copy/paste commands disabled"
 }
