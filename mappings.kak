@@ -14,7 +14,7 @@ try %{
 	map global user R '|xsel -ob<ret>'      -docstring "replace with system clipboard"
 } catch %{
 	evaluate-commands %sh{ [ "$kak_opt_config_display_server" != "Wayland" ] && printf %s fail }
-	# huh, wayland has it shorter
+	# ~~huh, wayland has it shorter~~ nevermind anymore
 	map global user d '<a-|>wl-copy -n<ret>"_d' -docstring "delete to system clipboard"
 	map global user y '<a-|>wl-copy -n<ret>'    -docstring "yank to system clipboard"
 	map global user P '!wl-paste<ret>'          -docstring "insert from system clipboard"
