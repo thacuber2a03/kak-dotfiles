@@ -46,3 +46,7 @@ hook -group fe-highlight global WinSetOption filetype=fe %{
 		remove-highlighter window/fe
 	}
 }
+
+hook global WinSetOption filetype=fe %{
+	set-option buffer indentwidth 0
+}
