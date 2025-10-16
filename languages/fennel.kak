@@ -7,19 +7,19 @@ hook -group	lsp-filetype-fennel global BufSetOption filetype=fennel %{
 	# }
 }
 
-define-command -docstring "
-	fennel-preview <buffer>: compiles the fennel code at <buffer> in a separate, scratch buffer;
-	uses the current buffer if <buffer> is unspecified
-" -params 0..1 fennel-preview %{
-	evaluate-commands -save-regs 'a' %{
-		set-register a %val{buffile}
-		evaluate-commands %sh{ [ -n "$1" ] && printf %s "set-register a '$1'" }
-		fifo -name '*fennel*' fennel -c %reg{a}
-		set-option buffer filetype lua
-	}
-}
-
 hook global WinSetOption filetype=fennel %{
+	define-command -override -docstring "
+		fennel-preview <buffer>: compiles the fennel code at <buffer> in a separate, scratch buffer;
+		uses the current buffer if <buffer> is unspecified
+	" -params 0..1 fennel-preview %{
+		evaluate-commands -save-regs 'a' %{
+			set-register a %val{buffile}
+			evaluate-commands %sh{ [ -n "$1" ] && printf %s "set-register a '$1'" }
+			fifo -name '*fennel*' fennel -c %reg{a}
+			set-option buffer filetype lua
+		}
+	}
+
 	# patch to indent hook in Fennel, according to its Style Guide
 	# TODO(thacuber2a03): not proper, should eventually merge into master
 

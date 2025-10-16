@@ -53,6 +53,6 @@ try %{ evaluate-commands %sh{
 	elif [ -z "$kak_opt_config_display_server" ]; then
 		printf %s 'fail'
 	else
-		printf %s "colorscheme catppuccin_mocha"
+		printf %s "colorscheme everforest-dark-hard"
 	fi
 } }

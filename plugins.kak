@@ -80,10 +80,11 @@ config-add-plugin kak-ansi            'https://github.com/eraserhd/kak-ansi'
 config-add-plugin kakoune-filetree    'https://github.com/occivink/kakoune-filetree'
 config-add-plugin kakoune-palette     'https://github.com/Delapouite/kakoune-palette'
 
+config-add-theme kalolo         'https://github.com/nojhan/kalolo'
 config-add-theme dracula        'https://github.com/thacuber2a03/dracula-kakoune'
 config-add-theme everforest     'https://codeberg.org/jdugan6240/everforest.kak'
+config-add-theme ashen          'https://codeberg.org/ficd/kak-ashen'
 config-add-theme kakoune-themes 'https://codeberg.org/anhsirk0/kakoune-themes'
-
 
 try %{
 	# these plugins are disabled when using kak in Termux.
@@ -96,7 +97,6 @@ try %{
 
 	config-add-custom kak-tree-sitter 'https://git.sr.ht/~hadronized/kak-tree-sitter'
 
-	config-add-theme kalolo                     'https://github.com/nojhan/kalolo'
 	config-add-theme kakoune-tree-sitter-themes 'https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes'
 } catch %{
 	config-log "Android detected, disabling certain plugins"

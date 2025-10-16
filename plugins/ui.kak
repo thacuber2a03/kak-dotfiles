@@ -1,6 +1,6 @@
 set-option global ui_line_numbers_flags      \
     -relative -hlcursor -min-digits 3        \
-    -separator '  |' -cursor-separator ' <|' \
+    -separator ' |' -cursor-separator '-|'
 
 set-option global ui_wrap_flags -word -marker '-'
 

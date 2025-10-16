@@ -24,8 +24,9 @@ define-command -params 0 -hidden config-enable-reading-mode %{ try %{
 hook global BufCreate (?:.*/)?\.clangd %{ set-option buffer filetype yaml }
 hook global BufCreate .+\.ldtk         %{ set-option buffer filetype json }
 
-# todo: collapse all of these hooks into one, somehow
 hook global WinDisplay \*.+?\* config-enable-reading-mode
+
+hook global WinSetOption filetype=man ui-wrap-disable
 
 define-command -params 0 config-define-auto-indent-hooks %{
 	hook -group auto-indent global InsertChar \t %{ try %{

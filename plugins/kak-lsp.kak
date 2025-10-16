@@ -17,4 +17,4 @@ map global user l ":enter-user-mode lsp<ret>" -docstring "LSP mode"
 
 hook -group lsp-formatting global BufWritePre .* lsp-formatting-sync
 
-set-option global lsp_debug true
+# set-option global lsp_debug true
