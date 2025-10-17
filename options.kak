@@ -49,7 +49,7 @@ try %{
 # are colorschemes options?
 try %{ evaluate-commands %sh{
 	if [ "$kak_opt_config_os" = Android ]; then
-		printf %s "colorscheme kanagawa"
+		printf %s "colorscheme ashen"
 	elif [ -z "$kak_opt_config_display_server" ]; then
 		printf %s 'fail'
 	else
