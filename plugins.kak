@@ -79,12 +79,14 @@ config-add-plugin kakoune-repl-buffer 'https://gitlab.com/Screwtapello/kakoune-r
 config-add-plugin kak-ansi            'https://github.com/eraserhd/kak-ansi'
 config-add-plugin kakoune-filetree    'https://github.com/occivink/kakoune-filetree'
 config-add-plugin kakoune-palette     'https://github.com/Delapouite/kakoune-palette'
+config-add-plugin kakoune-focus       'https://github.com/caksoylar/kakoune-focus'
 
-config-add-theme kalolo         'https://github.com/nojhan/kalolo'
-config-add-theme dracula        'https://github.com/thacuber2a03/dracula-kakoune'
-config-add-theme everforest     'https://codeberg.org/jdugan6240/everforest.kak'
-config-add-theme ashen          'https://codeberg.org/ficd/kak-ashen'
-config-add-theme kakoune-themes 'https://codeberg.org/anhsirk0/kakoune-themes'
+config-add-theme kalolo     'https://github.com/nojhan/kalolo'
+config-add-theme dracula    'https://github.com/thacuber2a03/dracula-kakoune'
+config-add-theme everforest 'https://codeberg.org/jdugan6240/everforest.kak'
+config-add-theme ashen      'https://codeberg.org/ficd/kak-ashen'
+
+# config-add-theme kakoune-themes 'https://codeberg.org/anhsirk0/kakoune-themes'
 
 try %{
 	# these plugins are disabled when using kak in Termux.
@@ -92,8 +94,9 @@ try %{
 
 	config-add-plugin parinfer-rust   'https://github.com/eraserhd/parinfer-rust'
 	config-add-plugin kak-lsp         'https://github.com/kakoune-lsp/kakoune-lsp'
-	config-add-plugin kakoune-discord 'https://github.com/thacuber2a03/kakoune-discord'
-	config-add-plugin kak-niri        'https://codeberg.org/ficd/kak-niri'
+
+	# TODO(thacuber2a03): I need to figure out what the hell is going on with this plugin
+	# config-add-plugin kakoune-discord 'https://github.com/thacuber2a03/kakoune-discord'
 
 	config-add-custom kak-tree-sitter 'https://git.sr.ht/~hadronized/kak-tree-sitter'
 

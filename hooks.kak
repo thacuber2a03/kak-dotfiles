@@ -21,8 +21,10 @@ define-command -params 0 -hidden config-enable-reading-mode %{ try %{
 	ui-whitespaces-disable
 }}
 
-hook global BufCreate (?:.*/)?\.clangd %{ set-option buffer filetype yaml }
-hook global BufCreate .+\.ldtk         %{ set-option buffer filetype json }
+hook global BufCreate (?:.*/)?\.clangd 'set-option buffer filetype yaml'
+hook global BufCreate .+\.ldtk         'set-option buffer filetype json'
+
+hook global BufCreate .* editorconfig-load
 
 hook global WinDisplay \*.+?\* config-enable-reading-mode
 
@@ -40,3 +42,10 @@ define-command -params 0 config-define-auto-indent-hooks %{
 }
 
 config-define-auto-indent-hooks
+
+# ~~this should be in plugins/kakoune-filetree.kak~~
+# this straight up just doesn't work
+
+# hook global RuntimeError "1:1: '(?:e|edit)': (.+): is a directory" %{
+# 	try %{ filetree } catch %{ fail "could not open file tree: %val{error}" }
+# }

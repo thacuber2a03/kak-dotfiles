@@ -2,8 +2,6 @@ set-option global tabstop     4
 set-option global indentwidth 0
 set-option global scrolloff   2,0
 
-#############################################################################################################################################################################
-
 set-option global ui_options
 
 set-option -add global ui_options \
@@ -15,6 +13,9 @@ set-option -add global ui_options \
 
 set-option -add global ui_options terminal_set_title=yes
 hook global WinDisplay .* %{ set-option -add global ui_options "terminal_title=%val{buffile}" }
+
+set-option global autowrap_column 120
+set-option global autowrap_format_paragraph true
 
 #############################################################################################################################################################################
 
@@ -53,6 +54,6 @@ try %{ evaluate-commands %sh{
 	elif [ -z "$kak_opt_config_display_server" ]; then
 		printf %s 'fail'
 	else
-		printf %s "colorscheme everforest-dark-hard"
+		printf %s "colorscheme ashen"
 	fi
 } }

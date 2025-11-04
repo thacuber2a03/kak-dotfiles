@@ -4,7 +4,7 @@ provide-module fe %{
 	add-highlighter shared/fe regions
 	add-highlighter shared/fe/ region ';' '$' fill comment
 
-	add-highlighter shared/fe/string region '"' (?!\\)(\\\\)*" group
+	add-highlighter shared/fe/string region '"' (?<!\\)(\\\\)*" group
 	add-highlighter shared/fe/string/ fill string
 	add-highlighter shared/fe/string/ regex '\\.' 0:value
 

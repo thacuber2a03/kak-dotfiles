@@ -15,6 +15,11 @@ map global object D '<a-semicolon>lsp-diagnostic-object<ret>' -docstring 'LSP er
 
 map global user l ":enter-user-mode lsp<ret>" -docstring "LSP mode"
 
-hook -group lsp-formatting global BufWritePre .* lsp-formatting-sync
+hook -group lsp-formatting global BufWritePre .* lsp-formatting
 
-# set-option global lsp_debug true
+# INLAY!!!!!!!!
+hook global WinCreate .* %{ try %{
+	lsp-inlay-diagnostics-enable window
+	lsp-inlay-hints-enable window
+	lsp-inlay-code-lenses-enable window
+} }

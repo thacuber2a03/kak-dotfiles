@@ -32,3 +32,10 @@ hook -group	lsp-filetype-lua global BufSetOption filetype=lua %{
 }
 
 }
+
+hook -once -always global WinSetOption filetype=lua %<
+	# woo, code injection
+	require-module lua 
+	add-highlighter -override shared/lua/code/function_call regex '\b([a-zA-Z_]\w*)\h*(?=[\(\{"])' 1:function
+	# add-highlighter shared/lua/code/ ref lua/code/keyword
+>
