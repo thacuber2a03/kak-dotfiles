@@ -20,6 +20,8 @@ hook global WinSetOption filetype=fennel %{
 		}
 	}
 
+	complete-command fennel-preview file 1
+
 	# patch to indent hook in Fennel, according to its Style Guide
 	# TODO(thacuber2a03): not proper, should eventually merge into master
 
