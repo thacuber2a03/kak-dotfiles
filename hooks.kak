@@ -49,3 +49,7 @@ config-define-auto-indent-hooks
 # hook global RuntimeError "1:1: '(?:e|edit)': (.+): is a directory" %{
 # 	try %{ filetree } catch %{ fail "could not open file tree: %val{error}" }
 # }
+
+hook global WinCreate .* %{
+	set-face global LineNumberCursor LineNumbers
+}

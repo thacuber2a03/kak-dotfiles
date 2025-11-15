@@ -3,8 +3,8 @@ declare-option -hidden str config_ui_line_numbers_cursor_separator
 
 try %{
 	evaluate-commands %sh{ [ "$kak_config_os" != Android ] || [ -n "$kak_opt_config_display_server" ] }
-	set-option global config_ui_line_numbers_separator "🭰"
-	set-option global config_ui_line_numbers_cursor_separator "🯟"
+	set-option global config_ui_line_numbers_separator " ▏"
+	set-option global config_ui_line_numbers_cursor_separator ' 🯛'
 } catch %{
 	set-option global config_ui_line_numbers_separator "|"
 	set-option global config_ui_line_numbers_cursor_separator ">"
