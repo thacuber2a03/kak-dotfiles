@@ -19,8 +19,6 @@ evaluate-commands %sh{
 	fi
 }
 
-# hook global User bundle-after-install %{ quit! }
-
 define-command -hidden -params .. config-add-theme %{
 	config-log "adding colorscheme '%arg{1}'"
 	bundle-theme %arg{1} %arg{2}

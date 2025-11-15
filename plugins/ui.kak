@@ -9,8 +9,11 @@ try %{
 			printf %s fail
 		fi
 	}
-	set-option global config_ui_line_numbers_separator ' ▏'
-	set-option global config_ui_line_numbers_cursor_separator ' 🯛'
+	# ▎
+	# ▏
+	# 🮌
+	set-option global config_ui_line_numbers_separator ' 🮌'
+	set-option global config_ui_line_numbers_cursor_separator ' ⟩'
 } catch %{
 	set-option global config_ui_line_numbers_separator '|'
 	set-option global config_ui_line_numbers_cursor_separator '>'

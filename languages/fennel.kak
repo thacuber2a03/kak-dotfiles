@@ -1,5 +1,36 @@
 config-set-formatter fennel 'fnlfmt -'
 
+define-command -docstring "
+	fennel-repl: opens a new Fennel REPL session that automatically gets closed when it ends
+" fennel-repl -params 0 %{
+	try %{
+		# if user has kakoune-repl-buffer
+		repl-buffer-new -name *fennel-repl* -- env TERM=dumb fennel
+		hook -once -always window BufCloseFifo %{ delete-buffer! %val{bufname} }
+	} catch %{
+		config-log unable to open repl-buffer: %val{error}
+		repl-new env TERM=dumb fennel
+	} catch %{
+		fail "unable to open repl: %val{error}"
+	}
+}
+
+define-command -docstring "
+	fennel-preview <buffer>: compiles the fennel code at <buffer> in a separate, scratch buffer;
+	uses the current buffer if <buffer> is unspecified
+" fennel-preview -params 0..1 %{
+	evaluate-commands -save-regs 'a' %{
+		set-register a %val{buffile}
+		evaluate-commands %sh{ [ -n "$1" ] && printf %s "set-register a '$1'" }
+		fifo -name '*fennel*' fennel -c %reg{a}
+		set-option buffer filetype lua
+	}
+}
+
+complete-command fennel-preview file 1
+
+hook global BufCreate .*/home/.+?/.fennelrc %{ set-option buffer filetype fennel }
+
 hook -group	lsp-filetype-fennel global BufSetOption filetype=fennel %{
 	set-option buffer lsp_servers %{
 		[fennel-ls]
@@ -8,20 +39,6 @@ hook -group	lsp-filetype-fennel global BufSetOption filetype=fennel %{
 }
 
 hook global WinSetOption filetype=fennel %{
-	define-command -override -docstring "
-		fennel-preview <buffer>: compiles the fennel code at <buffer> in a separate, scratch buffer;
-		uses the current buffer if <buffer> is unspecified
-	" -params 0..1 fennel-preview %{
-		evaluate-commands -save-regs 'a' %{
-			set-register a %val{buffile}
-			evaluate-commands %sh{ [ -n "$1" ] && printf %s "set-register a '$1'" }
-			fifo -name '*fennel*' fennel -c %reg{a}
-			set-option buffer filetype lua
-		}
-	}
-
-	complete-command fennel-preview file 1
-
 	# patch to indent hook in Fennel, according to its Style Guide
 	# TODO(thacuber2a03): not proper, should eventually merge into master
 
