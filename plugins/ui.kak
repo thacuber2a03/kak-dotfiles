@@ -1,6 +1,19 @@
-set-option global ui_line_numbers_flags      \
-    -relative -hlcursor -min-digits 3        \
-    -separator ' |' -cursor-separator '-|'
+declare-option -hidden str config_ui_line_numbers_separator
+declare-option -hidden str config_ui_line_numbers_cursor_separator
+
+try %{
+	evaluate-commands %sh{ [ "$kak_config_os" != Android ] || [ -n "$kak_opt_config_display_server" ] }
+	set-option global config_ui_line_numbers_separator "🭰"
+	set-option global config_ui_line_numbers_cursor_separator "🯟"
+} catch %{
+	set-option global config_ui_line_numbers_separator "|"
+	set-option global config_ui_line_numbers_cursor_separator ">"
+}
+
+set-option global ui_line_numbers_flags                             \
+	-relative -hlcursor -min-digits 3                               \
+	-separator %opt{config_ui_line_numbers_separator}               \
+	-cursor-separator %opt{config_ui_line_numbers_cursor_separator}
 
 set-option global ui_wrap_flags -word -marker '-'
 

@@ -1,13 +1,13 @@
 define-command -docstring "
-    source-ex [...]: if no parameters are passed, sources the current buffer.
-    otherwise, forwards all of them to source.
+	source-ex [...]: if no parameters are passed, sources the current buffer.
+	otherwise, forwards all of them to source.
 " source-ex -params .. %{
-    evaluate-commands %sh{
-	    if [ "$#" = 0 ]; then
-	    	printf %s "source $kak_buffile"; exit
-	    fi
-	    printf %s "source $@"
-    }
+	evaluate-commands %sh{
+		if [ "$#" = 0 ]; then
+			printf %s "source $kak_buffile"; exit
+		fi
+		printf %s "source $@"
+	}
 }
 complete-command source-ex file
 alias global . source-ex

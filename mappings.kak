@@ -38,5 +38,6 @@ map global normal <c-p> vk
 map global normal <c-n> vj
 
 # undocumented mappings as of master: soft-wrapping j and k
-map global normal j gd
-map global normal k gu
+# NOTE(thacuber2a03): they are still somewhat uncooked, so...
+# map global normal j gd
+# map global normal k gu

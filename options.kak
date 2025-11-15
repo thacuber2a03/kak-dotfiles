@@ -57,3 +57,6 @@ try %{ evaluate-commands %sh{
 		printf %s "colorscheme ashen"
 	fi
 } }
+
+# yet another fuckin hook
+hook global WinCreate *set-face global LineNumbersCursor LineNumbers

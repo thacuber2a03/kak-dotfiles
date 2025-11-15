@@ -1,17 +1,21 @@
-declare-option bool config_log_enabled false
-
-define-command -hidden -params .. config-log  %{
-	evaluate-commands %sh{
-		[ "$kak_opt_config_log_enabled" = "true" ] && \
-			printf %s "echo -debug ""config: $*"""
-	}
+try %{
+	define-command true nop
+	define-command false fail
 }
 
-define-command -hidden -params .. config-fail %{ fail config: "%arg{@}" }
+declare-option str config_log_enabled false
+
+define-command -hidden -params .. config-log  %{
+	%opt{config_log_enabled}
+	echo -debug -- config: %arg{@}
+}
+
+define-command -hidden -params .. config-fail %{ fail config: %arg{@} }
 
 try %{
 	evaluate-commands %sh{ case "$kak_session" in ''|*[!0-9]*) printf %s fail;; esac }
-	try %{ rename-session main } catch %{ rename-session other } catch %{ config-log "couldn't rename session" }
+	try %{ rename-session main } catch %{ rename-session other } \
+	catch %{ config-log "couldn't rename session" }
 } catch %{
 	config-log 'session name already set, will not default'
 }
