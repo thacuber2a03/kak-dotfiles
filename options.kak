@@ -48,12 +48,9 @@ try %{
 #############################################################################################################################################################################
 
 # are colorschemes options?
-try %{ evaluate-commands %sh{
-	if [ "$kak_opt_config_os" = Android ]; then
-		printf %s "colorscheme ashen"
-	elif [ -z "$kak_opt_config_display_server" ]; then
-		printf %s 'fail'
-	else
-		printf %s "colorscheme ashen"
+evaluate-commands %sh{
+	if [ "$kak_opt_config_os" != Android ] || [ -n "$kak_opt_config_display_server" ]; then
+		printf %s\\n "colorscheme ashen"
+		printf %s\\n "hook global WinCreate .* 'set-face global LineNumberCursor LineNumbers'"
 	fi
-} }
+}
