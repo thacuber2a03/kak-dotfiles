@@ -3,14 +3,12 @@ try %{
 	define-command false fail
 }
 
-declare-option str config_log_enabled false
+declare-option str config_log_enabled true
 
-define-command -hidden -params .. config-log  %{
-	try %{
-        	%opt{config_log_enabled}
-        	echo -debug -- config: %arg{@}
-	}
-}
+define-command -hidden -params .. config-log %{ try %{
+	%opt{config_log_enabled}
+	echo -debug -- config: %arg{@}
+} }
 
 define-command -hidden -params .. config-fail %{ fail config: %arg{@} }
 

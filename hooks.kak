@@ -24,7 +24,7 @@ define-command -params 0 -hidden config-enable-reading-mode %{ try %{
 hook global BufCreate (?:.*/)?\.clangd 'set-option buffer filetype yaml'
 hook global BufCreate .+\.ldtk         'set-option buffer filetype json'
 
-hook global BufCreate .* editorconfig-load
+hook global BufCreate .* %{ try 'editorconfig-load' }
 
 hook global WinDisplay \*.+?\* config-enable-reading-mode
 
