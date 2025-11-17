@@ -93,7 +93,7 @@ declare-option str config_display_server %sh{
 }
 
 config-log "operating system: %opt{config_os}"
-if "%opt{config_in_termux}" %{ config-log '(likely in Termux)' }
+if '%opt{config_in_termux}' %{ config-log '(likely in Termux)' }
 
 config-log "display server: %opt{config_display_server}"
 
