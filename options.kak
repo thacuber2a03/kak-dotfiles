@@ -47,11 +47,9 @@ if-not %opt{config_in_termux} %{
 #############################################################################################################################################################################
 
 # are colorschemes options?
-if-not %opt{config_in_termux} %{
-	evaluate-commands %sh{
-		if [ -n "$kak_opt_config_display_server" ]; then
-			printf %s\\n "colorscheme ashen"
-			printf %s\\n "hook global WinCreate .* 'set-face global LineNumberCursor LineNumbers'"
-		fi
-	}
+evaluate-commands %sh{
+	if [ -n "$kak_opt_config_display_server" ]; then
+		printf %s\\n "colorscheme ashen"
+		printf %s\\n "hook global WinCreate .* 'set-face global LineNumberCursor LineNumbers'"
+	fi
 }
