@@ -89,9 +89,7 @@ config-add-theme ashen      'https://codeberg.org/ficd/kak-ashen'
 
 # config-add-theme kakoune-themes 'https://codeberg.org/anhsirk0/kakoune-themes'
 
-try %{
-	%opt{config_in_termux}
-
+if-not %opt{config_in_termux} %{
 	config-add-plugin parinfer-rust   'https://github.com/eraserhd/parinfer-rust'
 	config-add-plugin kak-lsp         'https://github.com/kakoune-lsp/kakoune-lsp'
 
@@ -101,6 +99,6 @@ try %{
 	config-add-custom kak-tree-sitter 'https://git.sr.ht/~hadronized/kak-tree-sitter'
 
 	config-add-theme kakoune-tree-sitter-themes 'https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes'
-} catch %{
+} %{
 	config-log-public "Android detected, disabling certain plugins"
 }

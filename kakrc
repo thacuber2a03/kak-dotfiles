@@ -16,7 +16,12 @@ try %{
 	define-command -docstring "
 		if-not cond on-false [ on-true ]: no
 	" -hidden if-not -params 2..3 %{
-		if %arg{1} %arg{3} %arg{2}
+		try %{
+			%arg{1}
+			evaluate-commands %arg{3}
+		} catch %{
+			evaluate-commands %arg{2}
+		}
 	}
 }
 
