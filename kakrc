@@ -25,9 +25,12 @@ declare-option -hidden str  config_log_separator_string '-----------------------
 
 # copied code :(
 define-command -hidden config-fail -params .. %{ fail config: %arg{@} }
-define-command -hidden config-log -params .. %{ echo -debug -- config: %arg{@} }
+define-command -hidden config-log  -params .. %{ echo -debug -- config: %arg{@} }
 
-define-command -hidden config-trace-log -params  .. %{ if "%opt{config_trace_log_enabled}" "config-log trace: %arg{@}" }
+define-command -hidden config-trace-log -params .. %{ if "%opt{config_trace_log_enabled}" "
+	echo --debug -- %arg{@}
+	config-log trace: %arg{@}
+" }
 
 declare-option -hidden bool config_log_first true
 define-command -hidden config-trace-log-separator -params 0 %{
