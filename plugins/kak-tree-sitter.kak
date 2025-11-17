@@ -1,3 +1,7 @@
+if %opt{config_in_termux} %{
+	config-fail 'kts loaded in Termux: check this'
+}
+
 bundle-install-hook kak-tree-sitter %{
 	cargo install --force kak-tree-sitter
 	cargo install --force ktsctl
