@@ -5,7 +5,6 @@ try %{
 	define-command -docstring "
 		if cond on-true [ on-false ]: yes
 	" -hidden if -params 2..3 %{
-		echo -debug -- "'%arg{1}' '%arg{2}' '%arg{3}'"
 		try %{
 			%arg{1}
 			evaluate-commands %arg{2}
@@ -17,12 +16,7 @@ try %{
 	define-command -docstring "
 		if-not cond on-false [ on-true ]: no
 	" -hidden if-not -params 2..3 %{
-		try %{
-			%arg{1}
-			evaluate-commands %arg{3}
-		} catch %{
-			evaluate-commands %arg{2}
-		}
+		if %arg{1} %arg{3} %arg{2}
 	}
 }
 
@@ -30,19 +24,11 @@ declare-option -hidden bool config_trace_log_enabled true
 declare-option -hidden str  config_log_separator_string '-----------------------------------------'
 
 # copied code :(
-define-command -hidden config-fail -params .. %{ fail config: %arg{@} }
-define-command -hidden config-log  -params .. %{ echo -debug -- config: %arg{@} }
+define-command -hidden config-fail -params .. %{ fail "config: %arg{@}" }
+define-command -hidden config-log  -params .. %{ echo -debug -- "config: %arg{@}" }
 
-define-command -hidden config-trace-log -params .. %{ if "%opt{config_trace_log_enabled}" "config-log trace: %arg{@}" }
-
-declare-option -hidden bool config_log_first true
-define-command -hidden config-trace-log-separator -params 0 %{
-	if %opt{config_log_first} %{
-		set-option global config_log_first false
-	} %{
-		config-trace-log %opt{config_log_separator_string}
-	}
-}
+define-command -hidden config-trace-log -params .. %{ if %opt{config_trace_log_enabled} "config-log trace: %arg{@}" }
+define-command -hidden config-trace-log-separator -params 0 %{ config-trace-log %opt{config_log_separator_string} }
 
 try %{
 	evaluate-commands %sh{ case "$kak_session" in ''|*[!0-9]*) printf -- fail;; esac }
@@ -96,7 +82,7 @@ declare-option str config_display_server %sh{
 }
 
 config-log "operating system: %opt{config_os}"
-if '%opt{config_in_termux}' %{ config-log '(likely in Termux)' }
+if %opt{config_in_termux} %{ config-log '(likely in Termux)' }
 
 config-log "display server: %opt{config_display_server}"
 
