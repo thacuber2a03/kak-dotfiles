@@ -20,7 +20,8 @@ evaluate-commands %sh{
 }
 
 define-command -hidden -params .. config-add-theme %{
-	config-log "adding colorscheme '%arg{1}'"
+	config-trace-log-separator
+	config-trace-log "adding colorscheme '%arg{1}'"
 	bundle-theme %arg{1} %arg{2}
 	config-try-source "%opt{config_plugin_config_directory}/%arg{1}.kak"
 }
@@ -30,7 +31,8 @@ declare-option -hidden str-list config_plugins # loaded plugins
 declare-option -hidden str config_current_plugin_name
 
 define-command -hidden -params .. config-add-plugin %{
-	config-log "registering plugin '%arg{1}'"
+	config-trace-log-separator
+	config-trace-log "registering plugin '%arg{1}'"
 	set-option -add global config_plugins %arg{1}
 	set-option local config_current_plugin_name %arg{1}
 	bundle %arg{1} %arg{2} %{
@@ -39,7 +41,8 @@ define-command -hidden -params .. config-add-plugin %{
 }
 
 define-command -hidden -params .. config-add-custom %{
-	config-log "registering plugin '%arg{1}' (custom load)"
+	config-trace-log-separator
+	config-trace-log "registering plugin '%arg{1}' (custom load)"
 	set-option -add global config_plugins %arg{1}
 	set-option local config_current_plugin_name %arg{1}
 	bundle-customload %arg{1} %arg{2} %{
@@ -86,10 +89,9 @@ config-add-theme ashen      'https://codeberg.org/ficd/kak-ashen'
 
 # config-add-theme kakoune-themes 'https://codeberg.org/anhsirk0/kakoune-themes'
 
-try %{
-	# these plugins are disabled when using kak in Termux.
-	evaluate-commands %sh{ [ "$kak_opt_config_os" = Android ] && printf %s fail }
-
+if %opt{config_in_termux} %{
+	config-log-public "Android detected, disabling certain plugins"
+} %{
 	config-add-plugin parinfer-rust   'https://github.com/eraserhd/parinfer-rust'
 	config-add-plugin kak-lsp         'https://github.com/kakoune-lsp/kakoune-lsp'
 
@@ -99,6 +101,4 @@ try %{
 	config-add-custom kak-tree-sitter 'https://git.sr.ht/~hadronized/kak-tree-sitter'
 
 	config-add-theme kakoune-tree-sitter-themes 'https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes'
-} catch %{
-	config-log "Android detected, disabling certain plugins"
 }

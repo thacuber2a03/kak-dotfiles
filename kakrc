@@ -1,71 +1,85 @@
 try %{
-	define-command true nop
-	define-command false fail
+	define-command -hidden true -params 0 nop
+	define-command -hidden false -params 0 fail
+
+	define-command -docstring "
+		if cond on-true [ on-false ]: yes
+	" -hidden if -params 2..3 %{
+		try %{
+			%arg{1}
+			evaluate-commands %arg{2}
+		} catch %{
+			evaluate-commands %arg{3}
+		}
+	}
+
+	define-command -docstring "
+		if-not cond on-false [ on-true ]: no
+	" -hidden if-not -params 2..3 %{
+		if %arg{1} %arg{3} %arg{2}
+	}
 }
 
-declare-option -hidden bool config_log_enabled false
-declare-option -hidden int config_log_indent_depth 0
-declare-option -hidden str config_log_indent_string ' -->'
-declare-option -hidden str config_log_separator_string '-----------------------------------------'
+declare-option -hidden bool config_trace_log_enabled true
+declare-option -hidden str  config_log_separator_string '-----------------------------------------'
 
 # copied code :(
-define-command -hidden config-log-indent -params 0 %{ set-option global config_log_indent_depth %sh{ printf %d $(($kak_opt_config_log_indent_depth + 1)) } }
-define-command -hidden config-log-dedent -params 0 %{ set-option global config_log_indent_depth %sh{ printf %d $(($kak_opt_config_log_indent_depth - 1)) } }
-
-define-command -hidden config-log -params .. %{ try %{ %opt{config_log_enabled}; config-log-public %arg{@} } }
-
-define-command -hidden config-log-public -params .. %{
-	echo -debug -- %sh{
-		depth="$kak_opt_config_log_indent_depth"
-		i=0
-		while [ "$i" -lt "$depth" ]; do
-			printf -- "$kak_opt_config_log_indent_string"
-			i=$((i+1))
-		done
-	} config: %arg{@}
-}
-define-command -hidden config-log-separator -params 0 %{ config-log %opt{config_log_separator_string} }
-
 define-command -hidden config-fail -params .. %{ fail config: %arg{@} }
+define-command -hidden config-log -params .. %{ echo -debug -- config: %arg{@} }
+
+define-command -hidden config-trace-log -params  .. %{ if "%opt{config_trace_log_enabled}" "config-log trace: %arg{@}" }
+
+declare-option -hidden bool config_log_first true
+define-command -hidden config-trace-log-separator -params 0 %{
+	if %opt{config_log_first} %{
+		set-option global config_log_first false
+	} %{
+		config-trace-log %opt{config_log_separator_string}
+	}
+}
 
 try %{
 	evaluate-commands %sh{ case "$kak_session" in ''|*[!0-9]*) printf -- fail;; esac }
 	try %{ rename-session main } catch %{ rename-session other } \
-	catch %{ config-log "couldn't rename session" }
+	catch %{ config-trace-log "couldn't rename session" }
 } catch %{
-	config-log 'session name already set, will not default'
+	config-trace-log 'session name already set, will not default'
 }
 
 define-command -hidden config-try-source -params 1 %{
-	config-log "sourcing %arg{1}"
-	config-log-indent
+	config-trace-log-separator
+	config-trace-log "sourcing %arg{1}"
 	try %{
 		source "%val{config}/%arg{1}"
-		config-log-dedent
-		config-log "finished sourcing %arg{1}"
+		config-trace-log "finished sourcing %arg{1}"
 	} catch %{
-		config-log-dedent
-		config-log "error sourcing %arg{1}: %val{error}"
+		config-trace-log "error sourcing %arg{1}: %val{error}"
 	}
-	config-log-separator
 }
 
 define-command -hidden config-try-source-directory -params 1 %{
-	config-log "sourcing directory '%arg{1}'"
-	config-log-indent
-	evaluate-commands %sh{
-		for f in "$kak_config"/"$1"/*.kak; do
-			printf %s\\n "config-try-source ${f##*"$kak_config"/}" 
-		done
-	}
-	config-log-dedent
-	config-log "finished sourcing directory '%arg{1}'"
-	config-log %opt{config_log_separator_string}
+	config-trace-log "sourcing directory '%arg{1}'"
+	config-trace-log-separator
+		evaluate-commands %sh{
+			for f in "$kak_config"/"$1"/*.kak; do
+				printf %s\\n "config-try-source ${f##*"$kak_config"/}" 
+			done
+		}
+	config-trace-log "finished sourcing directory '%arg{1}'"
 }
 
-# system related stuff
+### system related stuff
 
-declare-option str config_os %sh{uname -o}
+declare-option str config_os
+
+# quick shorthand to check for Termux
+declare-option bool config_in_termux
+
+evaluate-commands %sh{
+	os=$(uname -o)
+	[ "$os" = Android ] && printf %s\\n "set-option global config_in_termux true"
+	printf %s\\n "set-option global config_os $os"
+}
 
 declare-option str config_display_server %sh{
 	if [ -n "$WAYLAND_DISPLAY" ]; then
@@ -75,22 +89,22 @@ declare-option str config_display_server %sh{
 	fi
 }
 
-config-log-public "operating system: %opt{config_os}"
-config-log-public "display server: %opt{config_display_server}"
+config-log "operating system: %opt{config_os}"
+if "%opt{config_in_termux}" %{ config-log '(likely in Termux)' }
+
+config-log "display server: %opt{config_display_server}"
 
 # TODO(thacuber2a03): funny.
 # bugs with the re-implementation of std::function might be causing this.
-# uncomment this line and comment everything else after when it's fixed
+# uncomment this line and comment everything else after it when it's fixed
 # config-try-source "plugins.kak"
-config-log "sourcing plugins.kak"
-config-log-indent
+config-trace-log "sourcing plugins.kak"
+config-trace-log-separator
 try %{
 	source "%val{config}/plugins.kak"
-	config-log-dedent
-	config-log "finished sourcing plugins.kak"
+	config-trace-log "finished sourcing plugins.kak"
 } catch %{
-	config-log-dedent
-	config-log "error sourcing plugins.kak: %val{error}"
+	config-trace-log "error sourcing plugins.kak: %val{error}"
 }
 
 # lesson learned; do *not* rely on autoload

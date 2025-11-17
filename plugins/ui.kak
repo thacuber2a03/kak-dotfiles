@@ -1,20 +1,15 @@
-declare-option -hidden str config_ui_line_numbers_separator
-declare-option -hidden str config_ui_line_numbers_cursor_separator
+declare-option -hidden str config_ui_line_numbers_separator ' ▏'
+declare-option -hidden str config_ui_line_numbers_cursor_separator ' 🯛'
 
-try %{
-	evaluate-commands %sh{
-		if [ "$kak_opt_config_os" = Android ] \
-		|| [ -z "$kak_opt_config_display_server" ]
-		then
-			printf %s fail
-		fi
-	}
-	# other designs I've tried: ▎, ▏ and 🮌
+if %opt{config_in_termux} %{
 	set-option global config_ui_line_numbers_separator ' ▎'
 	set-option global config_ui_line_numbers_cursor_separator ' ⟩'
-} catch %{
-	set-option global config_ui_line_numbers_separator '|'
-	set-option global config_ui_line_numbers_cursor_separator '>'
+}
+
+try %{
+	evaluate-commands %sh{ [ -n "$kak_opt_config_display_server" ] && printf %s fail }
+	set-option global config_ui_line_numbers_separator ' |'
+	set-option global config_ui_line_numbers_cursor_separator ' >'
 }
 
 set-option global ui_line_numbers_flags                             \

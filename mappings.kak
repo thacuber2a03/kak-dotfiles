@@ -1,12 +1,12 @@
-try %{
-	evaluate-commands %sh{ [ "$kak_opt_config_os" != "Android" ] && printf %s fail }
-
+if %opt{config_in_termux} %{
 	map -docstring "delete to system clipboard"    global user d '<a-|>termux-clipboard-set<ret>d'
 	map -docstring "yank to system clipboard"      global user y '<a-|>termux-clipboard-set<ret>'
 	map -docstring "insert from system clipboard"  global user P '!termux-clipboard-get<ret>'
 	map -docstring "append from system clipboard"  global user p '<a-!>termux-clipboard-get<ret>'
 	map -docstring "replace with system clipboard" global user R '|termux-clipboard-get<ret>'
-} catch %{
+}
+
+try %{
 	evaluate-commands %sh{ [ "$kak_opt_config_display_server" != "X11" ] && printf %s fail }
 
 	# FIX(thacuber2a03): ruined this a bit for Windows for the time being
@@ -23,13 +23,13 @@ try %{
 } catch %{
 	evaluate-commands %sh{ [ "$kak_opt_config_display_server" != "Wayland" ] && printf %s fail }
 	# ~~huh, wayland has it shorter~~ nevermind anymore
-	map -docstring "delete to system clipboard"    global user d '<a-|>wl-copy -n<ret><a-d>'
-	map -docstring "yank to system clipboard"      global user y '<a-|>wl-copy -n<ret>'
+	map -docstring "delete to system clipboard"    global user d '<a-|>wl-copy<ret><a-d>'
+	map -docstring "yank to system clipboard"      global user y '<a-|>wl-copy<ret>'
 	map -docstring "insert from system clipboard"  global user P '!wl-paste<ret>'
 	map -docstring "append from system clipboard"  global user p '<a-!>wl-paste<ret>'
 	map -docstring "replace with system clipboard" global user R '|wl-paste<ret>'
 } catch %{
-	config-log "unknown or unsupported environment, system copy/paste commands disabled"
+	config-log-public "unknown or unsupported environment, system copy/paste commands disabled"
 }
 
 map global user / '/\Q\E<left><left>' -docstring "search literally"

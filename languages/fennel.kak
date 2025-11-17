@@ -5,10 +5,10 @@ define-command -docstring "
 " fennel-repl -params 0 %{
 	try %{
 		# if user has kakoune-repl-buffer
-		repl-buffer-new -name *fennel-repl* -- env TERM=dumb fennel
+		repl-buffer-new -name '*fennel-repl*' -- env TERM=dumb fennel
 		hook -once -always window BufCloseFifo %{ delete-buffer! %val{bufname} }
 	} catch %{
-		config-log unable to open repl-buffer: %val{error}
+		config-trace-log "unable to open repl-buffer: %val{error}"
 		repl-new env TERM=dumb fennel
 	} catch %{
 		fail "unable to open repl: %val{error}"

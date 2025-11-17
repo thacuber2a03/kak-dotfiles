@@ -31,8 +31,7 @@ set-option global modelinefmt \
 
 #############################################################################################################################################################################
 
-try %{
-	evaluate-commands %sh{ [ "$kak_opt_config_os" = Android ] && printf %s fail }
+if-not %opt{config_in_termux} %{
 	try %{
 		evaluate-commands %sh{ [ -s "$NIRI_SOCKET" ] && printf %s\\n fail }
 		set-option global windowing_module 'niri'
@@ -48,9 +47,11 @@ try %{
 #############################################################################################################################################################################
 
 # are colorschemes options?
-evaluate-commands %sh{
-	if [ "$kak_opt_config_os" != Android ] || [ -n "$kak_opt_config_display_server" ]; then
-		printf %s\\n "colorscheme ashen"
-		printf %s\\n "hook global WinCreate .* 'set-face global LineNumberCursor LineNumbers'"
-	fi
+if-not %opt{config_in_termux} %{
+	evaluate-commands %sh{
+		if [ -n "$kak_opt_config_display_server" ]; then
+			printf %s\\n "colorscheme ashen"
+			printf %s\\n "hook global WinCreate .* 'set-face global LineNumberCursor LineNumbers'"
+		fi
+	}
 }

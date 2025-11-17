@@ -49,3 +49,9 @@ config-define-auto-indent-hooks
 # hook global RuntimeError "1:1: '(?:e|edit)': (.+): is a directory" %{
 # 	try %{ filetree } catch %{ fail "could not open file tree: %val{error}" }
 # }
+
+# huh, removing hooks
+if %opt{config_in_termux} %{
+	remove-hooks lsp-filetype-.+
+	remove-hooks lsp-semantic-tokens-.+
+}
