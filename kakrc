@@ -5,6 +5,7 @@ try %{
 	define-command -docstring "
 		if cond on-true [ on-false ]: yes
 	" -hidden if -params 2..3 %{
+		echo --debug -- %arg{@}
 		try %{
 			%arg{1}
 			evaluate-commands %arg{2}
