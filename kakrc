@@ -20,7 +20,7 @@ try %{
 	}
 }
 
-declare-option -hidden bool config_trace_log_enabled true
+declare-option -hidden bool config_trace_log_enabled false
 declare-option -hidden str  config_log_separator_string '-----------------------------------------'
 
 # copied code :(

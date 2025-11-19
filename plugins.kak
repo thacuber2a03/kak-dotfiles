@@ -26,14 +26,15 @@ define-command -hidden -params .. config-add-theme %{
 	config-try-source "%opt{config_plugin_config_directory}/%arg{1}.kak"
 }
 
-declare-option -hidden str-list config_plugins # loaded plugins
+# loaded plugins. format: `name (url)`
+declare-option -hidden str-list config_plugins
 
 declare-option -hidden str config_current_plugin_name
 
 define-command -hidden -params .. config-add-plugin %{
 	config-trace-log-separator
 	config-trace-log "registering plugin '%arg{1}'"
-	set-option -add global config_plugins %arg{1}
+	set-option -add global config_plugins "%arg{1} (%arg{2})"
 	set-option local config_current_plugin_name %arg{1}
 	bundle %arg{1} %arg{2} %{
 		config-try-source "%opt{config_plugin_config_directory}/%opt{config_current_plugin_name}.kak"
@@ -43,7 +44,7 @@ define-command -hidden -params .. config-add-plugin %{
 define-command -hidden -params .. config-add-custom %{
 	config-trace-log-separator
 	config-trace-log "registering plugin '%arg{1}' (custom load)"
-	set-option -add global config_plugins %arg{1}
+	set-option -add global config_plugins "%arg{1} (%arg{2})"
 	set-option local config_current_plugin_name %arg{1}
 	bundle-customload %arg{1} %arg{2} %{
 		config-try-source "%opt{config_plugin_config_directory}/%opt{config_current_plugin_name}.kak"
@@ -68,6 +69,7 @@ define-command -docstring "
 			done
 			printf %s\\n '<esc>'
 		}
+		execute-keys <a-i>p s\(<ret> &
 	}
 }
 
