@@ -43,7 +43,7 @@ hook global WinSetOption filetype=fennel %{
 	# TODO(thacuber2a03): not proper, should eventually merge into master
 
 	define-command -hidden fennel-patch-indent-on-new-line %{
-# registers: i = best align point so far; w = start of first word of form
+		# registers: i = best align point so far; w = start of first word of form
 		evaluate-commands -draft -save-regs '/"|^@iw' -itersel %{
 			execute-keys -draft 'gk"iZ'
 			try %{
@@ -67,6 +67,6 @@ hook global WinSetOption filetype=fennel %{
 
 	require-module fennel
 	remove-hooks window fennel-indent
-    hook window InsertChar \n -group fennel-indent fennel-patch-indent-on-new-line
+	hook window InsertChar \n -group fennel-indent fennel-patch-indent-on-new-line
 }
 
