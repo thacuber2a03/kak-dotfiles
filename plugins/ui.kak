@@ -19,7 +19,7 @@ set-option global ui_line_numbers_flags                             \
 
 set-option global ui_wrap_flags -word -marker '-'
 
-set-option global ui_whitespaces_flags -indent '▏'
+set-option global ui_whitespaces_flags -lf '' -indent '▏'
 
 map global user u ':enter-user-mode ui<ret>' -docstring "UI mode"
 

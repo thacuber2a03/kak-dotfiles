@@ -38,8 +38,13 @@ hook -group lsp-filetype-fennel global BufSetOption filetype=fennel %{
 	}
 }
 
+hook global BufSetOption filetype=fennel %{
+	set-option global indentwidth 2
+	set-option global tabstop 8
+}
+
 hook global WinSetOption filetype=fennel %{
-	# patch to indent hook in Fennel, according to its Style Guide
+	# various patches to the Fennel highlighter
 	# TODO(thacuber2a03): not proper, should eventually merge into master
 
 	define-command -hidden fennel-patch-indent-on-new-line %{

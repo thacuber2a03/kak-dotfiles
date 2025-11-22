@@ -25,7 +25,7 @@ alias global = evaluate-selection
 #############################################################################################################################################################################
 
 define-command -docstring "
-	reload-selected-commands: re-evaluates the selected commands
+	reload-selected-commands: reloads the selected commands, can also evaluate a selection
 " reload-selected-commands %{
   echo -to-shell-script "sed 's/define-command /define-command -override /g' | kak -p %val{session}" -- %val{selections}
 }
@@ -90,3 +90,12 @@ define-command -docstring "
 		echo "I'm back :D"
 	}
 }
+
+define-command -docstring "
+	enable-reading-mode: disables line numbers
+	and whitespace highlighting, and enables soft-wrapping
+" enable-reading-mode -params 0 %{ try %{
+	ui-line-numbers-disable
+	ui-wrap-enable
+	ui-whitespaces-disable
+}}

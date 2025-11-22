@@ -15,22 +15,16 @@ hook global BufSetOption lintcmd=.+ %{
 # in the rare case I use tmux
 hook -once -always global ModuleLoaded tmux %{ alias global repl-new tmux-repl-vertical }
 
-define-command -params 0 -hidden config-enable-reading-mode %{ try %{
-	ui-line-numbers-disable
-	ui-wrap-enable
-	ui-whitespaces-disable
-}}
-
 hook global BufCreate (?:.*/)?\.clangd 'set-option buffer filetype yaml'
 hook global BufCreate .+\.ldtk         'set-option buffer filetype json'
 
 hook global BufCreate .* %{ try 'editorconfig-load' }
 
-hook global WinDisplay \*.+?\* config-enable-reading-mode
+hook global WinDisplay \*.+?\* enable-reading-mode
 
 hook global WinSetOption filetype=man ui-wrap-disable
 
-define-command -params 0 config-define-auto-indent-hooks %{
+define-command -hidden config-define-auto-indent-hooks -params 0 %{
 	hook -group auto-indent global InsertChar \t %{ try %{
 		evaluate-commands %sh{ [ "$kak_opt_indentwidth" = 0 ] && printf %s "fail" }
 		execute-keys -draft "h<a-h><a-k>\A\h+\z<ret><a-;>;%opt{indentwidth}@"
@@ -41,7 +35,7 @@ define-command -params 0 config-define-auto-indent-hooks %{
 	}}
 }
 
-config-define-auto-indent-hooks
+# config-define-auto-indent-hooks
 
 # ~~this should be in plugins/kakoune-filetree.kak~~
 # this straight up just doesn't work
