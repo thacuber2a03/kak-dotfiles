@@ -13,8 +13,6 @@ map global object t '<a-semicolon>lsp-object Class Interface Struct<ret>' -docst
 map global object d '<a-semicolon>lsp-diagnostic-object --include-warnings<ret>' -docstring 'LSP errors and warnings'
 map global object D '<a-semicolon>lsp-diagnostic-object<ret>' -docstring 'LSP errors'
 
-map global user l ":enter-user-mode lsp<ret>" -docstring "LSP mode"
-
 hook -group lsp-formatting global BufWritePre .* lsp-formatting
 
 # INLAY!!!!!!!!

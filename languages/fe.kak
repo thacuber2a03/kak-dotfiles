@@ -32,11 +32,11 @@ hook global WinSetOption filetype=fe %{
 
 	hook window ModeChange pop:insert:.* -group fe-trim-indent lisp-trim-indent
 	hook window InsertChar \n -group fe-indent lisp-indent-on-new-line
-    set-option buffer extra_word_chars '_' '+' '-' '*' '/' '@' '$' '%' '^' '&' '_' '=' '<' '>' '~' '.'
+	set-option buffer extra_word_chars '_' '+' '-' '*' '/' '@' '$' '%' '^' '&' '_' '=' '<' '>' '~' '.'
 
 	set-option buffer lisp_special_indent_forms ''
 
-    hook -once -always window WinSetOption filetype=.* %{ remove-hooks window lisp-.+ }
+	hook -once -always window WinSetOption filetype=.* %{ remove-hooks window lisp-.+ }
 }
 
 hook -group fe-highlight global WinSetOption filetype=fe %{

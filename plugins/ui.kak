@@ -19,15 +19,17 @@ set-option global ui_line_numbers_flags                             \
 
 set-option global ui_wrap_flags -word -marker '-'
 
+set-option global ui_whitespaces_flags -indent '▏'
+
 map global user u ':enter-user-mode ui<ret>' -docstring "UI mode"
 
 hook global WinCreate .* %{
-	ui-line-numbers-toggle
-	ui-whitespaces-toggle
-	ui-todos-toggle
-	ui-cursorline-toggle
-	ui-trailing-spaces-toggle
-	ui-matching-toggle
-	ui-search-toggle
-	ui-git-diff-toggle
+	ui-line-numbers-enable
+	ui-whitespaces-enable
+	ui-todos-enable
+	ui-cursorline-enable
+	ui-trailing-spaces-enable
+	ui-matching-enable
+	ui-search-enable
+	ui-git-diff-enable
 }
