@@ -4,7 +4,9 @@ hook global BufSetOption filetype=uiua %{
 }
 
 # FIX(thacuber2a03): I actually don't know how else to check for kak-lsp
-if "set-option global lsp_servers %opt{lsp_servers}" %{
+try %{
+	set-option global lsp_servers %opt{lsp_servers}
+
 	hook -group lsp-filetype-uiua global BufSetOption filetype=uiua %{
 		set-option buffer lsp_servers %{
 			[uiua-lsp]
@@ -37,7 +39,7 @@ if "set-option global lsp_servers %opt{lsp_servers}" %{
 			remove-hooks window lsp-semantic-tokens-uiua
 		}
 	}
-} %{
+} catch %{
 	config-trace-log 'LSP not detected, defaulting to uiua fmt --io'
 	config-set-formatter uiua 'uiua fmt --io'
 }
