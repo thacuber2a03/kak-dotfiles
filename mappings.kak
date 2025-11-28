@@ -24,9 +24,9 @@ if %opt{config_in_termux} %{
 		# ~~huh, wayland has it shorter~~ nevermind anymore
 		map -docstring "delete to system clipboard"    global user d '<a-|>wl-copy<ret><a-d>'
 		map -docstring "yank to system clipboard"      global user y '<a-|>wl-copy<ret>'
-		map -docstring "insert from system clipboard"  global user P '!wl-paste<ret>'
-		map -docstring "append from system clipboard"  global user p '<a-!>wl-paste<ret>'
-		map -docstring "replace with system clipboard" global user R '|wl-paste<ret>'
+		map -docstring "insert from system clipboard"  global user P '!wl-paste -n<ret>'
+		map -docstring "append from system clipboard"  global user p '<a-!>wl-paste -n<ret>'
+		map -docstring "replace with system clipboard" global user R '|wl-paste -n<ret>'
 	} catch %{
 		config-log-public "unknown or unsupported environment, system copy/paste commands disabled"
 	}

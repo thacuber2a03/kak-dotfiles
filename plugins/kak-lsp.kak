@@ -13,8 +13,6 @@ map global object t '<a-semicolon>lsp-object Class Interface Struct<ret>' -docst
 map global object d '<a-semicolon>lsp-diagnostic-object --include-warnings<ret>' -docstring 'LSP errors and warnings'
 map global object D '<a-semicolon>lsp-diagnostic-object<ret>' -docstring 'LSP errors'
 
-hook -group lsp-formatting global BufWritePre .* lsp-formatting
-
 # INLAY!!!!!!!!
 hook global WinCreate .* %{ try %{
 	lsp-inlay-diagnostics-enable window

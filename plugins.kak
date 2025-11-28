@@ -41,7 +41,7 @@ define-command -hidden -params .. config-add-plugin %{
 	}
 }
 
-define-command -hidden -params .. config-add-custom %{
+define-command -hidden -params .. config-add-custom-plugin %{
 	config-trace-log-separator
 	config-trace-log "registering plugin '%arg{1}' (custom load)"
 	set-option -add global config_plugins "%arg{1} (%arg{2})"
@@ -77,7 +77,7 @@ config-add-plugin ui                  'https://github.com/kkga/ui.kak'
 config-add-plugin Encapsul8           'https://github.com/ElectricR/Encapsul8'
 config-add-plugin kakoune-shellcheck  'https://gitlab.com/Screwtapello/kakoune-shellcheck'
 config-add-plugin highlighters.kak    'https://github.com/thacuber2a03/highlighters.kak'
-config-add-plugin local-kakrc         'https://github.com/thacuber2a03/local-kakrc'
+config-add-plugin secure-local-kakrc  'https://codeberg.org/ficd/secure-local-kakrc'
 config-add-plugin kakoune-repl-buffer 'https://gitlab.com/Screwtapello/kakoune-repl-buffer'
 config-add-plugin kak-ansi            'https://github.com/eraserhd/kak-ansi'
 config-add-plugin kakoune-filetree    'https://github.com/occivink/kakoune-filetree'
@@ -92,13 +92,13 @@ config-add-theme ashen      'https://codeberg.org/ficd/kak-ashen'
 # config-add-theme kakoune-themes 'https://codeberg.org/anhsirk0/kakoune-themes'
 
 if-not %opt{config_in_termux} %{
-	config-add-plugin parinfer-rust   'https://github.com/eraserhd/parinfer-rust'
-	config-add-plugin kak-lsp         'https://github.com/kakoune-lsp/kakoune-lsp'
+	config-add-plugin parinfer-rust 'https://github.com/eraserhd/parinfer-rust'
+	config-add-plugin kak-lsp       'https://github.com/kakoune-lsp/kakoune-lsp'
 
 	# TODO(thacuber2a03): I need to figure out what the hell is going on with this plugin
 	# config-add-plugin kakoune-discord 'https://github.com/thacuber2a03/kakoune-discord'
 
-	config-add-custom kak-tree-sitter 'https://git.sr.ht/~hadronized/kak-tree-sitter'
+	config-add-custom-plugin kak-tree-sitter 'https://git.sr.ht/~hadronized/kak-tree-sitter'
 
 	config-add-theme kakoune-tree-sitter-themes 'https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes'
 } %{

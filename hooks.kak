@@ -1,7 +1,6 @@
-hook global BufSetOption formatcmd=.+ %{
-	hook -group format-hook buffer BufWritePre .* format
-	hook -once -always buffer BufSetOption formatcmd= %{
-		remove-hooks buffer format-hook
+hook global BufCreate .* %{
+	hook -group format-hook global BufWritePre .* %{
+		try lsp-formatting catch format catch ''
 	}
 }
 
@@ -18,7 +17,7 @@ hook -once -always global ModuleLoaded tmux %{ alias global repl-new tmux-repl-v
 hook global BufCreate (?:.*/)?\.clangd 'set-option buffer filetype yaml'
 hook global BufCreate .+\.ldtk         'set-option buffer filetype json'
 
-hook global BufCreate .* %{ try 'editorconfig-load' }
+hook global BufCreate .* %{ try editorconfig-load }
 
 hook global WinDisplay \*.+?\* enable-reading-mode
 

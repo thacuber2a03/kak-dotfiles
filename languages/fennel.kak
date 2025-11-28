@@ -1,15 +1,12 @@
-config-set-formatter fennel 'fnlfmt -'
-
 define-command -docstring "
 	fennel-repl: opens a new Fennel REPL session that automatically gets closed when it ends
 " fennel-repl -params 0 %{
 	try %{
-		# if user has kakoune-repl-buffer
 		repl-buffer-new -name '*fennel-repl*' -- env TERM=dumb fennel
-		hook -once -always window BufCloseFifo %{ delete-buffer! %val{bufname} }
+		hook -once -always buffer BufCloseFifo .* %{ delete-buffer! %val{bufname} }
 	} catch %{
 		config-trace-log "unable to open repl-buffer: %val{error}"
-		repl-new env TERM=dumb fennel
+		repl-new fennel
 	} catch %{
 		fail "unable to open repl: %val{error}"
 	}
@@ -31,6 +28,8 @@ complete-command fennel-preview file 1
 
 hook global BufCreate .*/home/.+?/.fennelrc %{ set-option buffer filetype fennel }
 
+config-set-formatter fennel 'fnlfmt -'
+
 hook -group lsp-filetype-fennel global BufSetOption filetype=fennel %{
 	set-option buffer lsp_servers %{
 		[fennel-ls]
@@ -38,10 +37,7 @@ hook -group lsp-filetype-fennel global BufSetOption filetype=fennel %{
 	}
 }
 
-hook global BufSetOption filetype=fennel %{
-	set-option global indentwidth 2
-	set-option global tabstop 8
-}
+hook global WinSetOption filetype=fennel 'config-setup-lisp-mode'
 
 hook global WinSetOption filetype=fennel %{
 	# various patches to the Fennel highlighter
