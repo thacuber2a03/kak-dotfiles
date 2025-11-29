@@ -1,6 +1,4 @@
 provide-module fe %{
-	require-module lisp
-
 	add-highlighter shared/fe regions
 	add-highlighter shared/fe/ region ';' '$' fill comment
 
@@ -23,9 +21,7 @@ provide-module fe %{
 	add-highlighter shared/fe/code/ regex '(?:(?<![^\h()])|^)=(?:(?![^\h()])|$)' 0:keyword
 }
 
-hook global BufCreate .*\.(fe|c7) %{
-	set-option buffer filetype fe
-}
+hook global BufCreate .+\.(fe|c7) %{ set-option buffer filetype fe }
 
 hook global WinSetOption filetype=fe %{
 	require-module fe
@@ -36,7 +32,7 @@ hook global WinSetOption filetype=fe %{
 
 	set-option buffer lisp_special_indent_forms ''
 
-	hook -once -always window WinSetOption filetype=.* %{ remove-hooks window lisp-.+ }
+	hook -once -always window WinSetOption filetype=.* %{ remove-hooks window fe-.+ }
 }
 
 hook -group fe-highlight global WinSetOption filetype=fe %{

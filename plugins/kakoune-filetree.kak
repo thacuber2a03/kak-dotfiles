@@ -1,1 +1,1 @@
-map global user f ':filetree<ret>' -docstring "Open file tree in a separate buffer"
+map global user f ':filetree-switch-or-start<ret>' -docstring "Open file tree in a separate buffer"
