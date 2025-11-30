@@ -20,7 +20,7 @@ try %{
 	}
 }
 
-declare-option -hidden bool config_trace_log_enabled true
+declare-option -hidden bool config_trace_log_enabled false
 declare-option -hidden str  config_log_separator_string '-----------------------------------------'
 
 # copied code :(
@@ -108,4 +108,11 @@ config-try-source "options.kak"
 config-try-source "commands.kak"
 config-try-source "hooks.kak"
 
-config-try-source "languages.kak"
+config-trace-log-separator
+config-trace-log "sourcing languages.kak"
+try %{
+	source "%val{config}/languages.kak"
+	config-trace-log "finished sourcing languages.kak"
+} catch %{
+	config-trace-log "error sourcing languages.kak: %val{error}"
+}

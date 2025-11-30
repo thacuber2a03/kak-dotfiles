@@ -81,15 +81,12 @@ config-add-plugin secure-local-kakrc  'https://codeberg.org/ficd/secure-local-ka
 config-add-plugin kakoune-repl-buffer 'https://gitlab.com/Screwtapello/kakoune-repl-buffer'
 config-add-plugin kak-ansi            'https://github.com/eraserhd/kak-ansi'
 config-add-plugin kakoune-filetree    'https://github.com/occivink/kakoune-filetree'
-config-add-plugin kakoune-palette     'https://github.com/Delapouite/kakoune-palette'
-config-add-plugin kakoune-focus       'https://github.com/caksoylar/kakoune-focus'
 
-config-add-theme kalolo     'https://github.com/nojhan/kalolo'
-config-add-theme dracula    'https://github.com/thacuber2a03/dracula-kakoune'
-config-add-theme everforest 'https://codeberg.org/jdugan6240/everforest.kak'
-config-add-theme ashen      'https://codeberg.org/ficd/kak-ashen'
-
+# config-add-theme kalolo         'https://github.com/nojhan/kalolo'
+# config-add-theme dracula        'https://github.com/thacuber2a03/dracula-kakoune'
+# config-add-theme everforest     'https://codeberg.org/jdugan6240/everforest.kak'
 # config-add-theme kakoune-themes 'https://codeberg.org/anhsirk0/kakoune-themes'
+config-add-theme ashen          'https://codeberg.org/ficd/kak-ashen'
 
 if-not %opt{config_in_termux} %{
 	config-add-plugin parinfer-rust 'https://github.com/eraserhd/parinfer-rust'
@@ -101,7 +98,7 @@ if-not %opt{config_in_termux} %{
 
 	config-add-custom-plugin kak-tree-sitter 'https://git.sr.ht/~hadronized/kak-tree-sitter'
 
-	config-add-theme kakoune-tree-sitter-themes 'https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes'
+	# config-add-theme kakoune-tree-sitter-themes 'https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes'
 } %{
 	config-log-public "Android detected, disabling certain plugins"
 }
