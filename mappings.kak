@@ -34,8 +34,20 @@ if %opt{config_in_termux} %{
 
 map global user / '/\Q\E<left><left>' -docstring "search literally"
 
+# move view with Ctrl-p/n rather than vk/j
+# idea ~~stolen~~ borrowed from https://ficd.sh
 map global normal <c-p> vk
 map global normal <c-n> vj
+
+# times where it's nice to center the screen
+map global normal n nvc
+map global normal N Nvc
+map global normal <a-n> <a-n>vc
+map global normal <a-N> <a-N>vc
+map global normal ( (vc
+map global normal ) )vc
+map global normal <a-(> <a-(>vc
+map global normal <a-)> <a-)>vc
 
 # undocumented mappings as of master: soft-wrapping j and k
 # NOTE(thacuber2a03): they are still somewhat uncooked, so...
