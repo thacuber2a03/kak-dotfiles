@@ -1,6 +1,5 @@
 hook global WinSetOption filetype=markdown %{
-	ui-wrap-enable
-
+	enable-reading-mode
 	# open local markdown link (does not work for links with hashes)
 	hook window NormalKey <ret> %{ 
 		evaluate-commands -save-regs '/"' %{
@@ -14,5 +13,3 @@ hook global WinSetOption filetype=markdown %{
 		}
 	}
 }
-
-# [example configuration](./examples/eww-bar/eww.yuck) askdhaksdhaksjdhaksd [example configuration](./examples/eww-bar/eww.yuck) akjshdkashdkashdkashda
