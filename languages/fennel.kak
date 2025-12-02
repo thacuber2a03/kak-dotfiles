@@ -1,15 +1,13 @@
 define-command -docstring "
 	fennel-repl: opens a new Fennel REPL session that automatically gets closed when it ends
 " fennel-repl -params 0 %{
-	try %{
-		repl-buffer-new -name '*fennel-repl*' -- env TERM=dumb fennel
-		hook -once -always buffer BufCloseFifo .* %{ delete-buffer! %val{bufname} }
-	} catch %{
-		config-trace-log "unable to open repl-buffer: %val{error}"
+	# try %{
+	# 	new repl-buffer-new -name '*fennel-repl*' -- env TERM=dumb fennel
+	# 	hook -once -always buffer BufCloseFifo .* %{ delete-buffer! %val{bufname} }
+	# } catch %{
+	# 	config-trace-log "unable to open repl-buffer for Fennel: %val{error}"
 		repl-new fennel
-	} catch %{
-		fail "unable to open repl: %val{error}"
-	}
+	# }
 }
 
 define-command -docstring "

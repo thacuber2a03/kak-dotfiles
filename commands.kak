@@ -1,12 +1,13 @@
 define-command -docstring "
 	source-ex [...]: if no parameters are passed, sources the current buffer.
-	otherwise, forwards all of them to source.
+	otherwise, forwards all of them to source
 " source-ex -params .. %{
 	evaluate-commands %sh{
 		if [ "$#" = 0 ]; then
-			printf %s "source $kak_buffile"; exit
+			printf %s "source $kak_buffile"
+		else
+			printf %s "source $*"
 		fi
-		printf %s "source $@"
 	}
 }
 complete-command source-ex file
@@ -67,13 +68,12 @@ alias global config open-config
 define-command -docstring "
 	grep-config <pattern>: find a grep pattern in all files in the config dir
 " grep-config -params 1 %{
-	grep %arg{1} "%val{config}" "%val{runtime}/kakrc" "%val{config}/autoload"
+	grep -- %arg{1} "%val{config}" "%val{config}/kakrc"
 }
 
 complete-command grep-config shell-script-candidates %{
 	{
 		find -L "$kak_config/kakrc" "$kak_config" -type f -name '*.kak'
-		find -L "$kak_config/autoload" "$kak_runtime/autoload" -type f -name '*.kak'
 	} |
 	xargs grep -o -h -w '[[:alpha:]][[:alnum:]_-]\+' -- |
 	sort -u
@@ -83,7 +83,7 @@ complete-command grep-config shell-script-candidates %{
 
 define-command -docstring "
 	afk: show an 'afk' modal text that disappears as soon as a key is pressed
-" afk -params 0 %{
+" afk %{
 	info -style modal -title afk "not here, brb"
 	on-key %{
 		info -style modal
@@ -92,33 +92,11 @@ define-command -docstring "
 }
 
 define-command -docstring "
-	enable-reading-mode: disables line numbers
-	and whitespace highlighting, and enables soft-wrapping
-" enable-reading-mode -params 0 %{ try %{
-	ui-line-numbers-disable
-	ui-wrap-enable
-	ui-whitespaces-disable
-}}
-
-define-command -hidden config-setup-lisp-mode -params 0 %{
-	set-option buffer indentwidth 2
-	set-option buffer tabstop 8
-
-	set-option -add window ui_whitespaces_flags -spc ' ' -tab '�' -tabpad '�'
-	ui-whitespaces-toggle
-	ui-whitespaces-toggle
-
-	remove-hooks global auto-indent
-
-	try 'parinfer-enable-window -smart' catch %{
-		hook -group parinfer buffer BufWritePre .* parinfer
-	}
-
-	hook -once -always buffer BufSetOption filetype=.* %{
-		remove-hooks buffer parinfer
-		set-option -remove window ui_whitespaces_flags -spc ' ' -tab '�' -tabpad '�'
-		unset-option buffer indentwidth
-		unset-option buffer tabstop
-		config-define-auto-indent-hooks
-	}
+	enable-reading-mode: disables line numbers, whitespace highlighting
+	and the git diff gutter, and enables soft-wrapping
+" enable-reading-mode %{
+	try %{ ui-git-diff-disable     }
+	try %{ ui-line-numbers-disable }
+	try %{ ui-whitespaces-disable  }
+	try %{ ui-wrap-enable          }
 }

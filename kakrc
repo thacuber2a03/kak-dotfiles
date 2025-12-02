@@ -2,9 +2,9 @@ try %{
 	define-command -hidden true -params 0 nop
 	define-command -hidden false -params 0 fail
 
-	define-command -docstring "
+	define-command -hidden -docstring "
 		if cond on-true [ on-false ]: yes
-	" -hidden if -params 2..3 %{
+	" if -params 2..3 %{
 		try %{
 			%arg{1}
 			evaluate-commands %arg{2}
@@ -13,9 +13,9 @@ try %{
 		}
 	}
 
-	define-command -docstring "
+	define-command -hidden -docstring "
 		if-not cond on-false [ on-true ]: no
-	" -hidden if-not -params 2..3 %{
+	" if-not -params 2..3 %{
 		if %arg{1} %arg{3} %arg{2}
 	}
 }

@@ -17,10 +17,9 @@ hook -once -always global ModuleLoaded tmux %{ alias global repl-new tmux-repl-v
 hook global BufCreate (?:.*/)?\.clangd 'set-option buffer filetype yaml'
 hook global BufCreate .+\.ldtk         'set-option buffer filetype json'
 
-hook global BufCreate .* %{ try editorconfig-load }
+hook global BufCreate .* 'try editorconfig-load'
 
-hook global WinDisplay \*.+?\* enable-reading-mode
-
+hook global WinDisplay   \*.+?\*      enable-reading-mode
 hook global WinSetOption filetype=man ui-wrap-disable
 
 define-command -hidden config-define-auto-indent-hooks -params 0 %{
@@ -34,7 +33,7 @@ define-command -hidden config-define-auto-indent-hooks -params 0 %{
 	}}
 }
 
-# config-define-auto-indent-hooks
+config-define-auto-indent-hooks
 
 # ~~this should be in plugins/kakoune-filetree.kak~~
 # this straight up just doesn't work

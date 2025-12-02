@@ -19,7 +19,7 @@ evaluate-commands %sh{
 	fi
 }
 
-define-command -hidden -params .. config-add-theme %{
+define-command -hidden config-add-theme -params .. %{
 	config-trace-log-separator
 	config-trace-log "adding colorscheme '%arg{1}'"
 	bundle-theme %arg{1} %arg{2}
@@ -31,7 +31,7 @@ declare-option -hidden str-list config_plugins
 
 declare-option -hidden str config_current_plugin_name
 
-define-command -hidden -params .. config-add-plugin %{
+define-command -hidden config-add-plugin -params .. %{
 	config-trace-log-separator
 	config-trace-log "registering plugin '%arg{1}'"
 	set-option -add global config_plugins "%arg{1} (%arg{2})"
@@ -41,7 +41,7 @@ define-command -hidden -params .. config-add-plugin %{
 	}
 }
 
-define-command -hidden -params .. config-add-custom-plugin %{
+define-command -hidden config-add-custom-plugin -params .. %{
 	config-trace-log-separator
 	config-trace-log "registering plugin '%arg{1}' (custom load)"
 	set-option -add global config_plugins "%arg{1} (%arg{2})"
@@ -53,7 +53,7 @@ define-command -hidden -params .. config-add-custom-plugin %{
 
 define-command -docstring "
 	config-show-plugins: opens a new buffer showing all installed plugins
-" -params 0 config-show-plugins %{
+" config-show-plugins %{
 	edit! -scratch '*plugins*'
 
 	add-highlighter buffer/ regex 'Installed plugins:' 0:header
@@ -96,7 +96,7 @@ if-not %opt{config_in_termux} %{
 	# TODO(thacuber2a03): I need to figure out what the hell is going on with this plugin
 	# config-add-plugin kakoune-discord 'https://github.com/thacuber2a03/kakoune-discord'
 
-	config-add-custom-plugin kak-tree-sitter 'https://git.sr.ht/~hadronized/kak-tree-sitter'
+	config-add-custom-plugin kak-tree-sitter 'https://git.sr.ht/~thacuber2a03/kak-tree-sitter'
 
 	# config-add-theme kakoune-tree-sitter-themes 'https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes'
 } %{
