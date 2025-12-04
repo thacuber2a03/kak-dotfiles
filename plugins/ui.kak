@@ -1,7 +1,7 @@
 declare-option -hidden str config_ui_line_numbers_separator ' ▏'
 declare-option -hidden str config_ui_line_numbers_cursor_separator ' 🯛'
 
-if %opt{config_in_termux} %{
+if '%opt{config_in_termux}' %{
 	set-option global config_ui_line_numbers_separator ' ▎'
 	set-option global config_ui_line_numbers_cursor_separator ' ⟩'
 }

@@ -82,7 +82,7 @@ config-add-plugin kakoune-repl-buffer 'https://gitlab.com/Screwtapello/kakoune-r
 config-add-plugin kak-ansi            'https://github.com/eraserhd/kak-ansi'
 config-add-plugin kakoune-filetree    'https://github.com/occivink/kakoune-filetree'
 
-config-add-theme ashen          'https://codeberg.org/ficd/kak-ashen'
+config-add-theme ashen 'https://codeberg.org/ficd/kak-ashen'
 
 if-not %opt{config_in_termux} %{
 	config-add-plugin parinfer-rust 'https://github.com/eraserhd/parinfer-rust'
@@ -93,9 +93,6 @@ if-not %opt{config_in_termux} %{
 	# config-add-plugin kakoune-discord 'https://github.com/thacuber2a03/kakoune-discord'
 
 	config-add-custom-plugin kak-tree-sitter 'https://git.sr.ht/~thacuber2a03/kak-tree-sitter'
-
-	# config-add-theme kakoune-tree-sitter-themes 'https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes'
-} \
-# %{
-# 	config-log-public "Android detected, disabling certain plugins"
-# }
+} %{
+	config-log-public "Android detected, disabling certain plugins"
+}
