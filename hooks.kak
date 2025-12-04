@@ -1,14 +1,10 @@
-hook global BufCreate .* %{
-	hook -group format-hook global BufWritePre .* %{
-		try lsp-formatting catch format catch ''
-	}
+hook -group format-hook global BufWritePre .* %{
+	try format catch lsp-formatting
 }
 
 hook global BufSetOption lintcmd=.+ %{
 	hook -group lint-hook buffer BufWritePre .* lint
-	hook -once -always buffer BufSetOption lintcmd= %{
-		remove-hooks buffer lint-hook
-	}
+	hook -once -always buffer BufSetOption lintcmd= %{ remove-hooks buffer lint-hook }
 }
 
 # in the rare case I use tmux

@@ -41,6 +41,8 @@ hook global WinSetOption filetype=fennel %{
 	# various patches to the Fennel highlighter
 	# TODO(thacuber2a03): not proper, should eventually merge into master
 
+	require-module fennel
+
 	define-command -hidden fennel-patch-indent-on-new-line %{
 		# registers: i = best align point so far; w = start of first word of form
 		evaluate-commands -draft -save-regs '/"|^@iw' -itersel %{
@@ -64,7 +66,8 @@ hook global WinSetOption filetype=fennel %{
 		}
 	}
 
-	require-module fennel
+	# remove-hooks window fennel-indent
+	# hook window InsertChar \n -group fennel-indent fennel-patch-indent-on-new-line
 
 	remove-highlighter shared/fennel/code/keywords
 	remove-highlighter shared/fennel/code/builtins
@@ -92,8 +95,5 @@ hook global WinSetOption filetype=fennel %{
 			add-highlighter shared/fennel/code/builtins regex \b($(join "${builtins}" '|'))\b 0:builtin
 		"
 	}
-
-	remove-hooks window fennel-indent
-	hook window InsertChar \n -group fennel-indent fennel-patch-indent-on-new-line
 }
 
