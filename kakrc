@@ -1,5 +1,5 @@
 try %{
-	define-command -hidden true -params 0 nop
+	define-command -hidden true  -params 0 nop
 	define-command -hidden false -params 0 fail
 
 	define-command -hidden -docstring "
@@ -16,11 +16,17 @@ try %{
 	define-command -hidden -docstring "
 		if-not cond on-false [ on-true ]: no
 	" if-not -params 2..3 %{
-		if %arg{1} %arg{3} %arg{2}
+		echo -debug -- %arg{@}
+		try %{
+			%arg{1}
+			evaluate-commands %arg{3}
+		} catch %{
+			evaluate-commands %arg{2}
+		}
 	}
 }
 
-declare-option -hidden bool config_trace_log_enabled false
+declare-option -hidden bool config_trace_log_enabled true
 declare-option -hidden str  config_log_separator_string '-----------------------------------------'
 
 # copied code :(
