@@ -16,7 +16,6 @@ try %{
 	define-command -hidden -docstring "
 		if-not cond on-false [ on-true ]: no
 	" if-not -params 2..3 %{
-		echo -debug -- %arg{@}
 		try %{
 			%arg{1}
 			evaluate-commands %arg{3}
@@ -26,14 +25,16 @@ try %{
 	}
 }
 
-declare-option -hidden bool config_trace_log_enabled true
+declare-option -hidden bool config_trace_log_enabled false
 declare-option -hidden str  config_log_separator_string '-----------------------------------------'
 
-# copied code :(
 define-command -hidden config-fail -params .. %{ fail "config: %arg{@}" }
 define-command -hidden config-log  -params .. %{ echo -debug -- "config: %arg{@}" }
 
-define-command -hidden config-trace-log -params .. %{ if %opt{config_trace_log_enabled} "config-log trace: %arg{@}" }
+define-command -hidden config-trace-log -params .. %{
+	if %opt{config_trace_log_enabled} %{ config-log trace: %arg{@} }
+}
+
 define-command -hidden config-trace-log-separator -params 0 %{ config-trace-log %opt{config_log_separator_string} }
 
 try %{
@@ -114,11 +115,4 @@ config-try-source "options.kak"
 config-try-source "commands.kak"
 config-try-source "hooks.kak"
 
-config-trace-log-separator
-config-trace-log "sourcing languages.kak"
-try %{
-	source "%val{config}/languages.kak"
-	config-trace-log "finished sourcing languages.kak"
-} catch %{
-	config-trace-log "error sourcing languages.kak: %val{error}"
-}
+config-try-source "languages.kak"

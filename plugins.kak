@@ -35,7 +35,7 @@ define-command -hidden config-add-plugin -params .. %{
 	config-trace-log-separator
 	config-trace-log "registering plugin '%arg{1}'"
 	set-option -add global config_plugins "%arg{1} (%arg{2})"
-	set-option local config_current_plugin_name %arg{1}
+	set-option global config_current_plugin_name %arg{1}
 	bundle %arg{1} %arg{2} %{
 		config-try-source "%opt{config_plugin_config_directory}/%opt{config_current_plugin_name}.kak"
 	}
@@ -45,7 +45,7 @@ define-command -hidden config-add-custom-plugin -params .. %{
 	config-trace-log-separator
 	config-trace-log "registering plugin '%arg{1}' (custom load)"
 	set-option -add global config_plugins "%arg{1} (%arg{2})"
-	set-option local config_current_plugin_name %arg{1}
+	set-option global config_current_plugin_name %arg{1}
 	bundle-customload %arg{1} %arg{2} %{
 		config-try-source "%opt{config_plugin_config_directory}/%opt{config_current_plugin_name}.kak"
 	}
@@ -82,10 +82,6 @@ config-add-plugin kakoune-repl-buffer 'https://gitlab.com/Screwtapello/kakoune-r
 config-add-plugin kak-ansi            'https://github.com/eraserhd/kak-ansi'
 config-add-plugin kakoune-filetree    'https://github.com/occivink/kakoune-filetree'
 
-# config-add-theme kalolo         'https://github.com/nojhan/kalolo'
-# config-add-theme dracula        'https://github.com/thacuber2a03/dracula-kakoune'
-# config-add-theme everforest     'https://codeberg.org/jdugan6240/everforest.kak'
-# config-add-theme kakoune-themes 'https://codeberg.org/anhsirk0/kakoune-themes'
 config-add-theme ashen          'https://codeberg.org/ficd/kak-ashen'
 
 if-not %opt{config_in_termux} %{
@@ -99,6 +95,7 @@ if-not %opt{config_in_termux} %{
 	config-add-custom-plugin kak-tree-sitter 'https://git.sr.ht/~thacuber2a03/kak-tree-sitter'
 
 	# config-add-theme kakoune-tree-sitter-themes 'https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes'
-} %{
+} \
+%{
 	config-log-public "Android detected, disabling certain plugins"
 }
