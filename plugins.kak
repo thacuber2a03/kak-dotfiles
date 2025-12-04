@@ -96,6 +96,6 @@ if-not %opt{config_in_termux} %{
 
 	# config-add-theme kakoune-tree-sitter-themes 'https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes'
 } \
-%{
-	config-log-public "Android detected, disabling certain plugins"
-}
+# %{
+# 	config-log-public "Android detected, disabling certain plugins"
+# }

@@ -20,6 +20,7 @@ try %{
 			%arg{1}
 			evaluate-commands %arg{3}
 		} catch %{
+			echo -debug -- "condition %arg{1} failed: %val{error}"
 			evaluate-commands %arg{2}
 		}
 	}
@@ -32,7 +33,9 @@ define-command -hidden config-fail -params .. %{ fail "config: %arg{@}" }
 define-command -hidden config-log  -params .. %{ echo -debug -- "config: %arg{@}" }
 
 define-command -hidden config-trace-log -params .. %{
-	if %opt{config_trace_log_enabled} %{ config-log trace: %arg{@} }
+	if %opt{config_trace_log_enabled} %{
+		config-log 'trace: %arg{@}'
+	}
 }
 
 define-command -hidden config-trace-log-separator -params 0 %{ config-trace-log %opt{config_log_separator_string} }
