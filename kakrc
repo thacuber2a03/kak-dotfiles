@@ -40,6 +40,7 @@ try %{
 define-command -hidden config-try-source -params 1 %{
 	config-trace-log-separator
 	config-trace-log "sourcing %arg{1}.kak"
+	# I give all my praises to the sole existence of this expansion type
 	try %exp{
 		source "%val{config}/%arg{1}.kak"
 		config-trace-log "finished sourcing %arg{1}.kak"
