@@ -6,9 +6,9 @@ define-command -override -hidden -docstring "
 " if -params 2..3 %{
 	try %{
 		%arg{1}
-		evaluate-commands %arg{2}
+		try "evaluate-commands %arg{2}"
 	} catch %{
-		evaluate-commands %arg{3}
+		try "evaluate-commands %arg{3}"
 	}
 }
 
