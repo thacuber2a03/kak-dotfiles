@@ -3,7 +3,9 @@ hook global BufSetOption filetype=(.+) %{ set-option buffer filetype_info "(ft %
 
 ### tooling
 
-hook -group format-hook global BufWritePre .* 'try format catch lsp-formatting'
+hook -group format-hook global BufWritePre .* %{
+	try format catch lsp-formatting catch ''
+}
 
 hook global BufSetOption lintcmd=.+ %{
 	hook -group lint-hook buffer BufWritePre .* lint
