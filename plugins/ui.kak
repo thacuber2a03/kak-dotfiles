@@ -31,5 +31,5 @@ hook global WinCreate .* %{
 	ui-trailing-spaces-enable
 	ui-matching-enable
 	ui-search-enable
-	ui-git-diff-enable
+	try ui-git-diff-enable # cheap way to solve this... but it works I guess
 }

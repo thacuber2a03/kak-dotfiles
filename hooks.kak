@@ -1,22 +1,25 @@
-hook -group format-hook global BufWritePre .* %{
-	try format catch lsp-formatting
-}
+hook global BufSetOption filetype=     %{ set-option buffer filetype_info ""                                 }
+hook global BufSetOption filetype=(.+) %{ set-option buffer filetype_info "(ft %val{hook_param_capture_1}) " }
+
+### tooling
+
+hook -group format-hook global BufWritePre .* 'try format catch lsp-formatting'
 
 hook global BufSetOption lintcmd=.+ %{
 	hook -group lint-hook buffer BufWritePre .* lint
 	hook -once -always buffer BufSetOption lintcmd= %{ remove-hooks buffer lint-hook }
 }
 
-# in the rare case I use tmux
-hook -once -always global ModuleLoaded tmux %{ alias global repl-new tmux-repl-vertical }
-
 hook global BufCreate (?:.*/)?\.clangd 'set-option buffer filetype yaml'
 hook global BufCreate .+\.ldtk         'set-option buffer filetype json'
 
+hook global WinDisplay   \*.+?\*      'enable-reading-mode'
+hook global WinSetOption filetype=man 'ui-wrap-disable'
+
 hook global BufCreate .* 'try editorconfig-load'
 
-hook global WinDisplay   \*.+?\*      enable-reading-mode
-hook global WinSetOption filetype=man ui-wrap-disable
+# in the rare case I use tmux
+hook -once -always global ModuleLoaded tmux %{ alias global repl-new tmux-repl-vertical }
 
 define-command -hidden config-define-auto-indent-hooks -params 0 %{
 	hook -group auto-indent global InsertChar \t %{ try %{

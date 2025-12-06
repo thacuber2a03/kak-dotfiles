@@ -26,25 +26,11 @@ alias global = evaluate-selection
 #############################################################################################################################################################################
 
 define-command -docstring "
-	reload-selected-commands: reloads the selected commands, can also evaluate a selection
+	reload-selected-commands: reloads the selected commands (can also evaluate the main selection)
 " reload-selected-commands %{
-  echo -to-shell-script "sed 's/define-command /define-command -override /g' | kak -p %val{session}" -- %val{selections}
+	echo -to-shell-script "sed 's/define-command /define-command -override /g' | kak -p %val{session}" -- %val{selections}
 }
 alias global == reload-selected-commands
-
-#############################################################################################################################################################################
-
-define-command -docstring "
-	open-kakrc: open the config kakrc in a new buffer
-" open-kakrc %{
-	edit! -existing "%val{config}/kakrc"
-}
-
-define-command -docstring "
-	open-shared-kakrc: open the runtime kakrc in a new buffer
-" open-shared-kakrc %{
-	edit! -existing -readonly "%val{runtime}/kakrc"
-}
 
 #############################################################################################################################################################################
 
@@ -58,31 +44,49 @@ define-command -docstring "
 }
 
 complete-command -menu open-config shell-script-candidates %{
-	find -L "$kak_config" -name 'bundle' -prune -o -type f \( -name '*.kak' -o -name 'kakrc' \) -print
-	find -L "$kak_runtime" -type f \( -name '*.kak' -o -name 'kakrc' \)
-	find -L "$kak_config/autoload" -type f -name '*.kak'
+	echo "$kak_config/kakrc"
+	find -L "$kak_config" -name 'bundle' -prune -o -type f -name '*.kak' -print
 }
 
 alias global config open-config
 
 define-command -docstring "
+	open-shared-config <file>: open one of the files in the runtime dir (in readonly mode)
+" open-shared-config -params 1 %{
+	edit! -existing -readonly %arg{1}
+}
+
+complete-command -menu open-shared-config shell-script-candidates %{
+	echo "$kak_runtime/kakrc"
+	find -L "$kak_runtime" -type f -name '*.kak'
+}
+
+alias global shared-config open-shared-config
+
+define-command -docstring "
 	grep-config <pattern>: find a grep pattern in all files in the config dir
 " grep-config -params 1 %{
-	grep -- %arg{1} "%val{config}" "%val{config}/kakrc"
+	grep --exclude-dir=bundle -- %arg{1} "%val{config}" "%val{config}/kakrc"
 }
 
 complete-command grep-config shell-script-candidates %{
 	{
-		find -L "$kak_config/kakrc" "$kak_config" -type f -name '*.kak'
-	} |
-	xargs grep -o -h -w '[[:alpha:]][[:alnum:]_-]\+' -- |
-	sort -u
+		echo "$kak_config/kakrc"
+		find -L "$kak_config" -name 'bundle' -prune -o -type f -name '*.kak' -print
+	} \
+	| xargs grep -o -h -w '[[:alpha:]][[:alnum:]_-]\+' -- \
+	| sort -u
 }
 
 #############################################################################################################################################################################
 
+define-command -docstring "open-kakrc: open the config kakrc in a new buffer"                            open-kakrc        'open-config kakrc'
+define-command -docstring "open-shared-kakrc: open the runtime kakrc in a new buffer (in readonly mode)" open-shared-kakrc 'open-shared-config kakrc'
+
+#############################################################################################################################################################################
+
 define-command -docstring "
-	afk: show an 'afk' modal text that disappears as soon as a key is pressed
+	afk: show an 'AFK' modal text that disappears as soon as a key is pressed
 " afk %{
 	info -style modal -title afk "not here, brb"
 	on-key %{

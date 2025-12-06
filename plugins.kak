@@ -20,10 +20,9 @@ evaluate-commands %sh{
 }
 
 define-command -hidden config-add-theme -params .. %{
-	config-trace-log-separator
 	config-trace-log "adding colorscheme '%arg{1}'"
 	bundle-theme %arg{1} %arg{2}
-	config-try-source "%opt{config_plugin_config_directory}/%arg{1}.kak"
+	config-try-source "%opt{config_plugin_config_directory}/%arg{1}"
 }
 
 # loaded plugins. format: `name (url)`
@@ -32,22 +31,20 @@ declare-option -hidden str-list config_plugins
 declare-option -hidden str config_current_plugin_name
 
 define-command -hidden config-add-plugin -params .. %{
-	config-trace-log-separator
 	config-trace-log "registering plugin '%arg{1}'"
 	set-option -add global config_plugins "%arg{1} (%arg{2})"
 	set-option global config_current_plugin_name %arg{1}
 	bundle %arg{1} %arg{2} %{
-		config-try-source "%opt{config_plugin_config_directory}/%opt{config_current_plugin_name}.kak"
+		config-try-source "%opt{config_plugin_config_directory}/%opt{config_current_plugin_name}"
 	}
 }
 
 define-command -hidden config-add-custom-plugin -params .. %{
-	config-trace-log-separator
 	config-trace-log "registering plugin '%arg{1}' (custom load)"
 	set-option -add global config_plugins "%arg{1} (%arg{2})"
 	set-option global config_current_plugin_name %arg{1}
 	bundle-customload %arg{1} %arg{2} %{
-		config-try-source "%opt{config_plugin_config_directory}/%opt{config_current_plugin_name}.kak"
+		config-try-source "%opt{config_plugin_config_directory}/%opt{config_current_plugin_name}"
 	}
 }
 
