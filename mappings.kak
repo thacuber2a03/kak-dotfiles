@@ -28,7 +28,7 @@ if %opt{config_in_termux} %{
 		map -docstring "append from system clipboard"  global user p '<a-!>wl-paste -n<ret>'
 		map -docstring "replace with system clipboard" global user R '|wl-paste -n<ret>'
 	} catch %{
-		config-log-public "unknown or unsupported environment, system copy/paste commands disabled"
+		config-log "unknown or unsupported environment, system copy/paste commands disabled"
 	}
 }
 

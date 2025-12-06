@@ -91,5 +91,5 @@ if-not %opt{config_in_termux} %{
 
 	config-add-custom-plugin kak-tree-sitter 'https://git.sr.ht/~thacuber2a03/kak-tree-sitter'
 } %{
-	config-log-public "Android detected, disabling certain plugins"
+	config-log "Android detected, disabling certain plugins"
 }
