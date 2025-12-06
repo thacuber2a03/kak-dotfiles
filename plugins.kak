@@ -79,8 +79,6 @@ config-add-plugin kakoune-repl-buffer 'https://gitlab.com/Screwtapello/kakoune-r
 config-add-plugin kak-ansi            'https://github.com/eraserhd/kak-ansi'
 config-add-plugin kakoune-filetree    'https://github.com/occivink/kakoune-filetree'
 
-config-add-theme ashen 'https://codeberg.org/ficd/kak-ashen'
-
 if-not %opt{config_in_termux} %{
 	config-add-plugin parinfer-rust 'https://github.com/eraserhd/parinfer-rust'
 	config-add-plugin kak-lsp       'https://github.com/kakoune-lsp/kakoune-lsp'
@@ -93,3 +91,6 @@ if-not %opt{config_in_termux} %{
 } %{
 	config-log "Android detected, disabling certain plugins"
 }
+
+config-add-theme ashen 'https://codeberg.org/ficd/kak-ashen'
+
