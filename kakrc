@@ -4,11 +4,11 @@ define-command -override -hidden false -params 0 fail
 define-command -override -hidden -docstring "
 	if cond on-true [ on-false ]: yes
 " if -params 2..3 %{
-	try %{
+	try %exp{
 		%arg{1}
-		try "evaluate-commands %arg{2}"
-	} catch %{
-		try "evaluate-commands %arg{3}"
+		try evaluate-commands %arg{2}
+	} catch %exp{
+		try evaluate-commands %arg{3}
 	}
 }
 
