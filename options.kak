@@ -27,14 +27,6 @@ set-option global modelinefmt \
 #############################################################################################################################################################################
 
 if-not %opt{config_in_termux} %{
-	try %{
-		evaluate-commands %sh{ [ -s "$NIRI_SOCKET" ] && printf %s\\n fail }
-		set-option global windowing_module 'niri'
-		# the niri window module doesn't *technically* support splits other than window
-		set-option global windowing_placement 'window'
-	} catch %{
-		set-option global windowing_placement %sh{
-			[ "$kak_opt_config_display_server" = "Wayland" ] && printf %s 'window' || printf %s 'vertical'
-		}
-	}
+	set-option global windowing_placement window
+	if %opt{config_in_niri} %{ set-option global windowing_module niri }
 }

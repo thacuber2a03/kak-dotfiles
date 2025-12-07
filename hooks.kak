@@ -21,7 +21,9 @@ hook global WinSetOption filetype=man 'ui-wrap-disable'
 hook global BufCreate .* 'try editorconfig-load'
 
 # in the rare case I use tmux
-hook -once -always global ModuleLoaded tmux %{ alias global repl-new tmux-repl-vertical }
+hook -once -always global ModuleLoaded tmux %{
+	set-option global windowing_placement vertical
+}
 
 define-command -hidden config-define-auto-indent-hooks -params 0 %{
 	hook -group auto-indent global InsertChar \t %{ try %{

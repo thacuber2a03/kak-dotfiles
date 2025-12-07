@@ -1,15 +1,15 @@
 declare-option -hidden str config_ui_line_numbers_separator ' ▏'
 declare-option -hidden str config_ui_line_numbers_cursor_separator ' 🯛'
 
-if '%opt{config_in_termux}' %{
-	set-option global config_ui_line_numbers_separator ' ▎'
-	set-option global config_ui_line_numbers_cursor_separator ' ⟩'
-}
-
-try %{
-	evaluate-commands %sh{ [ -n "$kak_opt_config_display_server" ] && printf %s fail }
+# TODO: some kind of `or` expression
+if-not %opt{config_in_wayland} %{ if-not %opt{config_in_x11} %{
 	set-option global config_ui_line_numbers_separator ' |'
 	set-option global config_ui_line_numbers_cursor_separator ' >'
+} }
+
+if %opt{config_in_termux} %{
+	set-option global config_ui_line_numbers_separator ' ▎'
+	set-option global config_ui_line_numbers_cursor_separator ' ⟩'
 }
 
 set-option global ui_line_numbers_flags                             \

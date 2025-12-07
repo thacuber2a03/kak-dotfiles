@@ -20,7 +20,7 @@ evaluate-commands %sh{
 }
 
 define-command -hidden config-add-theme -params .. %{
-	config-trace-log "adding colorscheme '%arg{1}'"
+	config-log trace "adding colorscheme '%arg{1}'"
 	bundle-theme %arg{1} %arg{2}
 	config-try-source "%opt{config_plugin_config_directory}/%arg{1}"
 }
@@ -28,23 +28,19 @@ define-command -hidden config-add-theme -params .. %{
 # loaded plugins. format: `name (url)`
 declare-option -hidden str-list config_plugins
 
-declare-option -hidden str config_current_plugin_name
-
 define-command -hidden config-add-plugin -params .. %{
-	config-trace-log "registering plugin '%arg{1}'"
+	config-log trace "registering plugin '%arg{1}'"
 	set-option -add global config_plugins "%arg{1} (%arg{2})"
-	set-option global config_current_plugin_name %arg{1}
-	bundle %arg{1} %arg{2} %{
-		config-try-source "%opt{config_plugin_config_directory}/%opt{config_current_plugin_name}"
+	bundle %arg{1} %arg{2} %exp{
+		config-try-source "%opt{config_plugin_config_directory}/%arg{1}"
 	}
 }
 
 define-command -hidden config-add-custom-plugin -params .. %{
-	config-trace-log "registering plugin '%arg{1}' (custom load)"
+	config-log trace "registering plugin '%arg{1}' (custom load)"
 	set-option -add global config_plugins "%arg{1} (%arg{2})"
-	set-option global config_current_plugin_name %arg{1}
-	bundle-customload %arg{1} %arg{2} %{
-		config-try-source "%opt{config_plugin_config_directory}/%opt{config_current_plugin_name}"
+	bundle-customload %arg{1} %arg{2} %exp{
+		config-try-source "%opt{config_plugin_config_directory}/%arg{1}"
 	}
 }
 
@@ -82,14 +78,14 @@ config-add-plugin kakoune-filetree    'https://github.com/occivink/kakoune-filet
 if-not %opt{config_in_termux} %{
 	config-add-plugin parinfer-rust 'https://github.com/eraserhd/parinfer-rust'
 	config-add-plugin kak-lsp       'https://github.com/kakoune-lsp/kakoune-lsp'
-	config-add-plugin kak-dap       'git clone --revision=355df2c627ceb124f4ff018c95762cf9c19068ae --depth=1 https://codeberg.org/jdugan6240/kak-dap'
+	# config-add-plugin kak-dap       'git clone --revision=355df2c627ceb124f4ff018c95762cf9c19068ae --depth=1 https://codeberg.org/jdugan6240/kak-dap'
 
 	# TODO(thacuber2a03): I need to figure out what the hell is going on with this plugin
 	# config-add-plugin kakoune-discord 'https://github.com/thacuber2a03/kakoune-discord'
 
 	config-add-custom-plugin kak-tree-sitter 'https://git.sr.ht/~thacuber2a03/kak-tree-sitter'
 } %{
-	config-log "Android detected, disabling certain plugins"
+	config-log info "Android detected, disabling certain plugins"
 }
 
 config-add-theme ashen 'https://codeberg.org/ficd/kak-ashen'

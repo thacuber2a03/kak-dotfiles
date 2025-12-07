@@ -40,6 +40,6 @@ try %{
 		}
 	}
 } catch %{
-	config-trace-log 'LSP not detected, defaulting to uiua fmt --io'
+	config-log trace '[uiua] kak-lsp not detected, defaulting to uiua fmt --io'
 	config-set-formatter uiua 'uiua fmt --io'
 }

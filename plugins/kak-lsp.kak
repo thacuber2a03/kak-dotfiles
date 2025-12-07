@@ -1,7 +1,5 @@
 bundle-install-hook kak-lsp %{ cargo install --locked --force --path . }
 
-lsp-enable
-
 map global user l ':enter-user-mode lsp<ret>' -docstring 'LSP mode'
 
 map global insert <tab> '<a-;>:try lsp-snippets-select-next-placeholders catch %{ execute-keys -with-hooks <lt>tab> }<ret>' -docstring 'Select next snippet placeholder'
