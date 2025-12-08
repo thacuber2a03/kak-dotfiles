@@ -9,16 +9,14 @@ provide-module whitespace %§
 	add-highlighter shared/whitespace/code/ regex '\t+' 0:WhitespaceTab
 §
 
-hook global BufCreate .+\.ws %{
-	set-option buffer filetype whitespace
-}
+hook global BufCreate .+\.ws %{ set-option buffer filetype whitespace }
 
 hook global -group whitespace-highlight WinSetOption filetype=whitespace %{
-	# try %{ ui-trailing-spaces-disable }
+	try %{ ui-trailing-spaces-disable }
 	require-module whitespace
 	add-highlighter window/whitespace ref whitespace
 	hook -once -always window WinSetOption filetype=.* %{
-		# try %{ ui-trailing-spaces-enable }
+		try %{ ui-trailing-spaces-enable }
 		remove-highlighter window/whitespace
 	}
 }

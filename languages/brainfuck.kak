@@ -1,3 +1,6 @@
+# was this needed? no
+# was this fun? hell yes
+
 provide-module brainfuck %{
 	add-highlighter shared/brainfuck regions
 	add-highlighter shared/brainfuck/code default-region group

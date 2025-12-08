@@ -33,13 +33,15 @@ define-command -hidden -override config-info-log  -params .. %opt{config_default
 # TODO: figure out how to take the log level out of %arg{@}
 define-command -hidden config-log -params 2.. %{ %exp{config-%arg{1}-log} %arg{@} }
 
+declare-option -hidden str config_current_source_directory "%val{config}"
+
 define-command -hidden config-try-source -params 1 %{
 	config-log trace '--------------------'
 	config-log trace "sourcing %arg{1}.kak"
 
 	# I give all my praises to the sole existence of this expansion type
 	try %exp{
-		source "%val{config}/%arg{1}.kak"
+		source "%%opt{config_current_source_directory}/%arg{1}.kak"
 		config-log trace "finished sourcing %arg{1}.kak"
 	} catch %{
 		config-log trace "error sourcing %arg{1}.kak: %val{error}"
@@ -48,9 +50,10 @@ define-command -hidden config-try-source -params 1 %{
 
 define-command -hidden config-try-source-directory -params 1 %{
 	config-log trace "sourcing directory '%arg{1}'"
+	set-option local config_current_source_directory "%opt{config_current_source_directory}/%arg{1}"
 	evaluate-commands %sh{
-		for f in "$kak_config"/"$1"/*.kak; do
-			dir=${f##*"$kak_config"/}
+		for f in "$kak_opt_config_current_source_directory"/*.kak; do
+			dir=${f##*"$kak_opt_config_current_source_directory"/}
 			printf %s\\n "config-try-source ${dir%.kak}" 
 		done
 	}

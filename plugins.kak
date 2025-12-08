@@ -1,5 +1,3 @@
-declare-option str config_plugin_config_directory "plugins"
-
 evaluate-commands %sh{
 	bundledir="$kak_config/bundle"
 
@@ -22,7 +20,9 @@ evaluate-commands %sh{
 define-command -hidden config-add-theme -params .. %{
 	config-log trace "adding colorscheme '%arg{1}'"
 	bundle-theme %arg{1} %arg{2}
-	config-try-source "%opt{config_plugin_config_directory}/%arg{1}"
+	# I'd make a command for this but then what the `local` scope refers to effs up
+	set-option local config_current_source_directory "%opt{config_current_source_directory}/plugins"
+	config-try-source "%arg{1}"
 }
 
 # loaded plugins. format: `name (url)`
@@ -32,7 +32,9 @@ define-command -hidden config-add-plugin -params .. %{
 	config-log trace "registering plugin '%arg{1}'"
 	set-option -add global config_plugins "%arg{1} (%arg{2})"
 	bundle %arg{1} %arg{2} %exp{
-		config-try-source "%opt{config_plugin_config_directory}/%arg{1}"
+		# ditto
+		set-option local config_current_source_directory "%opt{config_current_source_directory}/plugins"
+		config-try-source "%arg{1}"
 	}
 }
 
@@ -40,7 +42,9 @@ define-command -hidden config-add-custom-plugin -params .. %{
 	config-log trace "registering plugin '%arg{1}' (custom load)"
 	set-option -add global config_plugins "%arg{1} (%arg{2})"
 	bundle-customload %arg{1} %arg{2} %exp{
-		config-try-source "%opt{config_plugin_config_directory}/%arg{1}"
+		# ditto
+		set-option local config_current_source_directory "%opt{config_current_source_directory}/plugins"
+		config-try-source "%arg{1}"
 	}
 }
 
@@ -66,6 +70,8 @@ define-command -docstring "
 	}
 }
 
+echo -debug -- %opt{config_current_source_directory}
+
 config-add-plugin ui                  'https://github.com/kkga/ui.kak'
 config-add-plugin Encapsul8           'https://github.com/ElectricR/Encapsul8'
 config-add-plugin kakoune-shellcheck  'https://gitlab.com/Screwtapello/kakoune-shellcheck'
@@ -89,4 +95,3 @@ if-not %opt{config_in_termux} %{
 }
 
 config-add-theme ashen 'https://codeberg.org/ficd/kak-ashen'
-

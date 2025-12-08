@@ -1,7 +1,7 @@
 config-set-formatter janet 'janet-format'
 # config-set-linter    janet 'janet -w strict' # I'm not sure how Janet's linter works
 
-config-enable-lsp-and-ts janet %{
+config-enable-lsp-support janet %{
 	[janet-lsp]
 	root_globs = [".git", ".hg", "main.janet"]
 }

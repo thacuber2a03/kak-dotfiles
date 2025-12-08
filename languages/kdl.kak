@@ -1,9 +1,9 @@
-# copied straight from https://git.jdugan6240.dev/jdugan6240/dippin-dotfiles/src/branch/main/.config/kak/syntaxes/kdl.kak#
+# copied straight from https://git.jdugan6240.dev/jdugan6240/dippin-dotfiles/src/branch/main/.config/kak/syntaxes/kdl.kak
 # ========================================================================================================================
 # https://kdl.dev
-# Currently only supports kdl v1
-
-hook global BufCreate .*[.](kdl) %{
+# This supports both kdl v1 and v2.
+ 
+hook global BufCreate .*\.kdl %{
     set-option buffer filetype kdl
 }
 
@@ -16,8 +16,6 @@ hook global WinSetOption filetype=kdl %{
     hook window ModeChange pop:insert:.* -group kdl-trim-indent kdl-trim-indent
     hook window InsertChar .* -group kdl-indent kdl-indent-on-char
     hook window InsertChar \n -group kdl-indent kdl-indent-on-new-line
-
-    set-option buffer extra_word_chars '_' '-'
 
     hook -once -always window WinSetOption filetype=.* %{ remove-hooks window kdl-.+ }
 }
@@ -35,34 +33,43 @@ provide-module kdl %@
 add-highlighter shared/kdl regions
 add-highlighter shared/kdl/code default-region group
 
-add-highlighter shared/kdl/raw_string region -match-capture 'r(#*)"' '"(#*)' fill string
+# Slashdash (/-) comments are annoying to highlight properly without a proper parser due to the fact that they can comment
+# out any kdl construct.
+# The below is an approximation, and there are almost certainly edge cases missed.
+add-highlighter shared/kdl/slashdash_entire_node_with_child region -recurse \{ ^[\s]*/-[^\n]+\{ \} fill comment
+add-highlighter shared/kdl/slashdash_child region -recurse \{ /-\s*\{ \} fill comment
+add-highlighter shared/kdl/slashdash_node region ^[\s]*/-[^\n]+ $ fill comment
+add-highlighter shared/kdl/slashdash_string region '/-\s*"' (?<!\\)(\\\\)*" fill comment
+add-highlighter shared/kdl/slashdash_triple_string region '/-\s*"""' '(?<!\\)(?:\\\\)*"""' fill string
+add-highlighter shared/kdl/slashdash_raw_string region -match-capture '/-\s*r"(#+)' '"(#+)' fill comment
+add-highlighter shared/kdl/slashdash_raw_string2 region -match-capture '/-\s*"(#+)' '"(#+)' fill comment
+add-highlighter shared/kdl/slashdash_builtin_value region /-\s+(true|false|null) \s fill comment
+add-highlighter shared/kdl/slashdash_binary region /-\s*0b[01_]+ \s fill comment
+add-highlighter shared/kdl/slashdash_octal region /-\s*0o[0-7_]+ \s fill comment
+add-highlighter shared/kdl/slashdash_hex region /-\s*0x[a-fA-F0-9_]+ \s fill comment
+add-highlighter shared/kdl/slashdash_decimal region /-\s*[0-9-+][0-9_]* \s fill comment
+add-highlighter shared/kdl/slashdash_float region /-\s*[0-9-+][0-9_]*\.[0-9_]+ \s fill comment
+add-highlighter shared/kdl/slashdash_float_exp region /-\s*[0-9-+][0-9_]*(\.[0-9_]+)?[eE][-+]?[0-9_]+ \s fill comment
+add-highlighter shared/kdl/slashdash_prop_string region '/-\s*[\u000021-\u00FFFF]+="' (?<!\\)(\\\\)*" fill comment
+add-highlighter shared/kdl/slashdash_prop_triple_string region '/-\s*[\u000021-\u00FFFF]+="""' '(?<!\\)(\\\\)*"""' fill comment
+add-highlighter shared/kdl/slashdash_prop_raw_string region -match-capture '/-\s*[\u000021-\u00FFFF]+=r"(#*)' '"(#*)' fill comment
+add-highlighter shared/kdl/slashdash_prop_raw_string2 region -match-capture '/-\s*[\u000021-\u00FFFF]+="(#*)' '"(#*)' fill comment
+add-highlighter shared/kdl/slashdash_prop_other region /-\s*[\u000021-\u00FFFF]+= \s fill comment
+add-highlighter shared/kdl/slashdash_arg region /-\s*[\u000021-\u00FFFF]+ \s fill comment
+
+add-highlighter shared/kdl/raw_string region -match-capture 'r(#+)"' '"(#+)' fill string
+add-highlighter shared/kdl/raw_string2 region -match-capture '(#+)"' '"(#+)' fill string
 
 add-highlighter shared/kdl/string region '"' (?<!\\)(\\\\)*" fill string
+add-highlighter shared/kdl/triple_string region '"""' '(?<!\\)(?:\\\\)*"""' fill string
 
 add-highlighter shared/kdl/comment region -recurse /\* /\* \*/ fill comment
 add-highlighter shared/kdl/line_comment region // $ fill comment
 
-# Slashdash (/-) comments are annoying to highlight properly without a proper parser due to the fact that they can comment
-# out any kdl construct..
-# The below is, at best, an approximation, and there are almost certainly edge cases missed.
-add-highlighter shared/kdl/slashdash_child region -recurse \{ /-[^\n]+\{ \} fill comment
-add-highlighter shared/kdl/slashdash_string region '/-\s+"' (?<!\\)(\\\\)*" fill comment
-add-highlighter shared/kdl/slashdash_raw_string region -match-capture '/-\s+r"(#*)' '"(#*)' fill comment
-add-highlighter shared/kdl/slashdash_builtin_value region /-\s+(true|false|null) \s fill comment
-add-highlighter shared/kdl/slashdash_binary region /-\s+0b[01_]+ \s fill comment
-add-highlighter shared/kdl/slashdash_octal region /-\s+0o[0-7_]+ \s fill comment
-add-highlighter shared/kdl/slashdash_hex region /-\s+0x[a-fA-F0-9_]+ \s fill comment
-add-highlighter shared/kdl/slashdash_decimal region /-\s+[0-9-+][0-9_]* \s fill comment
-add-highlighter shared/kdl/slashdash_float region /-\s+[0-9-+][0-9_]*\.[0-9_]+ \s fill comment
-add-highlighter shared/kdl/slashdash_float_exp region /-\s+[0-9-+][0-9_]*(\.[0-9_]+)?[eE][-+]?[0-9_]+ \s fill comment
-add-highlighter shared/kdl/slashdash_prop_string region '/-\s+[\u000021-\u00FFFF]+="' (?<!\\)(\\\\)*" fill comment
-add-highlighter shared/kdl/slashdash_prop_raw_string region -match-capture '/-\s+[\u000021-\u00FFFF]+=r"(#*)' '"(#*)' fill comment
-add-highlighter shared/kdl/slashdash_prop_other region /-\s+[\u000021-\u00FFFF]+= \s fill comment
-add-highlighter shared/kdl/slashdash_node region /-\s+[\u000021-\u00FFFF]+ $ fill comment
 
 add-highlighter shared/kdl/code/node regex \b([\u000021-\u00FFFF]*)\b 0:variable # Everything not covered below is a node
 add-highlighter shared/kdl/code/property regex \b([\u000021-\u00FFFF]+)(=) 0:operator 1:attribute
-add-highlighter shared/kdl/code/builtin_value regex \b(true|false|null)\b 0:value
+add-highlighter shared/kdl/code/builtin_value regex [^\w](#true|#false|#null|#inf|#-inf|#nan|true|false|null)\b 0:value
 add-highlighter shared/kdl/code/binary regex \b(0b[01_]+)\b 0:value
 add-highlighter shared/kdl/code/octal regex \b(0o[0-7_]+)\b 0:value
 add-highlighter shared/kdl/code/hex regex \b(0x[a-fA-F0-9_]+)\b 0:value

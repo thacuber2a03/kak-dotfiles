@@ -1,1 +1,1 @@
-config-enable-default-lsp-and-ts rust
+config-enable-default-lsp-support rust

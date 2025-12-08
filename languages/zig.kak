@@ -1,4 +1,4 @@
-config-enable-lsp-and-ts zig %{
+config-enable-lsp-support zig %{
     [zls]
     root_globs = ["build.zig"]
     settings_section = "zls"
@@ -6,4 +6,3 @@ config-enable-lsp-and-ts zig %{
     [zls.settings.zls]
     inlay_hints_hide_redundant_param_names = true
 }
-

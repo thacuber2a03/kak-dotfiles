@@ -60,27 +60,9 @@ define-command -hidden config-enable-lsp-support -params 2 %{
 
 	if-not %opt{config_in_termux} %exp{
 		hook -group lsp-filetype-%arg{1} global BufSetOption filetype=%arg{1} %%{
-			set-option buffer lsp_servers "%arg{2}"
+			set-option buffer lsp_servers '%arg{2}'
 		}
 	}
-}
-
-define-command -hidden config-enable-tree-sitter-support -params 1 %{
-	if-not %opt{config_in_termux} %exp{
-		hook -once -always global WinSetOption filetype=%arg{1} %%{
-			evaluate-commands %%sh{ kak-tree-sitter -dks --init $kak_session }
-		}
-	}
-}
-
-define-command -hidden config-enable-default-lsp-and-ts -params 1 %{
-	config-enable-tree-sitter-support %arg{1}
-	config-enable-default-lsp-support %arg{1}
-}
-
-define-command -hidden config-enable-lsp-and-ts -params 2 %{
-	config-enable-tree-sitter-support %arg{1}
-	config-enable-lsp-support         %arg{@}
 }
 
 config-try-source-directory 'languages'

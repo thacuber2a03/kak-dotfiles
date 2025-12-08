@@ -1,3 +1,14 @@
+config-set-formatter fennel 'fnlfmt -'
+
+config-enable-lsp-support fennel %{
+	[fennel-ls]
+	root_globs = [".git", ".hg", "flsproject.fnl", "main.fnl"]
+}
+
+hook global WinSetOption filetype=fennel 'config-setup-lisp-mode'
+
+hook global BufCreate .*/home/.+?/.fennelrc %{ set-option buffer filetype fennel }
+
 define-command -docstring "
 	fennel-repl: opens a new Fennel REPL session that automatically gets closed when it ends
 " fennel-repl -params 0 %{
@@ -23,19 +34,6 @@ define-command -docstring "
 }
 
 complete-command fennel-preview file 1
-
-hook global BufCreate .*/home/.+?/.fennelrc %{ set-option buffer filetype fennel }
-
-config-set-formatter fennel 'fnlfmt -'
-
-hook -group lsp-filetype-fennel global BufSetOption filetype=fennel %{
-	set-option buffer lsp_servers %{
-		[fennel-ls]
-		root_globs = [".git", ".hg", "flsproject.fnl", "main.fnl"]
-	}
-}
-
-hook global WinSetOption filetype=fennel 'config-setup-lisp-mode'
 
 hook global WinSetOption filetype=fennel %{
 	# various patches to the Fennel highlighter

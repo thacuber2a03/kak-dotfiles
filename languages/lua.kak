@@ -1,4 +1,4 @@
-config-enable-lsp-and-ts lua %{
+config-enable-lsp-support lua %{
 	[lua-language-server]
 	root_globs = [".git", ".hg", "main.lua"]
 	settings_section = "Lua"

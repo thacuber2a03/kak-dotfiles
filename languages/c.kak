@@ -1,5 +1,5 @@
+config-enable-default-lsp-support c
+
 hook global BufOpenFile .*\.clang-format %{
 	set-option buffer filetype yaml
 }
-
-hook global WinSetOption filetype=c %{ lsp-enable-window }
