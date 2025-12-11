@@ -1,1 +1,1 @@
-config-set-linter moon "moon %val{config}/languages/mlint.moon"
+config-set-linter moon "moon %val{config_current_source_directory}/mlint.moon"

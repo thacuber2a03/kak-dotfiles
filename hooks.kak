@@ -1,6 +1,3 @@
-hook global BufSetOption filetype=     %{ set-option buffer filetype_info ""                                 }
-hook global BufSetOption filetype=(.+) %{ set-option buffer filetype_info "(ft %val{hook_param_capture_1}) " }
-
 ### tooling
 
 hook -group format-hook global BufWritePre .* %{

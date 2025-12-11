@@ -12,6 +12,7 @@ set-option -add global ui_options \
 	terminal_synchronized=yes
 
 set-option -add global ui_options terminal_set_title=yes
+
 hook global WinDisplay .* %{ set-option -add global ui_options "terminal_title=%val{buffile}" }
 
 set-option global autowrap_column 120
@@ -19,8 +20,11 @@ set-option global autowrap_format_paragraph true
 
 #############################################################################################################################################################################
 
-# see hooks.kak
 declare-option str filetype_info
+
+hook global BufSetOption filetype=     %{ set-option buffer filetype_info ""                                 }
+hook global BufSetOption filetype=(.+) %{ set-option buffer filetype_info "(ft %val{hook_param_capture_1}) " }
+
 set-option global modelinefmt \
 '%val{bufname} %opt{filetype_info}%val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]'
 
