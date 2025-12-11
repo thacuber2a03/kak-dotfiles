@@ -14,6 +14,7 @@ define-command -docstring "
 " zig -params 1.. %{
 	fifo -name "*zig-%arg{1}*" -- zig %arg{@} --color on
 	try %{ ansi-enable }
+	hook -group zig-hooks buffer NormalKey <ret> jump
 }
 
 complete-command -menu zig shell-script-candidates %{
