@@ -1,45 +1,34 @@
-config-set-formatter fennel 'fnlfmt -'
+provide-module config-fennel %§
+	require-module fennel
 
-config-enable-lsp-support fennel %{
-	[fennel-ls]
-	root_globs = [".git", ".hg", "flsproject.fnl", "main.fnl"]
-}
-
-hook global WinSetOption filetype=fennel 'config-setup-lisp-mode'
-
-hook global BufCreate .*/home/.+?/.fennelrc %{ set-option buffer filetype fennel }
-
-define-command -docstring "
-	fennel-repl: opens a new Fennel REPL session that automatically gets closed when it ends
-" fennel-repl -params 0 %{
-	# try %{
-	# 	new repl-buffer-new -name '*fennel-repl*' -- env TERM=dumb fennel
-	# 	hook -once -always buffer BufCloseFifo .* %{ delete-buffer! %val{bufname} }
-	# } catch %{
-	# 	config-trace-log "unable to open repl-buffer for Fennel: %val{error}"
-		repl-new fennel
-	# }
-}
-
-define-command -docstring "
-	fennel-preview <buffer>: compiles the fennel code at <buffer> in a separate, scratch buffer;
-	uses the current buffer if <buffer> is unspecified
-" fennel-preview -params 0..1 %{
-	evaluate-commands -save-regs 'a' %{
-		set-register a %val{buffile}
-		evaluate-commands %sh{ [ -n "$1" ] && printf %s "set-register a '$1'" }
-		fifo -name '*fennel*' fennel -c %reg{a}
-		set-option buffer filetype lua
+	define-command -docstring "
+		fennel-repl: opens a new Fennel REPL session that automatically gets closed when it ends
+	" fennel-repl -params 0 %{
+		# try %{
+		# 	new repl-buffer-new -name '*fennel-repl*' -- env TERM=dumb fennel
+		# 	hook -once -always buffer BufCloseFifo .* %{ delete-buffer! %val{bufname} }
+		# } catch %{
+		# 	config-trace-log "unable to open repl-buffer for Fennel: %val{error}"
+			repl-new fennel
+		# }
 	}
-}
+	
+	define-command -docstring "
+		fennel-preview <buffer>: compiles the fennel code at <buffer> in a separate, scratch buffer;
+		uses the current buffer if <buffer> is unspecified
+	" fennel-preview -params 0..1 %{
+		evaluate-commands -save-regs 'a' %{
+			set-register a %val{buffile}
+			evaluate-commands %sh{ [ -n "$1" ] && printf %s "set-register a '$1'" }
+			fifo -name '*fennel*' fennel --globals "" -c %reg{a}
+			set-option buffer filetype lua
+		}
+	}
 
-complete-command fennel-preview file 1
+	complete-command fennel-preview file 1
 
-hook global WinSetOption filetype=fennel %{
 	# various patches to the Fennel highlighter
 	# TODO(thacuber2a03): not proper, should eventually merge into master
-
-	require-module fennel
 
 	define-command -hidden fennel-patch-indent-on-new-line %{
 		# registers: i = best align point so far; w = start of first word of form
@@ -64,8 +53,10 @@ hook global WinSetOption filetype=fennel %{
 		}
 	}
 
-	# remove-hooks window fennel-indent
-	# hook window InsertChar \n -group fennel-indent fennel-patch-indent-on-new-line
+	try %{
+		remove-hooks window fennel-indent
+		hook -group fennel-indent window InsertChar \n fennel-patch-indent-on-new-line
+	}
 
 	remove-highlighter shared/fennel/code/keywords
 	remove-highlighter shared/fennel/code/builtins
@@ -93,5 +84,18 @@ hook global WinSetOption filetype=fennel %{
 			add-highlighter shared/fennel/code/builtins regex \b($(join "${builtins}" '|'))\b 0:builtin
 		"
 	}
+§
+
+config-set-formatter fennel 'fnlfmt -'
+
+config-enable-lsp-support fennel %{
+	[fennel-ls]
+	root_globs = [".git", ".hg", "flsproject.fnl", "main.fnl"]
 }
 
+hook global WinSetOption filetype=fennel %{
+	require-module config-fennel
+	config-setup-lisp-mode
+}
+
+hook global BufCreate .*/home/.+?/.fennelrc %{ set-option buffer filetype fennel }

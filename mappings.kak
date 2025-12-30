@@ -59,3 +59,6 @@ map global normal <a-)> <a-)>vc
 # NOTE(thacuber2a03): they are still somewhat uncooked, so...
 # map global normal j gd
 # map global normal k gu
+
+declare-user-mode project
+map -docstring 'enter project mode' global user <space> ':enter-user-mode project<ret>'

@@ -34,3 +34,5 @@ if-not %opt{config_in_termux} %{
 	set-option global windowing_placement window
 	if %opt{config_in_niri} %{ set-option global windowing_module niri }
 }
+
+set-option global grepcmd 'rg --column'

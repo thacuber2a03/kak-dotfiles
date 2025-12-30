@@ -70,12 +70,10 @@ define-command -docstring "
 	}
 }
 
-echo -debug -- %opt{config_current_source_directory}
-
 config-add-plugin ui                  'https://github.com/kkga/ui.kak'
 config-add-plugin Encapsul8           'https://github.com/ElectricR/Encapsul8'
 config-add-plugin kakoune-shellcheck  'https://gitlab.com/Screwtapello/kakoune-shellcheck'
-config-add-plugin highlighters.kak    'https://github.com/thacuber2a03/highlighters.kak'
+config-add-plugin highlighters        'https://github.com/thacuber2a03/highlighters.kak'
 config-add-plugin secure-local-kakrc  'https://codeberg.org/ficd/secure-local-kakrc'
 config-add-plugin kakoune-repl-buffer 'https://gitlab.com/Screwtapello/kakoune-repl-buffer'
 config-add-plugin kak-ansi            'https://github.com/eraserhd/kak-ansi'

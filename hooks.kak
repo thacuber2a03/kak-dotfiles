@@ -22,7 +22,7 @@ hook -once -always global ModuleLoaded tmux %{
 	set-option global windowing_placement vertical
 }
 
-define-command -hidden config-define-auto-indent-hooks -params 0 %{
+define-command -hidden config-define-auto-indent-hooks %{
 	hook -group auto-indent global InsertChar \t %{ try %{
 		evaluate-commands %sh{ [ "$kak_opt_indentwidth" = 0 ] && printf %s "fail" }
 		execute-keys -draft "h<a-h><a-k>\A\h+\z<ret><a-;>;%opt{indentwidth}@"
@@ -32,6 +32,14 @@ define-command -hidden config-define-auto-indent-hooks -params 0 %{
 		execute-keys -draft 'h<a-h><a-k>\A\h+\z<ret>i<space><esc><lt>'
 	}}
 }
+
+# conflicts with kak-lsp
+# define-command -hidden config-define-auto-indent-hooks %{
+# 	hook -group auto-indent global WinSetOption filetype=(?!makefile).* %{
+# 		map global insert <tab> '<a-;><a-gt>'
+# 		map global insert <s-tab> '<a-;><a-lt>'
+# 	}
+# }
 
 config-define-auto-indent-hooks
 

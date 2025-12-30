@@ -26,7 +26,11 @@ define-command -hidden -docstring "
 	}
 }
 
-define-command -hidden config-setup-lisp-mode %{
+define-command -docstring "
+	config-setup-lisp-mode: sets up 'lisp mode' (configure the window
+	such that it's more comfortable to use for Lisp-like development)
+	!! must be called in window scope !!
+" -hidden config-setup-lisp-mode %{
 	set-option buffer indentwidth 2
 	set-option buffer tabstop 8
 
@@ -34,17 +38,17 @@ define-command -hidden config-setup-lisp-mode %{
 	ui-whitespaces-toggle
 	ui-whitespaces-toggle
 
-	remove-hooks global auto-indent
+	try %{ remove-hooks global auto-indent }
 
-	try 'parinfer-enable-window -smart' catch %{
+	try %{
+		parinfer-enable-window -smart
+	} catch %{
 		hook -group parinfer buffer BufWritePre .* parinfer
 	}
 
 	hook -once -always window WinSetOption filetype=.* %{
-		remove-hooks buffer parinfer
-		set-option -remove window ui_whitespaces_flags -spc ' ' -tab '�' -tabpad '�'
-		unset-option buffer indentwidth
-		unset-option buffer tabstop
+		try %{ remove-hooks buffer parinfer }
+		unset-option window ui_whitespaces_flags
 		config-define-auto-indent-hooks
 	}
 }
