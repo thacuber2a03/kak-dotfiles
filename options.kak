@@ -9,7 +9,8 @@ set-option -add global ui_options \
 	terminal_status_on_top=yes    \
 	terminal_padding_fill=yes     \
 	terminal_padding_char=.       \
-	terminal_synchronized=yes
+	terminal_synchronized=yes     \
+	terminal_cursor_native=yes
 
 set-option -add global ui_options terminal_set_title=yes
 

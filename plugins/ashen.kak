@@ -1,11 +1,14 @@
-evaluate-commands %sh{
-	if [ -n "$kak_opt_config_display_server" ] ||
-	[ "$kak_opt_config_os" = Android ]; then
-		printf %s\\n "
-			colorscheme ashen
-			# hook global WinCreate .* %{ set-face global LineNumberCursor LineNumbers }
-			set-option global ashen_dynamic_cursor true
-			set-option global ashen_eol_cursor true
-		"
-	fi
+try %{
+	evaluate-commands %sh{
+		[ -z "$kak_opt_config_display_server" ] && \
+		[ "$kak_opt_config_os" = Android ] && \
+		printf %s\\n "fail"
+	}
+
+	colorscheme ashen
+	set-face global LineNumberCursor Default
+	# set-face global PrimaryCursor Default
+	# set-face global PrimaryCursorEol Default
+	set-option global ashen_dynamic_cursor true
+	set-option global ashen_eol_cursor true
 }
