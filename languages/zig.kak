@@ -41,7 +41,7 @@ define-command -docstring "
 			fi
 
 			printf %s\\n "
-				fifo -name '*zig-$sub*' -- zig $sub --color $color $* $stderr 
+				fifo -name '*zig-$sub*' -- zig $sub --color $color $* $stderr
 				try %{ ansi-enable } # support for kak-ansi
 				hook -group zig-hooks buffer NormalKey <ret> jump
 			"
@@ -54,7 +54,7 @@ complete-command -menu zig shell-script-candidates %{
 		printf %s\\n \
 			build \
 		;
-	else
+	elif [ "$kak_token_to_complete" = 1 ]; then
 		case "$1" in
 		build) zig build --list-steps | awk '{print $1}' ;;
 		esac

@@ -1,7 +1,7 @@
 declare-option bool config_system_clipboard false
 
 if %opt{config_in_termux} %{
-	map -docstring "delete to system clipboard"    global user d '<a-|>termux-clipboard-set<ret>d'
+	map -docstring "delete to system clipboard"    global user d '<a-|>termux-clipboard-set<ret><a-d>'
 	map -docstring "yank to system clipboard"      global user y '<a-|>termux-clipboard-set<ret>'
 	map -docstring "insert from system clipboard"  global user P '!termux-clipboard-get<ret>'
 	map -docstring "append from system clipboard"  global user p '<a-!>termux-clipboard-get<ret>'

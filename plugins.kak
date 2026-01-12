@@ -78,6 +78,7 @@ config-add-plugin secure-local-kakrc  'https://codeberg.org/ficd/secure-local-ka
 config-add-plugin kakoune-repl-buffer 'https://gitlab.com/Screwtapello/kakoune-repl-buffer'
 config-add-plugin kak-ansi            'https://github.com/eraserhd/kak-ansi'
 config-add-plugin kakoune-filetree    'https://github.com/occivink/kakoune-filetree'
+config-add-plugin kak-rainbower       'https://github.com/crizan/kak-rainbower'
 
 if-not %opt{config_in_termux} %{
 	config-add-plugin parinfer-rust 'https://github.com/eraserhd/parinfer-rust'

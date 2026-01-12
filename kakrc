@@ -26,11 +26,11 @@ config-log info "loading plugins..."; config-try-source "plugins"
 # for setting up a portable configuration
 config-log info "loading misc scripts..."; config-try-source-directory "scripts"
 
+config-log info "loading language support scripts..."; config-try-source "languages"
+
 config-log info "loading mappings..."; config-try-source "mappings"
 config-log info "loading options...";  config-try-source "options"
 config-log info "loading commands..."; config-try-source "commands"
 config-log info "loading hooks...";    config-try-source "hooks"
-
-config-log info "loading language support scripts..."; config-try-source "languages"
 
 config-log info "all done!"

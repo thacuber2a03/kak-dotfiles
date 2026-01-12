@@ -7,6 +7,9 @@ config-enable-lsp-support lua %{
 
 	# See https://github.com/sumneko/vscode-lua/blob/master/setting/schema.json
 
+	[lua-language-server.settings.Lua.format]
+	enable = false
+
 	[lua-language-server.settings.Lua.format.defaultConfig]
 	indent_style = "tab"
 	tab_width = "4"
