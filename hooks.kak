@@ -12,8 +12,8 @@ hook global BufSetOption lintcmd=.+ %{
 hook global BufCreate (?:.*/)?\.clangd 'set-option buffer filetype yaml'
 hook global BufCreate .+\.ldtk         'set-option buffer filetype json'
 
-hook global WinDisplay   \*.+?\*      'enable-reading-mode'
-hook global WinSetOption filetype=man 'ui-wrap-disable'
+hook global WinDisplay   \*.+?\*        enable-reading-mode
+hook global WinSetOption filetype=man   ui-wrap-disable
 
 hook global BufCreate .* %{
 	try modeline-parse catch editorconfig-load catch ''

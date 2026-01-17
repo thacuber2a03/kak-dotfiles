@@ -1,6 +1,6 @@
 config-enable-lsp-support zig %{
 	[zls]
-	root_globs = ["build.zig"]
+	root_globs = ["build.zig", "build.zig.zon"]
 	settings_section = "zls"
 
 	[zls.settings.zls]
@@ -19,7 +19,7 @@ hook global WinSetOption filetype=zig %{
 
 declare-option -docstring "whether to enable colored output in Zig buffers" \
 	bool zig_enable_color true
-declare-option -docstring "whether to redirect stderr to Zig buffers" \
+declare-option -docstring "whether to redirect stderr to Zig buffers when possible" \
 	bool zig_display_stderr true
 
 define-command -docstring "
@@ -28,35 +28,55 @@ define-command -docstring "
 		build
 " zig -params 1.. %{
 	evaluate-commands %sh{
+		ansi='try %{ ansi-enable } # support for kak-ansi'
+		jump='hook -group zig-hooks buffer NormalKey <ret> jump'
+
 		stderr=
-		if [ "$zig_display_stderr" = true ]; then
-			stderr='>&2'
-		fi
+		[ "$zig_display_stderr" = true ] && stderr='2>&1'
 		sub="$1"
 		shift
-		if [ "$sub" = "build" ]; then
-			color=off
-			if [ "$kak_opt_zig_enable_color" = true ]; then
-				color=on
-			fi
+
+		color=off
+		[ "$kak_opt_zig_enable_color" = true ] && color=on
+		fifo="fifo -name *zig-$sub* -- zig $sub --color $color $* $stderr"
+		printf "$fifo" 1>&2
+
+		case "$sub" in
+		build)
 
 			printf %s\\n "
-				fifo -name '*zig-$sub*' -- zig $sub --color $color $* $stderr
-				try %{ ansi-enable } # support for kak-ansi
-				hook -group zig-hooks buffer NormalKey <ret> jump
+				$fifo
+				$ansi
+				$jump
 			"
-		fi
+		;;
+		fetch)
+			zig fetch "$*"
+			printf %s\\n 'echo package fetched'
+			;;
+		zen)
+			printf %s\\n "$fifo"
+		;;
+		esac
 	}
 }
 
 complete-command -menu zig shell-script-candidates %{
 	if [ "$kak_token_to_complete" = 0 ]; then
 		printf %s\\n \
-			build \
+			build    \
+			fetch    \
+			zen      \
 		;
 	elif [ "$kak_token_to_complete" = 1 ]; then
 		case "$1" in
 		build) zig build --list-steps | awk '{print $1}' ;;
+		fetch) printf %s\\n \
+			--save          \
+			--save=         \
+			--save-exact    \
+			--save-exact=   \
+		;;
 		esac
 	fi
 }

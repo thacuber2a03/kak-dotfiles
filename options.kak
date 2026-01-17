@@ -18,6 +18,7 @@ hook global WinDisplay .* %{ set-option -add global ui_options "terminal_title=%
 
 set-option global autowrap_column 120
 set-option global autowrap_format_paragraph true
+set-option global writemethod replace
 
 #############################################################################################################################################################################
 
