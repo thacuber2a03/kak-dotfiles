@@ -20,7 +20,7 @@ provide-module config-fennel %§
 		evaluate-commands -save-regs 'a' %{
 			set-register a %val{buffile}
 			evaluate-commands %sh{ [ -n "$1" ] && printf %s "set-register a '$1'" }
-			fifo -name '*fennel*' fennel --globals "" -c %reg{a}
+			fifo -name '*fennel-preview*' fennel --globals "*" -c %reg{a}
 			set-option buffer filetype lua
 		}
 	}

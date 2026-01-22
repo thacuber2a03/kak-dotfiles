@@ -15,9 +15,12 @@ hook global BufCreate .+\.ldtk         'set-option buffer filetype json'
 hook global WinDisplay   \*.+?\*        enable-reading-mode
 hook global WinSetOption filetype=man   ui-wrap-disable
 
-hook global BufCreate .* %{
+define-command -hidden config-try-load-basic-tooling %{
 	try modeline-parse catch editorconfig-load catch ''
 }
+
+hook global BufOpenFile .* config-try-load-basic-tooling
+hook global BufNewFile .*  config-try-load-basic-tooling
 
 # in the rare case I use tmux
 hook -once -always global ModuleLoaded tmux %{

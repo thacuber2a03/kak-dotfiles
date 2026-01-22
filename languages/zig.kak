@@ -19,31 +19,28 @@ hook global WinSetOption filetype=zig %{
 
 declare-option -docstring "whether to enable colored output in Zig buffers" \
 	bool zig_enable_color true
-declare-option -docstring "whether to redirect stderr to Zig buffers when possible" \
-	bool zig_display_stderr true
 
 define-command -docstring "
 	zig [subcommand] [--] [<arguments>]: zig wrapping helper
 	Available commands:
 		build
+		fetch
+		zen
 " zig -params 1.. %{
 	evaluate-commands %sh{
 		ansi='try %{ ansi-enable } # support for kak-ansi'
 		jump='hook -group zig-hooks buffer NormalKey <ret> jump'
 
-		stderr=
-		[ "$zig_display_stderr" = true ] && stderr='2>&1'
 		sub="$1"
 		shift
 
 		color=off
 		[ "$kak_opt_zig_enable_color" = true ] && color=on
-		fifo="fifo -name *zig-$sub* -- zig $sub --color $color $* $stderr"
-		printf "$fifo" 1>&2
+		fifo="fifo -name *zig-$sub* -- zig $sub --color $color $*"
+		printf %s\\n "$fifo" 2>&1
 
 		case "$sub" in
 		build)
-
 			printf %s\\n "
 				$fifo
 				$ansi
@@ -53,9 +50,12 @@ define-command -docstring "
 		fetch)
 			zig fetch "$*"
 			printf %s\\n 'echo package fetched'
-			;;
+		;;
 		zen)
-			printf %s\\n "$fifo"
+			printf %s\\n "
+				$fifo
+				set-option buffer filetype markdown
+			"
 		;;
 		esac
 	}
