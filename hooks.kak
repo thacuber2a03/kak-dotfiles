@@ -12,8 +12,20 @@ hook global BufSetOption lintcmd=.+ %{
 hook global BufCreate (?:.*/)?\.clangd 'set-option buffer filetype yaml'
 hook global BufCreate .+\.ldtk         'set-option buffer filetype json'
 
+hook global BufCreate .* %{ try %{ 
+	execute-keys -draft <percent>s<c-v><esc><ret>
+	ansi-enable
+} }
+
 hook global WinDisplay   \*.+?\*        enable-reading-mode
 hook global WinSetOption filetype=man   ui-wrap-disable
+
+# special case
+# TODO(thacuber2a03): needed?
+hook global WinDisplay \*stdin\* %{
+	enable-reading-mode
+	try %{ ui-wrap-disable }
+}
 
 define-command -hidden config-try-load-basic-tooling %{
 	try modeline-parse catch editorconfig-load catch ''

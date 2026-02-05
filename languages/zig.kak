@@ -17,7 +17,8 @@ hook global WinSetOption filetype=zig %{
 	lsp-inlay-hints-disable window
 }
 
-declare-option -docstring "whether to enable colored output in Zig buffers" \
+declare-option \
+	-docstring "whether to enable colored output in Zig buffers" \
 	bool zig_enable_color true
 
 define-command -docstring "
@@ -37,9 +38,13 @@ define-command -docstring "
 		color=off
 		[ "$kak_opt_zig_enable_color" = true ] && color=on
 		fifo="fifo -name *zig-$sub* -- zig $sub --color $color $*"
-		printf %s\\n "$fifo" 2>&1
 
 		case "$sub" in
+		help)
+			printf %s\\n "
+				$fifo
+			"
+		;;
 		build)
 			printf %s\\n "
 				$fifo
@@ -48,8 +53,11 @@ define-command -docstring "
 			"
 		;;
 		fetch)
-			zig fetch "$*"
-			printf %s\\n 'echo package fetched'
+			if zig fetch $@; then
+				printf %s\\n 'echo package fetched'
+			else
+				printf %s\\n 'echo package not fetched'
+			fi
 		;;
 		zen)
 			printf %s\\n "
@@ -61,9 +69,10 @@ define-command -docstring "
 	}
 }
 
-complete-command -menu zig shell-script-candidates %{
+complete-command zig shell-script-candidates %{
 	if [ "$kak_token_to_complete" = 0 ]; then
 		printf %s\\n \
+			help     \
 			build    \
 			fetch    \
 			zen      \
