@@ -80,8 +80,6 @@ config-add-plugin kak-ansi            'https://github.com/eraserhd/kak-ansi'
 config-add-plugin kakoune-filetree    'https://github.com/occivink/kakoune-filetree'
 config-add-plugin kak-rainbower       'https://github.com/crizan/kak-rainbower'
 
-config-add-plugin csharp              'https://github.com/mspielberg/csharp.kak'
-
 if-not %opt{config_in_termux} %{
 	config-add-plugin parinfer-rust 'https://github.com/eraserhd/parinfer-rust'
 	config-add-plugin kak-lsp       'https://github.com/kakoune-lsp/kakoune-lsp'
