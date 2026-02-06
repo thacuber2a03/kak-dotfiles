@@ -34,6 +34,7 @@ define-command -docstring "
 	set-option buffer indentwidth 2
 	set-option buffer tabstop 8
 
+	# no, your font isn't broken. that's *is* the UTF-8 replacement character.
 	set-option -add window ui_whitespaces_flags -spc ' ' -tab '�' -tabpad '�'
 	ui-whitespaces-toggle
 	ui-whitespaces-toggle
