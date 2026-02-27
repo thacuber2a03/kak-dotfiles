@@ -4,7 +4,9 @@ config-enable-lsp-support zig %{
 	settings_section = "zls"
 
 	[zls.settings.zls]
+	inlay_hints_hide_redundant_param_names_last_token = true
 	inlay_hints_hide_redundant_param_names = true
+	# highlight_global_var_declarations = true
 }
 
 hook global WinSetOption filetype=zig %{
@@ -14,7 +16,7 @@ hook global WinSetOption filetype=zig %{
 
 	set-option buffer indentwidth 4
 
-	lsp-inlay-hints-disable window
+	# lsp-inlay-hints-disable window
 }
 
 declare-option \
@@ -37,12 +39,12 @@ define-command -docstring "
 
 		color=off
 		[ "$kak_opt_zig_enable_color" = true ] && color=on
-		fifo="fifo -name *zig-$sub* -- zig $sub --color $color $*"
+		fifo="fifo -name *zig-$sub* -scroll -- zig $sub --color $color $*"
 
 		case "$sub" in
 		help)
 			printf %s\\n "
-				$fifo
+			$fifo
 			"
 		;;
 		build)

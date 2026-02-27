@@ -12,6 +12,7 @@ hook global BufSetOption lintcmd=.+ %{
 hook global BufCreate (?:.*/)?\.clangd 'set-option buffer filetype yaml'
 hook global BufCreate .+\.ldtk         'set-option buffer filetype json'
 
+# enable ANSI escape code interpretation
 hook global BufCreate .* %{ try %{ 
 	execute-keys -draft <percent>s<c-v><esc><ret>
 	ansi-enable

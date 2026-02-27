@@ -7,11 +7,13 @@ provide-module json5 %{
 	add-highlighter shared/json5/ region '/\*' '\*/' fill comment
 
 	add-highlighter shared/json5/string region "'" (?<!\\)(\\\\)*' fill string
+	add-highlighter shared/json5/string region '"' (?<!\\)(\\\\)*" fill string
 
-	add-highlighter shared/json5/code default-region ref json
+	add-highlighter shared/json5/code default-region ref json/code
 }
 
 hook global BufCreate .+\.json5 %{ set-option buffer filetype json5 }
+hook global BufCreate .+\.kak-dap\.json %{ set-option buffer filetype json5 }
 
 hook -group json5-highlight global WinSetOption filetype=json5 %{
 	require-module json5

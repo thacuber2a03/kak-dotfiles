@@ -61,4 +61,6 @@ map global normal <a-)> <a-)>vc
 # map global normal k gu
 
 declare-user-mode project
-map -docstring 'enter project mode' global user <space> ':enter-user-mode project<ret>'
+map -docstring 'enter project mode' global user <space> ': enter-user-mode project<ret>'
+# OCD stuff
+map -docstring 'recurse' global project <space> ': enter-user-mode project <ret>'

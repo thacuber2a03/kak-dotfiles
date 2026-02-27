@@ -9,7 +9,20 @@ set-option -add global ui_options \
 	terminal_status_on_top=yes    \
 	terminal_padding_fill=yes     \
 	terminal_padding_char=.       \
-	terminal_cursor_native=yes
+
+evaluate-commands %sh{
+	[ "$kak_opt_windowing_module" = kitty ] && exit
+
+	# it's very likely that in 'wayland' I can't animate the cursor, sooooo
+	if [ "$kak_opt_windowing_module" = wayland ]; then
+		case "$kak_opt_termcmd" in
+		foot*)
+			exit
+		esac
+	fi
+
+	printf %s\\n "set-option -add global ui_options terminal_cursor_native=yes"
+}
 
 set-option -add global ui_options terminal_set_title=yes
 
@@ -37,3 +50,5 @@ if-not %opt{config_in_termux} %{
 }
 
 set-option global grepcmd 'rg --column'
+# FIXME(thacuber2a03): something's odd
+# try %{ set-option global termcmd 'ghostty -e' } catch %{ echo -debug "error: couldn't set termcmd (%val{error})" }

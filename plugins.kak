@@ -83,7 +83,6 @@ config-add-plugin kak-rainbower       'https://github.com/crizan/kak-rainbower'
 if-not %opt{config_in_termux} %{
 	config-add-plugin parinfer-rust 'https://github.com/eraserhd/parinfer-rust'
 	config-add-plugin kak-lsp       'https://github.com/kakoune-lsp/kakoune-lsp'
-	# config-add-plugin kak-dap       'git clone --revision=355df2c627ceb124f4ff018c95762cf9c19068ae --depth=1 https://codeberg.org/jdugan6240/kak-dap'
 
 	# TODO(thacuber2a03): I need to figure out what the hell is going on with this plugin
 	# config-add-plugin kakoune-discord 'https://github.com/thacuber2a03/kakoune-discord'
@@ -93,4 +92,5 @@ if-not %opt{config_in_termux} %{
 	config-log info "Android detected, disabling certain plugins"
 }
 
-config-add-theme ashen 'https://codeberg.org/ficd/kak-ashen'
+config-add-theme  ashen  'https://codeberg.org/ficd/kak-ashen'
+config-add-plugin csharp 'https://github.com/mspielberg/csharp.kak'
