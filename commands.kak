@@ -80,11 +80,6 @@ complete-command grep-config shell-script-candidates %{
 
 #############################################################################################################################################################################
 
-define-command -docstring "open-kakrc: open the config kakrc in a new buffer"                            open-kakrc        'open-config kakrc'
-define-command -docstring "open-shared-kakrc: open the runtime kakrc in a new buffer (in readonly mode)" open-shared-kakrc 'open-shared-config kakrc'
-
-#############################################################################################################################################################################
-
 define-command -docstring "
 	afk: show an 'AFK' modal text that disappears as soon as a key is pressed
 " afk %{

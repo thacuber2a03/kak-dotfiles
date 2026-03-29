@@ -16,7 +16,19 @@ hook global BufCreate .+\.ldtk         'set-option buffer filetype json'
 hook global BufCreate .* %{ try %{ 
 	execute-keys -draft <percent>s<c-v><esc><ret>
 	ansi-enable
+	rename-session stdin
 } }
+
+# this is incredibly cursed but somehow it works great so I'm leaving it
+hook global KakBegin .* %{
+	hook -group stdin-session-rename -once -always global BufCreate \*stdin\* %{
+		rename-session stdin
+		remove-hooks global cleanup-stdin-session-rename
+	}
+	hook -group cleanup-stdin-session-rename -once -always global BufCreate .* %{
+		remove-hooks global stdin-session
+	}
+}
 
 hook global WinDisplay   \*.+?\*        enable-reading-mode
 hook global WinSetOption filetype=man   ui-wrap-disable

@@ -2,15 +2,16 @@ config-enable-lsp-support lua %{
 	[lua-language-server]
 	root_globs = [".git", ".hg", "main.lua"]
 	settings_section = "Lua"
-	[lua-language-server.settings.Lua]
-	completion = { callSnippet = "Replace" }
 
 	# See https://github.com/sumneko/vscode-lua/blob/master/setting/schema.json
 
-	[lua-language-server.settings.format]
-	enable = false
+	[lua-language-server.settings.Lua.completion]
+	callSnippet = "Replace"
 
-	[lua-language-server.settings.format.defaultConfig]
+	[lua-language-server.settings.Lua.format]
+	# enable = true
+
+	[lua-language-server.settings.Lua.format.defaultConfig]
 	indent_style = "tab"
 	tab_width = "4"
 	quote_style = "none"

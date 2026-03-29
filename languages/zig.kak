@@ -10,9 +10,11 @@ config-enable-lsp-support zig %{
 }
 
 hook global WinSetOption filetype=zig %{
-	set-option -add window ui_whitespaces_flags -spc ' '
-	ui-whitespaces-toggle
-	ui-whitespaces-toggle
+	try %{
+		set-option -add window ui_whitespaces_flags -spc ' '
+		ui-whitespaces-toggle
+		ui-whitespaces-toggle
+	}
 
 	set-option buffer indentwidth 4
 
@@ -26,9 +28,11 @@ declare-option \
 define-command -docstring "
 	zig [subcommand] [--] [<arguments>]: zig wrapping helper
 	Available commands:
+		help
 		build
 		fetch
 		zen
+		version
 " zig -params 1.. %{
 	evaluate-commands %sh{
 		ansi='try %{ ansi-enable } # support for kak-ansi'
@@ -67,6 +71,11 @@ define-command -docstring "
 				set-option buffer filetype markdown
 			"
 		;;
+		version)
+			printf %s\\n "echo $(zig version)"
+		;;
+		*)
+			printf %s\\n "fail unknown command '''$sub'''"
 		esac
 	}
 }
@@ -78,6 +87,7 @@ complete-command zig shell-script-candidates %{
 			build    \
 			fetch    \
 			zen      \
+			version  \
 		;
 	elif [ "$kak_token_to_complete" = 1 ]; then
 		case "$1" in
