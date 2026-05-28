@@ -1,3 +1,5 @@
+config-enable-default-lsp-support ocaml
+
 config-set-formatter ocaml 'ocamlformat --name=''%val{bufname}'' -'
 
 hook global WinSetOption filetype=ocaml %{

@@ -1,12 +1,12 @@
 ### tooling
 
-hook -group format-hook global BufWritePre .* %{
-	try format catch lsp-formatting catch ''
-}
-
 hook global BufSetOption lintcmd=.+ %{
 	hook -group lint-hook buffer BufWritePre .* lint
 	hook -once -always buffer BufSetOption lintcmd= %{ remove-hooks buffer lint-hook }
+}
+
+hook -group format-hook global BufWritePre .* %{
+	try format catch lsp-formatting catch ''
 }
 
 hook global BufCreate (?:.*/)?\.clangd 'set-option buffer filetype yaml'

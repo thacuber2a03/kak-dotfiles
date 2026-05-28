@@ -13,8 +13,7 @@ provide-module config-umka %§
 	}
 §
 
-hook global WinSetOption filetype=umka %{
-	require-module config-umka
-}
+hook global WinSetOption filetype=umka %{ require-module config-umka }
 
-config-set-linter umka "%opt{config_current_source_directory}/umka-check.sh"
+# doesn't currently work when you try to import files. how did I not test that.
+# config-set-linter umka "%opt{config_current_source_directory}/umka-check.sh"
