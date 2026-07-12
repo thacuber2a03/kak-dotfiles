@@ -35,7 +35,7 @@ define-command -docstring "
 		version
 " zig -params 1.. %{
 	evaluate-commands %sh{
-		ansi='try %{ ansi-enable } # support for kak-ansi'
+		ansi='try %{ ansi-enable }' # support for kak-ansi
 		jump='hook -group zig-hooks buffer NormalKey <ret> jump'
 
 		sub="$1"
@@ -43,37 +43,26 @@ define-command -docstring "
 
 		color=off
 		[ "$kak_opt_zig_enable_color" = true ] && color=on
-		fifo="fifo -name *zig-$sub* -scroll -- zig $sub --color $color $*"
+		fifo="fifo -name *zig-$sub* -scroll -- zig $sub --color $color"
 
 		case "$sub" in
 		help)
-			printf %s\\n "
-			$fifo
-			"
+			printf "%s %s\n" "$fifo" "$*"
 		;;
 		build)
-			printf %s\\n "
-				$fifo
-				$ansi
-				$jump
-			"
+			printf "%s %s\n" "$fifo" "$*"
+			printf "\n%s\n\n%s\n" "$ansi" "$jump"
 		;;
 		fetch)
-			if zig fetch $@; then
-				printf %s\\n 'echo package fetched'
-			else
-				printf %s\\n 'echo package not fetched'
-			fi
+			zig fetch "$@" 2>&1 | sed "s/'/''/g; s/^/echo '/; s/$/'/"
 		;;
 		zen)
-			printf %s\\n "
-				$fifo
-				set-option buffer filetype markdown
-			"
+			printf "%s %s\n" "$fifo" "$*"
+			printf "set-option buffer filetype markdown\n"
 		;;
 		version)
-			printf %s\\n "echo $(zig version)"
-		;;
+			printf "echo '%s'\n" $(zig version)
+			;;
 		*)
 			printf %s\\n "fail unknown command '''$sub'''"
 		esac
