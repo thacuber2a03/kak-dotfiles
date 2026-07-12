@@ -99,3 +99,7 @@ define-command -docstring "
 	try %{ ui-whitespaces-disable  }
 	try %{ ui-wrap-enable          }
 }
+
+try %{
+	alias global repl-new niri-terminal-consume-right
+}
