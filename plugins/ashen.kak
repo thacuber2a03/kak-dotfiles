@@ -6,9 +6,9 @@ try %{
 	}
 
 	colorscheme ashen
-	set-face global LineNumberCursor Default
+	# set-face global LineNumberCursor Default
 	# set-face global PrimaryCursor Default
 	# set-face global PrimaryCursorEol Default
-	set-option global ashen_dynamic_cursor true
-	set-option global ashen_eol_cursor true
+	# set-option global ashen_dynamic_cursor true
+	# set-option global ashen_eol_cursor true
 }

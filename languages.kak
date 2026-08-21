@@ -72,4 +72,17 @@ define-command -hidden config-enable-lsp-support -params 2 %{
 	}
 }
 
+define-command -docstring "
+	config-set-indentwidth: set indentwidth for the current buffer,
+	and try to update whitespace highlighter for the current window
+" -hidden config-set-indentwidth -params 1 %{
+	set-option buffer indentwidth %arg{1}
+
+	try %{
+		set-option -add window ui_whitespaces_flags -spc ' '
+		ui-whitespaces-toggle
+		ui-whitespaces-toggle
+	}
+}
+
 config-try-source-directory 'languages'

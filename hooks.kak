@@ -6,7 +6,7 @@ hook global BufSetOption lintcmd=.+ %{
 }
 
 hook -group format-hook global BufWritePre .* %{
-	try format catch lsp-formatting catch ''
+	try format catch lsp-formatting-sync catch ''
 }
 
 hook global BufCreate (?:.*/)?\.clangd 'set-option buffer filetype yaml'

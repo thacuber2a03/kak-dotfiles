@@ -10,14 +10,7 @@ config-enable-lsp-support zig %{
 }
 
 hook global WinSetOption filetype=zig %{
-	try %{
-		set-option -add window ui_whitespaces_flags -spc ' '
-		ui-whitespaces-toggle
-		ui-whitespaces-toggle
-	}
-
-	set-option buffer indentwidth 4
-
+	config-set-indentwidth 4
 	# lsp-inlay-hints-disable window
 }
 

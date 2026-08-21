@@ -32,9 +32,10 @@ try %{
 	}
 
 	hook global WinSetOption filetype=uiua %{
+		lsp-semantic-tokens
 		hook window -group lsp-semantic-tokens-uiua BufReload .* lsp-semantic-tokens
-		hook window -group lsp-semantic-tokens-uiua NormalIdle .* lsp-semantic-tokens
-		hook window -group lsp-semantic-tokens-uiua InsertIdle .* lsp-semantic-tokens
+		hook window -group lsp-semantic-tokens-uiua InsertKey .* lsp-semantic-tokens
+		hook window -group lsp-semantic-tokens-uiua NormalKey .* lsp-semantic-tokens
 		hook -once -always window WinSetOption filetype=.* %{
 			remove-hooks window lsp-semantic-tokens-uiua
 		}

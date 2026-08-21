@@ -12,7 +12,7 @@ provide-module config-fennel %§
 			repl-new fennel
 		# }
 	}
-	
+
 	define-command -docstring "
 		fennel-preview <buffer>: compiles the fennel code at <buffer> in a separate, scratch buffer;
 		uses the current buffer if <buffer> is unspecified
@@ -22,6 +22,7 @@ provide-module config-fennel %§
 			evaluate-commands %sh{ [ -n "$1" ] && printf %s "set-register a '$1'" }
 			fifo -name '*fennel-preview*' fennel --globals "*" -c %reg{a}
 			set-option buffer filetype lua
+			try ui-line-numbers-enable
 		}
 	}
 

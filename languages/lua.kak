@@ -27,7 +27,7 @@ config-enable-lsp-support lua %{
 	end_statement_with_semicolon = "same_line"
 
 	# [emmylua_ls]
-	# root_globs = [".git", ".hg", "main.lua"]
+	# root_globs = [".luarc.json", ".emmyrc.json", ".git", ".hg", "main.lua"]
 }
 
 # config-set-formatter lua 'stylua --stdin-filepath %val{buffile} -'
