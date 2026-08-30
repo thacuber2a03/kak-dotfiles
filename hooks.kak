@@ -5,9 +5,13 @@ hook global BufSetOption lintcmd=.+ %{
 	hook -once -always buffer BufSetOption lintcmd= %{ remove-hooks buffer lint-hook }
 }
 
-hook -group format-hook global BufWritePre .* %{
-	try format catch lsp-formatting-sync catch ''
-}
+define-command -hidden config-set-format-hook %{ try %{
+	hook -group format-hook global BufWritePre .* %{
+		try format catch lsp-formatting-sync catch ''
+	}
+} }
+
+config-set-format-hook
 
 hook global BufCreate (?:.*/)?\.clangd 'set-option buffer filetype yaml'
 hook global BufCreate .+\.ldtk         'set-option buffer filetype json'

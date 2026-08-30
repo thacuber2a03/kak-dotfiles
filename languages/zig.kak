@@ -10,7 +10,7 @@ config-enable-lsp-support zig %{
 }
 
 hook global WinSetOption filetype=zig %{
-	config-set-indentwidth 4
+	set-option buffer indentwidth 4
 	# lsp-inlay-hints-disable window
 }
 

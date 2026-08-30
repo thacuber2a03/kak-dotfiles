@@ -31,13 +31,14 @@ define-command -docstring "
 	such that it's more comfortable to use for Lisp-like development)
 	!! must be called in window scope !!
 " -hidden config-setup-lisp-mode %{
-	set-option buffer indentwidth 2
 	set-option buffer tabstop 8
 
-	# no, your font isn't broken. that *is* the UTF-8 replacement character.
-	set-option -add window ui_whitespaces_flags -spc ' ' -tab '�' -tabpad '�'
-	ui-whitespaces-toggle
-	ui-whitespaces-toggle
+	try %{
+		# no, your font isn't broken. that *is* the UTF-8 replacement character.
+		set-option -add window ui_whitespaces_flags -tab '�' -tabpad '�'
+		ui-whitespaces-toggle
+		ui-whitespaces-toggle
+	}
 
 	try %{ remove-hooks global auto-indent }
 
@@ -51,7 +52,7 @@ define-command -docstring "
 
 	hook -once -always window WinSetOption filetype=.* %{
 		try %{ remove-hooks buffer parinfer }
-		unset-option window ui_whitespaces_flags
+		set-option -remove window ui_whitespaces_flags -tab '�' -tabpad '�'
 		config-define-auto-indent-hooks
 	}
 }
@@ -69,19 +70,6 @@ define-command -hidden config-enable-lsp-support -params 2 %{
 		hook -group lsp-filetype-%arg{1} global BufSetOption filetype=%arg{1} %%{
 			set-option buffer lsp_servers '%arg{2}'
 		}
-	}
-}
-
-define-command -docstring "
-	config-set-indentwidth: set indentwidth for the current buffer,
-	and try to update whitespace highlighter for the current window
-" -hidden config-set-indentwidth -params 1 %{
-	set-option buffer indentwidth %arg{1}
-
-	try %{
-		set-option -add window ui_whitespaces_flags -spc ' '
-		ui-whitespaces-toggle
-		ui-whitespaces-toggle
 	}
 }
 

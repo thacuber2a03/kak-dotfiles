@@ -9,6 +9,7 @@ set-option -add global ui_options \
 	terminal_status_on_top=yes    \
 	terminal_padding_fill=yes     \
 	terminal_padding_char=.       \
+	terminal_set_title=yes
 
 evaluate-commands %sh{
 	[ "$kak_opt_windowing_module" = kitty ] && exit
@@ -24,9 +25,7 @@ evaluate-commands %sh{
 	printf %s\\n "set-option -add global ui_options terminal_cursor_native=yes"
 }
 
-set-option -add global ui_options terminal_set_title=yes
-
-hook global WinDisplay .* %{ set-option -add global ui_options "terminal_title=%val{buffile} - Kakoune" }
+hook global WinDisplay .* %{ set-option -add window ui_options "terminal_title=%val{buffile} - Kakoune" }
 
 set-option global autowrap_column 120
 set-option global autowrap_format_paragraph true

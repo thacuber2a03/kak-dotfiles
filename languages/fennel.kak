@@ -96,6 +96,7 @@ config-enable-lsp-support fennel %{
 
 hook global WinSetOption filetype=fennel %{
 	require-module config-fennel
+	set-option buffer indentwidth 2
 	config-setup-lisp-mode
 }
 

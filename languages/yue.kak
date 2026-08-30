@@ -22,7 +22,7 @@ provide-module yue %§
 	add-highlighter shared/yue/code/ regex ::\w+ 0:function
 	add-highlighter shared/yue/code/ regex \w+(\[(?:#(?:-?\d+)?)?\]) 1:operator
 	add-highlighter shared/yue/code/ regex <\w*> 0:meta
-	add-highlighter shared/yue/code/ regex \?|\|> 0:operator
+	add-highlighter shared/yue/code/ regex \?|\|>|:= 0:operator
 	add-highlighter shared/yue/code/ regex \$\w+ 0:meta
 
 	define-command -hidden yue-trim-indent moon-trim-indent

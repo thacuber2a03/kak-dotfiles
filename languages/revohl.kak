@@ -10,18 +10,20 @@ provide-module revo %§
 
 	add-highlighter shared/revo/single_string region "'" (?<!\\)(\\\\)*' fill string
 
+	add-highlighter shared/revo/backtick_string region "`" (?<!\\)(\\\\)*` fill string
+
 	add-highlighter shared/revo/code default-region group
 
 	add-highlighter shared/revo/code/ regex [<>]=?|!?=|->|\|>|\||//|\?|[+*/~^-]= 0:operator
-	add-highlighter shared/revo/code/ regex -?\d+(?:\.\d+)? 0:value
+	add-highlighter shared/revo/code/ regex \b-?\d+(?:\.\d+)?\b 0:value
 
-	add-highlighter shared/revo/code/ regex (\w+\??)\h*(?=\() 1:function
+	add-highlighter shared/revo/code/ regex (\w+[?!]?)\h*(?=\() 1:function
 
 	add-highlighter shared/revo/code/ regex \b(b?and|(bx?)?or|not|orelse|shl|shr)\b 0:+a@operator
 	add-highlighter shared/revo/code/ regex (?<!:)\b(break|comp|const|continue|do|else|end|fn|for|global|if|import|in|join|let|loop|macro|match|proc|pub|return|skip|spawn|struct|suite|test|when|while|yield)\b 0:keyword
 
-	add-highlighter shared/revo/code/ regex (?<=:)(\w+\??)\h*(?=\() 1:function
-	add-highlighter shared/revo/code/ regex \bfn\h+(\w+\??)\h*(?=\() 1:function
+	add-highlighter shared/revo/code/ regex (?<=:)(\w+[?!]?)\h*(?=\() 1:function
+	add-highlighter shared/revo/code/ regex \bfn\h+(\w+[?!]?)\h*(?=\() 1:function
 	add-highlighter shared/revo/code/ regex \B:\w+\b(?!\() 0:value
 
 	add-highlighter shared/revo/code/ regex (type)\h+(?i)([a-z_]\w*) 1:keyword 2:type

@@ -6,6 +6,8 @@ config-enable-lsp-support revo %{
 }
 
 hook global WinSetOption filetype=revo %{
-	config-set-indentwidth 4
+	set-option buffer indentwidth 2
+	autowrap-enable
+	set-option window autowrap_column 80
 	lsp-inlay-hints-disable window
 }

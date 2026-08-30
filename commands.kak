@@ -66,7 +66,7 @@ alias global shared-config open-shared-config
 define-command -docstring "
 	grep-config <pattern>: find a grep pattern in all files in the config dir
 " grep-config -params 1 %{
-	grep --exclude-dir=bundle -- %arg{1} "%val{config}" "%val{config}/kakrc"
+	grep -- %arg{1} "%val{config}" "%val{config}/kakrc"
 }
 
 complete-command grep-config shell-script-candidates %{
@@ -96,7 +96,7 @@ define-command -docstring "
 " enable-reading-mode %{
 	try %{ ui-git-diff-disable     }
 	try %{ ui-line-numbers-disable }
-	try %{ ui-whitespaces-disable  }
+	# try %{ ui-whitespaces-disable  }
 	try %{ ui-wrap-enable          }
 }
 
