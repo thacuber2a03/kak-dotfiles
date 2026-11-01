@@ -1,4 +1,4 @@
-# their ls is a bit broken
+# their ls is quite broken it seems
 
 # config-enable-lsp-support gluon %{
 # 	[gluon_language-server]
@@ -9,5 +9,5 @@
 # config-set-formatter gluon "gluon fmt"
 
 hook global WinSetOption filetype=gluon %{
-	set-option buffer indentwidth 2
+	set-option buffer indentwidth 4
 }

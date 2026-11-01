@@ -1,4 +1,4 @@
-config-set-formatter janet 'janet-format'
+# config-set-formatter janet 'janet-format'
 # config-set-linter    janet 'janet -w strict' # I'm not sure how Janet's linter works
 
 config-enable-lsp-support janet %{

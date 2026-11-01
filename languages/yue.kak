@@ -14,16 +14,21 @@ provide-module yue %§
 	add-highlighter shared/yue/code default-region group
 
 	add-highlighter shared/yue/code/ ref moon/code
-	add-highlighter shared/yue/code/ regex \b(global|as|close|const|default|macro|try|catch)\b 0:keyword
+	add-highlighter shared/yue/code/ regex (?<!\\)\b(global|as|close|const|default|macro|try|catch)\b 0:keyword
+	add-highlighter shared/yue/code/ regex (?<=\\)\b(and|break|class|continue|do|else(if)?|export|extends|for|from|if|import|in|local|not|or|return|switch|then|unless|using|when|while|with)\b 0:function
 	add-highlighter shared/yue/code/ regex ^\h*global\h+[\*^]\h*$ 0:meta
 	add-highlighter shared/yue/code/ regex ^\h*export\h+(default)\h+ 1:meta
 	# TODO: make more robust
 	add-highlighter shared/yue/code/ regex (?i)\b([0-9_]+(:?\.[0-9_])?(:?e-?[0-9_]+)?|0x[0-9a-f_]+|0b[01]+)\b 0:value
 	add-highlighter shared/yue/code/ regex ::\w+ 0:function
+	add-highlighter shared/yue/code/ regex ::\w+:: 0:meta
 	add-highlighter shared/yue/code/ regex \w+(\[(?:#(?:-?\d+)?)?\]) 1:operator
 	add-highlighter shared/yue/code/ regex <\w*> 0:meta
 	add-highlighter shared/yue/code/ regex \?|\|>|:= 0:operator
 	add-highlighter shared/yue/code/ regex \$\w+ 0:meta
+	add-highlighter shared/yue/code/ regex \bclass(\h+\w+)?(?:\h+extends(\h+\w+))? 1:type 2:attribute
+	add-highlighter shared/yue/code/ regex \b(?:using(\h+\w+))? 1:type 2:attribute
+	add-highlighter shared/yue/code/ regex (\w+)\h*=\h*(?:\(.*?\)\h*)(?::.+?\h*)?[-=]> 1:function
 
 	define-command -hidden yue-trim-indent moon-trim-indent
 	define-command -hidden yue-indent-on-char moon-indent-on-char
@@ -51,7 +56,7 @@ provide-module config-yue %§
 		evaluate-commands -save-regs 'a' %{
 			set-register a %val{buffile}
 			evaluate-commands %sh{ [ -n "$1" ] && printf %s "set-register a '$1'" }
-			fifo -name '*yue-preview*' yue -p %reg{a}
+			fifo -name '*yue-preview*' yue -l -c -p %reg{a}
 			set-option buffer filetype lua
 			try ui-line-numbers-enable
 		}

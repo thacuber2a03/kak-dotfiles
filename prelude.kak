@@ -33,6 +33,8 @@ define-command -hidden -override config-info-log  -params .. %opt{config_default
 # TODO: figure out how to take the log level out of %arg{@}
 define-command -hidden config-log -params 2.. %{ %exp{config-%arg{1}-log} %arg{@} }
 
+### directory-relative sourcing
+
 declare-option -hidden str config_current_source_directory "%val{config}"
 
 define-command -hidden config-try-source -params 1 %{

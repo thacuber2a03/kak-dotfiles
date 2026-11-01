@@ -7,3 +7,5 @@ hook global WinSetOption filetype=haskell %{
 	    remove-highlighter window/no-tabs
     }
 }
+
+config-enable-default-lsp-support haskell

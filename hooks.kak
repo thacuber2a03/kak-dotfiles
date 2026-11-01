@@ -16,11 +16,14 @@ config-set-format-hook
 hook global BufCreate (?:.*/)?\.clangd 'set-option buffer filetype yaml'
 hook global BufCreate .+\.ldtk         'set-option buffer filetype json'
 
-# enable ANSI escape code interpretation
-hook global BufCreate .* %{ try %{ 
+define-command -hidden config-auto-enable-ansi %{ try %{
 	execute-keys -draft <percent>s<c-v><esc><ret>
 	ansi-enable
 } }
+
+# enable ANSI escape code interpretation
+hook global BufCreate    .* config-auto-enable-ansi
+hook global BufCloseFifo .* config-auto-enable-ansi
 
 # this is incredibly cursed but somehow it works great so I'm leaving it
 hook global KakBegin .* %{

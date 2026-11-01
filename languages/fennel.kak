@@ -100,4 +100,4 @@ hook global WinSetOption filetype=fennel %{
 	config-setup-lisp-mode
 }
 
-hook global BufCreate .*/home/.+?/.fennelrc %{ set-option buffer filetype fennel }
+hook global BufCreate (.*/home/.+?/.fennelrc|.+\.fnlm) %{ set-option buffer filetype fennel }

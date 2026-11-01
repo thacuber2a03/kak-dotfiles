@@ -1,7 +1,7 @@
 config-enable-lsp-support revo %{
 	[revo-lsp]
 	command = "revo"
-	args = ["--lsp"]
+	args = ["lsp"]
 	root_globs = [".git", "exe.json"]
 }
 

@@ -28,6 +28,7 @@ config-enable-lsp-support lua %{
 
 	[emmylua_ls]
 	root_globs = [".luarc.json", ".emmyrc.json", ".git", ".hg", "main.lua"]
+	settings_section = "Lua"
 }
 
 # config-set-formatter lua 'stylua --stdin-filepath %val{buffile} -'

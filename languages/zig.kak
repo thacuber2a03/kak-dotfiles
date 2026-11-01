@@ -9,6 +9,16 @@ config-enable-lsp-support zig %{
 	# highlight_global_var_declarations = true
 }
 
+# config-enable-lsp-support zig %{
+# 	[zigscient]
+# 	root_globs = ["build.zig", "build.zig.zon"]
+# 
+# 	[zigscient.settings.zigscient]
+# 	inlay_hints_hide_redundant_param_names_last_token = true
+# 	inlay_hints_hide_redundant_param_names = true
+# 	# highlight_global_var_declarations = true
+# }
+
 hook global WinSetOption filetype=zig %{
 	set-option buffer indentwidth 4
 	# lsp-inlay-hints-disable window
