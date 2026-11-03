@@ -35,8 +35,8 @@ set-option global writemethod replace
 
 declare-option str filetype_info
 
-hook global BufSetOption filetype=     %{ set-option buffer filetype_info ""                                 }
-hook global BufSetOption filetype=(.+) %{ set-option buffer filetype_info "(ft %val{hook_param_capture_1}) " }
+hook global WinSetOption filetype=     %{ set-option buffer filetype_info ""                                 }
+hook global WinSetOption filetype=(.+) %{ set-option buffer filetype_info "(ft %val{hook_param_capture_1}) " }
 
 set-option global modelinefmt \
 '{{context_info}} {{mode_info}} (%val{cursor_line}:%val{cursor_char_column}) │ %val{bufname} %opt{filetype_info}│ %val{client} [%val{session}] '
