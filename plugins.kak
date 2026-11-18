@@ -78,7 +78,7 @@ config-add-plugin secure-local-kakrc  'https://codeberg.org/ficd/secure-local-ka
 # config-add-plugin kakoune-repl-buffer 'https://gitlab.com/Screwtapello/kakoune-repl-buffer'
 config-add-plugin kak-ansi            'https://github.com/eraserhd/kak-ansi'
 config-add-plugin kakoune-filetree    'https://github.com/occivink/kakoune-filetree'
-config-add-plugin kak-rainbower       'https://github.com/crizan/kak-rainbower'
+config-add-plugin kakeidoscope        'https://git.sr.ht/~orchid/kakeidoscope'
 
 if-not %opt{config_in_termux} %{
 	config-add-plugin parinfer-rust 'https://github.com/eraserhd/parinfer-rust'
@@ -88,7 +88,7 @@ if-not %opt{config_in_termux} %{
 	# TODO(thacuber2a03): I need to figure out what the hell is going on with this plugin
 	# config-add-plugin kakoune-discord 'https://github.com/thacuber2a03/kakoune-discord'
 
-	config-add-custom-plugin kak-tree-sitter 'https://git.sr.ht/~thacuber2a03/kak-tree-sitter'
+	config-add-custom-plugin kak-tree-sitter 'https://git.sr.ht/~hadronized/kak-tree-sitter'
 } %{
 	config-log info "Android detected, disabling certain plugins"
 }

@@ -22,7 +22,7 @@ evaluate-commands %sh{
 		esac
 	fi
 
-	printf %s\\n "set-option -add global ui_options terminal_cursor_native=yes"
+	# printf %s\\n "set-option -add global ui_options terminal_cursor_native=yes"
 }
 
 hook global WinDisplay .* %{ set-option -add window ui_options "terminal_title=%val{buffile} - Kakoune" }

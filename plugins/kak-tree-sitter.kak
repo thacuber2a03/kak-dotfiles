@@ -1,6 +1,6 @@
 bundle-install-hook kak-tree-sitter %{
-	cargo install --force kak-tree-sitter
-	cargo install --force ktsctl
+	cargo install kak-tree-sitter
+	cargo install ktsctl
 }
 
 bundle-cleaner kak-tree-sitter %{

@@ -28,6 +28,10 @@ declare-option \
 	-docstring "whether to enable colored output in Zig buffers" \
 	bool zig_enable_color true
 
+declare-option \
+	-docstring "Zig implementation or wrapper to use" \
+	str zig_command "zig"
+
 define-command -docstring "
 	zig [subcommand] [--] [<arguments>]: zig wrapping helper
 	Available commands:
@@ -38,6 +42,7 @@ define-command -docstring "
 		version
 " zig -params 1.. %{
 	evaluate-commands %sh{
+		zig="$kak_opt_zig_command"
 		ansi='try %{ ansi-enable }' # support for kak-ansi
 		jump='hook -group zig-hooks buffer NormalKey <ret> jump'
 
@@ -46,25 +51,36 @@ define-command -docstring "
 
 		color=off
 		[ "$kak_opt_zig_enable_color" = true ] && color=on
-		fifo="fifo -name *zig-$sub* -scroll -- zig $sub --color $color"
+		fifo="fifo -name *zig-$sub* -scroll -- $zig $sub --color $color"
 
 		case "$sub" in
+		build)
+			printf "
+				%s %s
+				%s
+				%s
+			" "$fifo" "$*" "$ansi" "$jump"
+		;;
+		fetch)
+			"$zig" fetch "$@" 2>&1 | sed "s/'/''/g; s/^/echo '/; s/$/'/"
+		;;
 		help)
 			printf "%s %s\n" "$fifo" "$*"
 		;;
-		build)
-			printf "%s %s\n" "$fifo" "$*"
-			printf "\n%s\n\n%s\n" "$ansi" "$jump"
-		;;
-		fetch)
-			zig fetch "$@" 2>&1 | sed "s/'/''/g; s/^/echo '/; s/$/'/"
-		;;
-		zen)
-			printf "%s %s\n" "$fifo" "$*"
-			printf "set-option buffer filetype markdown\n"
-		;;
+		targets)
+			printf "
+				%s %s
+				set-option buffer filetype zig
+			" "$fifo" "$*"
+			;;
 		version)
-			printf "echo '%s'\n" $(zig version)
+			printf "echo '%s'\n" $("$zig" version)
+			;;
+		zen)
+			printf "
+				%s %s
+				set-option buffer filetype markdown
+			" "$fifo" "$*"
 			;;
 		*)
 			printf %s\\n "fail unknown command '''$sub'''"
@@ -75,11 +91,12 @@ define-command -docstring "
 complete-command zig shell-script-candidates %{
 	if [ "$kak_token_to_complete" = 0 ]; then
 		printf %s\\n \
-			help     \
 			build    \
 			fetch    \
-			zen      \
+			help     \
+			targets  \
 			version  \
+			zen      \
 		;
 	elif [ "$kak_token_to_complete" = 1 ]; then
 		case "$1" in

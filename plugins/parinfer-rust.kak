@@ -1,4 +1,4 @@
-bundle-install-hook parinfer-rust %{ cargo install --force --path . }
+bundle-install-hook parinfer-rust %{ cargo install --path . }
 bundle-cleaner      parinfer-rust %{ cargo uninstall parinfer-rust }
 
 declare-option -docstring "

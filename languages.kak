@@ -48,7 +48,7 @@ define-command -docstring "
 		hook -group parinfer buffer BufWritePre .* parinfer
 	}
 
-	try %{ rainbow-enable-window }
+	try %{ kakeidoscope-enable-window }
 
 	hook -once -always window WinSetOption filetype=.* %{
 		try %{ remove-hooks buffer parinfer }

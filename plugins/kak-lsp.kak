@@ -1,4 +1,4 @@
-bundle-install-hook kak-lsp %{ cargo install --locked --force --path . }
+bundle-install-hook kak-lsp %{ cargo install --locked --path . }
 
 map global user l ':enter-user-mode lsp<ret>' -docstring 'LSP mode'
 
