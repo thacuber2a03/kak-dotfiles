@@ -38,7 +38,9 @@ if-not %opt{config_system_clipboard} %{
 	config-log info "unknown or unsupported environment, system copy/paste commands disabled"
 }
 
+# TODO: maybe I should place these in a separate mode
 map global user / '/\Q\E<left><left>' -docstring "search literally"
+map global user s '/\Q\E<left><left>' -docstring "select literally"
 
 # move view with Ctrl-p/n rather than vk/j
 # idea ~~stolen~~ borrowed from https://ficd.sh
@@ -55,10 +57,9 @@ map global normal ) )vc
 map global normal <a-(> <a-(>vc
 map global normal <a-)> <a-)>vc
 
-# undocumented mappings as of master: soft-wrapping j and k
 # NOTE(thacuber2a03): they are still somewhat uncooked, so...
-# map global normal j gd
-# map global normal k gu
+map global normal j gd
+map global normal k gu
 
 declare-user-mode project
 map -docstring 'enter project mode' global user <space> ': enter-user-mode project<ret>'
